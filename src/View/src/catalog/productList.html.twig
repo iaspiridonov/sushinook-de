@@ -1,0 +1,541 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+    <main class="content">
+        <!-- page -->
+        <div class="page">
+            <!-- breadcrumbs -->
+            <div class="breadcrumbs text--center">
+                <ul class="list--inline">
+                    <li>
+                        <a href="index.html">Главная</a>
+                    </li>
+                    <li>
+                        <a href="catalog.html">Каталог</a>
+                    </li>
+                    <li> Для мужчин </li>
+                </ul>
+            </div><!-- /breadcrumbs -->
+            <!-- section-catalog -->
+            <section class="section s--catalog " data-role="catalog">
+                <div class="container">
+                    <div class="s-title catalog-title text--center text--uppercase">
+                        <h1 class="title-3">Для мужчин</h1>
+                    </div>
+                    <div class="s-form catalog-form">
+                        <!-- form-filters -->
+                        <div class="form--filters" data-form="filters">
+                            <form action="/">
+                                <div class="clearfix">
+                                    <div class="form-group pull-left">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Тип обуви</a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-in">
+                                                        <ul class="list--unstyled">
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-1" checked>
+                                                                <label class="checkbox" for="type-1">Топсайдеры (240)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-2" checked>
+                                                                <label class="checkbox" for="type-2">Кроссовки (70)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-3">
+                                                                <label class="checkbox" for="type-3">Туфли (122)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-4">
+                                                                <label class="checkbox" for="type-4">Кеды (48)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-5">
+                                                                <label class="checkbox" for="type-5">Броги (10)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-6">
+                                                                <label class="checkbox" for="type-6">Слипоны (14)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-7">
+                                                                <label class="checkbox" for="type-7">Сандалии (44)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-8">
+                                                                <label class="checkbox" for="type-8">Лоферы (22)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-9">
+                                                                <label class="checkbox" for="type-9">Сникерсы (13)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-10">
+                                                                <label class="checkbox" for="type-10">Шлёпанцы (56)</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" name="type" id="type-11">
+                                                                <label class="checkbox" for="type-11">Босоножки (99)</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pull-left">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Сезон</a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-in">
+                                                        <ul class="list--unstyled">
+                                                            <li>
+                                                                <input type="checkbox" id="season-1">
+                                                                <label class="checkbox" for="season-1">Зима</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="season-2">
+                                                                <label class="checkbox" for="season-2">Весна</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="season-3">
+                                                                <label class="checkbox" for="season-3">Лето</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="season-4">
+                                                                <label class="checkbox" for="season-4">Осень</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pull-left group--colour">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Цвет</a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-in">
+                                                        <ul class="list--unstyled">
+                                                            <li>
+                                                                <input type="checkbox" id="colour-1">
+                                                                <label class="checkbox" for="colour-1">Синий</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="colour-2">
+                                                                <label class="checkbox" for="colour-2">Зеленый</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pull-left">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Материал верха</a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-in">
+                                                        <ul class="list--unstyled">
+                                                            <li>
+                                                                <input type="checkbox" id="material-1">
+                                                                <label class="checkbox" for="material-1">Материал 1</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="material-2">
+                                                                <label class="checkbox" for="material-2">Материал 2</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="material-3">
+                                                                <label class="checkbox" for="material-3">Материал 3</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="material-4">
+                                                                <label class="checkbox" for="material-4">Материал 4</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pull-left">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Размер</a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-in">
+                                                        <ul class="list--unstyled">
+                                                            <li>
+                                                                <input type="checkbox" id="size-1">
+                                                                <label class="checkbox" for="size-1">Размер 1</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="size-2">
+                                                                <label class="checkbox" for="size-2">Размер 2</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="size-3">
+                                                                <label class="checkbox" for="size-3">Размер 3</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="size-4">
+                                                                <label class="checkbox" for="size-4">Размер 4</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pull-left group--prices">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Цена</a>
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-in">
+                                                        <div class="price">
+                                                            <span>от</span> <input type="text" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ' '" inputmode="numeric" style="text-align: left;" />
+                                                        </div>
+                                                        <div class="price">
+                                                            <span>до</span> <input type="text" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ' '" inputmode="numeric" style="text-align: left;" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <div class="controls">
+                                            <div class="dropdown">
+                                                <a href="#" class="link--dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="icon icon-filters"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <div class="dropdown-in">
+                                                        <ul class="list--unstyled">
+                                                            <li>
+                                                                <input type="checkbox" id="filter-1">
+                                                                <label class="checkbox" for="filter-1">Фильтр 1</label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" id="filter-2">
+                                                                <label class="checkbox" for="filter-2">Фильтр 2</label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="dropdown-in">
+                                                        <button type="button" class="btn btn--primary btn--block">Применить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div><!-- /form-filters -->
+                    </div>
+                    <div class="s-content catalog-content">
+                        <!-- items-list -->
+                        <div class="items-list catalog-list">
+                            <div class="row block-in">
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-1.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">20 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-2.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT</div>
+                                            <div class="price">18 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-3.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT SHOES</div>
+                                            <div class="price">10 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-4.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">8 000 тг.</div>
+                                            <div class="old-price text--gray">12 000 тг.</div>
+                                            <div class="label label--new"> Новинка </div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-5.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для женщин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">6 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-6.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для женщин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT</div>
+                                            <div class="price">12 000 тг.</div>
+                                            <div class="old-price text--gray">16 000 тг.</div>
+                                            <div class="label label--discount"> Скидка </div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-7.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT SHOES</div>
+                                            <div class="price">15 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-8.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для детей</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">14 000 тг.</div>
+                                            <div class="label label--discount"> Скидка </div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-9.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">20 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-10.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT</div>
+                                            <div class="price">18 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-11.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT SHOES</div>
+                                            <div class="price">10 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-12.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">8 000 тг.</div>
+                                            <div class="old-price text--gray">12 000 тг.</div>
+                                            <div class="label label--discount"> Скидка </div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-13.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">20 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-14.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT</div>
+                                            <div class="price">18 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-15.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 PRIMEKNIT SHOES</div>
+                                            <div class="price">10 000 тг.</div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                                <div class="col-lg-3 col-md-6 ">
+                                    <!-- item -->
+                                    <div class="item catalog-item">
+                                        <a href="product.html" class="link--block">
+                                            <div class="img">
+                                                <div class="img--centered text--center" data-role="lazyimg">
+                                                    <img data-src="/samples/pic-sample-16.png" class="lazy" />
+                                                </div>
+                                            </div>
+                                            <div class="type text--uppercase">для мужчин</div>
+                                            <div class="title text--uppercase text--ellipsis">NMD_CS2 SHOES</div>
+                                            <div class="price">8 000 тг.</div>
+                                            <div class="old-price text--gray">12 000 тг.</div>
+                                            <div class="label label--discount"> Скидка </div>
+                                        </a>
+                                    </div><!-- /item -->
+                                </div>
+                            </div>
+                        </div><!-- /items-list -->
+                        <!-- pagination -->
+                        <div class="pagination text--right">
+                            <ul class="list--inline">
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li>
+                                    <a href="#">2</a>
+                                </li>
+                                <li>
+                                    <a href="#">3</a>
+                                </li>
+                                <li>
+                                    <span>…</span>
+                                </li>
+                                <li>
+                                    <a href="#">20</a>
+                                </li>
+                            </ul>
+                            <a href="#" class="btn btn--black btn--page">Далее</a>
+                        </div><!-- /pagination -->
+                    </div>
+                </div>
+            </section><!-- /section-catalog -->
+        </div><!-- /page -->
+    </main><!-- /.content -->
+{% endblock %}

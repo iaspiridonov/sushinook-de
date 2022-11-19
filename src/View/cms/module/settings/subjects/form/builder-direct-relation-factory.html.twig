@@ -1,0 +1,60 @@
+{% set relationSubject = null %}
+{% if form.getSubject() is not empty %}
+    {% set relationSubject = form.getSubject().getRelations(relation.name) %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% if relationSubject is empty %}
+                        {% set relationForms = [] %}
+                        {% for typeName in relation.settings.is %}
+                            {% set relationForm = form.of(typeName, form.getPrefix()|merge([form.getType('name'), relation.name])) %}
+                            {% set relationForms = relationForms|merge([relationForm]) %}
+                        {% endfor %}
+                        {% if relationForms is not empty %}
+                            <span class="dropdown">
+                                <a class="btn btn-primary" href="#" id="create-subject-type-menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="margin-top:-10px; margin-bottom: -8px; margin-left: -12px;"><i class="fa fa-sitemap"></i> {{ relation.label }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="create-subject-type-menu">
+                                    {% for relationForm in relationForms %}
+                                        <li><a href="#" id="{{ relationForm.getId() }}-show-switch">{{ relationForm.getType('label') }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </span>
+                            <span class="cancel-factory-span" style="display: none;"><i class="fa fa-plug text-{{ relation.isStrong() ? 'danger' : 'success' }}"></i> {{ relation.label }}: <button type="button" class="btn btn-danger cancel-factory" style="margin-top:-10px; margin-bottom: -8px;"><i class="fa fa-remove"></i> <span></span></button></span>
+                        {% endif %}
+                    {% else %}<i class="fa fa-plug text-danger"></i> {{ relation.label }}{% if relation.label != relationSubject.getType('label') %}: {{ relationSubject.getType('label') }}{% endif %}{% endif %}
+                </h3>
+            </div>
+            <div class="panel-body"{% if relationSubject is empty %} style="display:none;"{% endif %}>
+                {% if relationSubject is not empty %}
+                    {% set relationForm = form.of(relationSubject.getType('name'), form.getPrefix()|merge([form.getType('name'), relation.name])).setSubject(relationSubject) %}
+                    {{ relationForm.builder()|raw }}
+                {% elseif relationForms is not empty %}
+                    {% for relationForm in relationForms %}
+                        {{ relationForm.builder()|raw }}
+                        <script type="text/javascript">
+                            $(function () {
+                                $('#{{ relationForm.getId() }}-fieldset').prop('disabled', true).hide()/*.closest('div.panel-body').hide()*/;
+
+                                $('#{{ relationForm.getId() }}-show-switch').click(function () {
+                                    var $btn = $(this);
+                                    var $fieldset = $('#{{ relationForm.getId() }}-fieldset');
+                                    $fieldset.prop('disabled', false).show();
+                                    $fieldset.closest('.panel-body').slideDown();
+                                    $btn.closest('span.dropdown').hide();
+                                    $btn.closest('h3.panel-title').find('span.cancel-factory-span').show().find('button.cancel-factory>span').text($btn.text());
+
+                                    return false;
+                                });
+
+                                {% if relationForm.old() is not empty %}$('#{{ relationForm.getId() }}-show-switch').click();{% endif %}
+                            });
+                        </script>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

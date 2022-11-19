@@ -1,0 +1,26 @@
+{% if pagination.get('maxPages') > 1 %}
+<div class="pagination">
+    <ul>
+        {% if pagination.previousPageUrl() %}
+            <li class="prev">
+                <a href="{{ pagination.previousPageUrl() }}"></a>
+            </li>
+        {% endif %}
+
+        {% for page,url in pagination.next() %}
+
+            {% if page == pagination.get('page') %}
+                <li class="active"><a href="{{ url }}">{{ page }}</a></li>
+            {% else %}
+                <li><a href="{{ url }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if pagination.nextPageUrl() %}
+            <li class="next">
+                <a href="{{ pagination.nextPageUrl() }}"></a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+{% endif %}

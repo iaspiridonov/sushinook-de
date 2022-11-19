@@ -1,0 +1,88 @@
+html, body {
+    min-height: 100%;
+}
+
+body {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    /*background: url('/static/cms/img/green-grass-background.jpg') repeat-x bottom;*/
+}
+
+.cms-subjects-table-menu button {
+    padding: 0.1rem 0.125rem;
+}
+
+.table td.fit,
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.cms-main-breadcrumbs {
+    padding:4px 8px;
+}
+
+.cms-main-breadcrumbs li.breadcrumb-item::before{
+    color: #ccc!important;
+}
+
+table.cms-type-attributes-table {
+    margin-bottom: 0;
+}
+
+table.cms-type-attributes-table thead tr th{
+    border-top: 0;
+}
+
+.translatable-tab-panel {
+    background: #F5F5F5;
+    border-radius: 0;
+    border:1px solid #ddd;
+    border-top:0;
+    padding: 10px;
+}
+
+/*.navbar-brand {
+    position: relative;
+    padding-left:55px;
+}
+
+.navbar-brand > i#logo-icon {
+    position: absolute;
+    font-size:36px;
+    left:15px;
+    top:7px;
+}*/
+
+.breadcrumb {
+    padding: 0 15px;
+}
+
+.breadcrumb>li {
+    padding: 8px 0;
+}
+
+.breadcrumb .btn {
+    margin-top:-12px;margin-bottom: -10px;
+}
+
+tbody.ui-sortable tr td {
+    background-color: white;
+}
+
+td.sortable-td {
+    /*background-color: #efefef;*/
+    color: #999999;
+    cursor: ns-resize;
+    text-align: center;
+}
+
+tr.bind-not-related {
+    background-color: #EEE;
+    color:#999;
+}
+
+tr.bind-not-related label {
+    background-color: #bababa;
+    color:#eee;
+}

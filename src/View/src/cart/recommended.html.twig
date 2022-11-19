@@ -1,0 +1,80 @@
+<!-- section-relative -->
+<section class="section s--relative slide_active" data-role="relative">
+  <div class="container">
+    {% if recommended is not empty %}
+    <div class="s-title relative-title">
+      <h3 class="title-3">Рекомендуем</h3>
+    </div>
+    <!-- items-list -->
+    <div class="items-list relative-list swiper-container" data-role="slider">
+      <div class="block-in swiper-wrapper">
+        {% for item in recommended %}
+          <!-- item -->
+          <div class="item relative-item swiper-slide">
+            <div class="rel_img">
+                <div class="img">
+                  {% if item.sale > 0 %}
+                    <div class="item-label label--red">до {{ item.sale }}%</div>
+                  {% endif %}
+                  {{ item.hit ? '<div class="item-label label--yellow">hit</div>' : '' }}
+                  {{ item.novelty ? '<div class="item-label label--green">neu</div>' : '' }}
+                  <div class="img--centered orange" data-role="slideimg">
+                    <img data-src="{{ item.image }}" class="swiper-lazy" />
+                  </div>
+                  <div class="title">{{ item.name }}</div>
+                </div>
+              </div>
+              <div class="rel_text">
+                <button type="button" class="btn btn--default btn--block cartAddAdditional" data-id="{{ item.id }}" data-reload="true">{{ item.price/100 }} EUR</button>
+              </div>
+          </div><!-- /item -->
+        {% endfor %}
+      </div>
+     <div class="relative-controls">
+        <button type="button" class="btn--unstyled btn--prev" data-button="prev">
+          <i class="icon fa fa-chevron-left"></i>
+        </button>
+        <button type="button" class="btn--unstyled btn--next" data-button="next">
+          <i class="icon fa fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- /items-list -->
+    {% endif %}
+    {% if sauces is not empty %}
+    <div class="s-title relative-title">
+      <h3 class="title-3">Соусы</h3>
+    </div>
+    <!-- items-list -->
+    <div class="items-list relative-list swiper-container" data-role="slider">
+      <div class="block-in swiper-wrapper">
+        {% for item in sauces %}
+          <!-- item -->
+          <div class="item relative-item swiper-slide">
+              <div class="rel_img">
+                <div class="img">
+                  <div class="img--centered orange" data-role="slideimg">
+                    <img data-src="{{ item.image }}" class="swiper-lazy" />
+                  </div>
+                  <div class="title">{{ item.name }}</div>
+                </div>
+              </div>
+              <div class="rel_text">
+                <button type="button" class="btn btn--default btn--block cartAddAdditional" data-id="{{ item.id }}" data-reload="true">{{ item.price/100 }} EUR</button>
+              </div>
+          </div><!-- /item -->
+        {% endfor %}
+      </div>
+      <div class="relative-controls">
+        <button type="button" class="btn--unstyled btn--prev" data-button="prev">
+          <i class="icon fa fa-chevron-left"></i>
+        </button>
+        <button type="button" class="btn--unstyled btn--next" data-button="next">
+          <i class="icon fa fa-chevron-right"></i>
+        </button>
+      </div>
+    </div><!-- /items-list -->
+    {% endif %}
+  </div>
+</section><!-- /section-relative -->

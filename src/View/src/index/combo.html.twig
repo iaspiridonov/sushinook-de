@@ -1,0 +1,64 @@
+<!-- section-catalog -->
+<section class="section s--catalog" id="combo-block" data-role="catalog">
+  <div class="container">
+    <div class="s-title catalog-title">
+      <h4 class="title-2">Menü</h4>
+    </div>
+    <div class="s-content catalog-content">
+      <!-- items-list -->
+      <div class="items-list catalog-list list--combo">
+        <div class="block-in row--alt row">
+          {% for item in combo %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+              <!-- item -->
+              <div class="item catalog-item item--combo">
+                <div class="stickers">
+                   {{ item.novelty == "1" ? '<div class="item-label label--green">neu</div>' : '' }}
+                    {{ item.hit == "1" ? '<div class="item-label label--yellow">hit</div>' : '' }}
+                </div>
+               
+                {% if item.sale > 0 %}
+                  <div class="item-label label--red">до {{ item.sale }}%</div>
+                {% endif %}
+                <div class="catalog-item-quantity"><i class="icon fa fa-user"></i> {{ item.people }}</div>
+                <div class="catalog-item-img text--center">
+                  <div class="img--centered img gray_img" data-role="lazyimg">
+                    <img data-src="{{ item.image }}" class="lazy" />
+                  </div>
+                  <div class="catalog-item-placeholder combo"></div>
+                </div>
+                <div class="catalog-item-in">
+                  <div class="catalog-item-title">{{ item.name }}</div>
+                  <div class="catalog-item-meta text--gray">{{ item.description|raw }}</div>
+                </div>
+                <div class="catalog-item-amount">
+                  {% if item.noavailable == 1 %}
+                    <div class="row">
+                      <div>
+                        <b><span>Нет в наличии</span></b>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        {% if item.priceOld %}
+                          <span class="old--price"><b><strike>{{ item.priceOld/100 }} EUR</strike></b></span>
+                        {% endif %}
+                        <b><span>{{ item.price/100 }}</span> EUR</b>
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <a href="#" type="button" data-id="{{ item.id }}" data-total="{{ item.price }}" class="btn btn--primary btn--block {{ item.modalShow ? ' showCombo' : ' comboAddCart' }}">In den Warenkorb</a>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+                <input type="hidden" name="price" value="{{ item.price }}" />
+                <input type="hidden" name="count" value="1" />
+              </div><!-- /item -->
+            </div>
+          {% endfor %}
+        </div>
+      </div><!-- /catalog-list -->
+    </div>
+  </div>
+</section><!-- /section-catalog -->

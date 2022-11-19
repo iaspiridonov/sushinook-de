@@ -1,0 +1,167 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block title %}{{ Translation.of('Bind', 'cms/settings') }} &mdash; {{ Translation.of('Settings', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="{{ path.controller }}/types">Types</a></li>
+    {% set url = [] %}
+    {% for chainItem in relationsChain %}
+
+        {% set url = url|merge([chainItem.type.name~'-'~chainItem.subject.id~'-'~chainItem.relation.name]) %}
+
+        {% if loop.first %}
+            <li><a href="{{ path.controller }}/subjects/{{ chainItem.type.name }}">{{ chainItem.type.label }}</a></li>
+        {% endif %}
+        <li>
+            <a href="{{ path.controller~'/subjects/'~url|join('/') }}">{{ chainItem.subject.getTitle() }} {{ (chainItem.relation.isDirectRelation() ? '<i class="fa fa-fw fa-plug text-danger"></i>' : '<i class="fa fa-fw fa-reply text-warning"></i>')|raw }} {{ chainItem.relation.label }}</a>
+        </li>
+    {% endfor %}
+    <li class="breadcrumb-item active">{{ Translation.of('Bind', 'cms/settings') }} : {{ type.label }}</li>
+{% endblock %}
+
+{% block content %}
+    <form method="post" id="bind-form">
+        {{ Csrf|raw }}
+        <div>
+            {% if subjects is not empty %}
+            <table class="table cms-subjects-table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th><input type="text" data-name="filter[id]" {% if query.filter.id is defined %} value="{{ query.filter.id }}" {% endif %} class="filters" style="width: 100%"></th>
+                    {% if type_properties is not empty %}
+                        {% for property in type_properties %}
+                            {% if property.isVisible() %}
+                                <th><input type="text"  data-name="filter[{{ property.name }}]" {% if query.filter[property.name] is defined %} value="{{ query.filter[property.name] }}" {% endif %} class="filters" name="filter[{{ property.name }}]" style="width: 100%" placeholder="{{ property.label }}"></th>
+                            {% endif  %}
+                        {% endfor %}
+                    {% endif %}
+                    <th><input type="submit" value="найти" id="filters-btn"></th>
+                </tr>
+                <tr>
+                    <th class="fit">
+                        {% if not relation.isSingle() %}<input type="checkbox" id="check-all">{% endif %}
+                    </th>
+                    <th class="fit">id</th>
+                    {% if type.getProperties() is not empty %}
+                        {% for property in type.getProperties() %}
+                            {% if property.isVisible() %}
+                                <th>{{ property.name }}</th>
+                            {% endif  %}
+                        {% endfor %}
+                    {% endif %}
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for subject in subjects %}
+                    <tr{{ not subject.is_related ? ' class="bind-not-related"' : '' }}>
+                        <td>
+                            {% if relation.isSingle() %}<input name="bind" type="radio" value="{{ subject.id }}">{% else %}<input name="bind[]" type="checkbox" value="{{ subject.id }}">{% endif %}
+                        </td>
+                        <td>{{ subject.id }}</td>
+                        {% if type.getProperties() is not empty %}
+                            {% for property in type.getProperties() %}
+                                {% if property.isVisible() %}
+                                    <td>{{ attribute(subject, (property.name)) }}</td>
+                                {% endif  %}
+                            {% endfor %}
+                        {% endif %}
+                        <td>
+                            {% for relation in subject.getType().getRelations() %}
+
+                                {% set color = relation.isBackRelation() ? 'warning' : 'danger' %}
+                                {% set relationCount = 0 %}
+
+                                {% if relation.isDirectRelation() %}
+                                    {% if attribute(relationsCounts, subject.id) is defined %}
+
+                                        {% set subjectCounts = attribute(relationsCounts, subject.id) %}
+
+                                        {% if attribute(subjectCounts, relation.name) is defined %}
+                                            {% set relationCount = attribute(subjectCounts, relation.name) %}
+                                            {% set color = 'primary' %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+
+                                {% set relationType = null %}
+
+                                {% if relation.isDirectRelation() and relation.isFactory() %}
+                                    {% if subject.offsetGet(relation.name) is not empty %}
+                                        {% set relationType = subject.offsetGet(relation.name) %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set relationType = relation.settings.is %}
+                                {% endif %}
+
+                                <label class="label label-{{ color }}">
+                                    {% if relation.isDirectRelation() %}<i class="fa fa-fw fa-plug"></i>{% else %}<i class="fa fa-fw fa-reply"></i>{% endif %}
+                                    {{ relation.label }}{{ relationType is not empty ? ' : '~Registry.get('types').get(relationType).label : '' }}{{ not relation.isSingle() ? ' : '~relationCount : '' }}
+                                </label> &nbsp;
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="alert alert-warning" role="alert">
+                <div>{{ Translation.of('There is no any subjects yet', 'cms/settings')|raw }}</div>
+            </div>
+            {% endif %}
+        </div>
+        {% if subjects is not empty %}
+        <button type="submit" class="btn btn-success">{{ Translation.of('Bind subjects', 'cms/settings') }}</button>
+        {% endif %}
+    </form>
+    {{ subjects.pagination is defined ? subjects.pagination.render('cms/layout/pagination')|raw : '' }}
+<script type="text/javascript">
+
+    $(function() {
+        $('#filters-btn').click(function(e) {
+            var query_string = '';
+
+            $('.filters').each(function(i, el) {
+                var name = $(el).data('name');
+                var val = $(el).val();
+
+                query_string += name + '=' + val + '&';
+            });
+
+            location.href = location.pathname + '?' + query_string;
+        });
+        
+        $('input[type="checkbox"]').click(function () {
+            var $checkboxes = $('table.cms-subjects-table>tbody>tr>td>input[type="checkbox"]');
+            var $checkbox = $(this);
+
+            if ($checkbox.attr('id') === 'check-all') {
+                $checkboxes.each(function () {
+                    $(this).prop('checked', $checkbox.is(':checked'));
+                });
+
+            } else {
+                var allChecked = true;
+
+                $checkboxes.each(function () {
+                    if (!$(this).is(':checked')) {
+                        allChecked = false;
+                    }
+                });
+
+                $('#check-all').prop('checked', allChecked);
+            }
+        });
+
+        $('#bind-form').submit(function () {
+            if (!$('table.cms-subjects-table>tbody>tr>td>input:checked').length) {
+                alert('Choose something!');
+                return false;
+            }
+        });
+    });
+</script>
+{% endblock %}

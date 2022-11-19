@@ -1,0 +1,44 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block breadcrumbs %}
+    <li><a href="{{ path.controller }}/types">{{ Translation.of('Types', 'cms/settings') }}</a></li>
+    {% if relationsChain is empty %}
+        <li><a href="{{ path.controller }}/subjects/{{ type.name }}">{{ type.label }}</a></li>
+    {% else %}
+        {% set url = [] %}
+        {% for chainItem in relationsChain %}
+
+            {% set url = url|merge([chainItem.type.name~'-'~chainItem.subject.id~'-'~chainItem.relation.name]) %}
+
+            {% if loop.first %}
+                <li><a href="{{ path.controller }}/subjects/{{ chainItem.type.name }}">{{ chainItem.type.label }}</a></li>
+            {% endif %}
+            <li>
+                <a href="{{ path.controller~'/subjects/'~url|join('/') }}">{{ chainItem.subject.getTitle() }} {{ (chainItem.relation.isDirectRelation() ? '<i class="fa fa-fw fa-plug text-danger"></i>' : '<i class="fa fa-fw fa-reply text-warning"></i>')|raw }} {{ chainItem.relation.label }}</a>
+            </li>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+    <link href="/assets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    {#<script src="/assets/jquery-ui/jquery-ui.min.js"></script>#}
+    <script src="/assets/ckeditor/ckeditor.js"></script>
+    <script src="/assets/ckeditor/adapters/jquery.js"></script>
+
+    <script src="/assets/moment/moment.min.js"></script>
+    <script src="/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/assets/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.ru.js"></script>
+{% endblock %}
+
+{% block content %}
+    {% set relationPath = [] %}
+    {% for chainItem in relationsChain %}
+        {% set relationPath = relationPath|merge([chainItem.type.name~'-'~chainItem.subject.id~'-'~chainItem.relation.name]) %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12">
+            {% block form_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

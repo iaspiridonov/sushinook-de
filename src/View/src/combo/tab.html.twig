@@ -1,0 +1,55 @@
+{% if combo.pizza.count() > 0 %}
+  <li role="presentation">
+    <a href="#combo-tab-1" class="link--block comboTabsItem" aria-controls="combo-tab-1" role="tab" data-toggle="tab">
+      <div class="img hidden-sm">
+        <img src="/img/icon-pizza.png" srcset="/img/icon-pizza.png 1x, /img/icon-pizza.png 2x" class="img--cover" />
+      </div>
+      <div class="text">Пиццы</div>
+      <div class="count green" data-output="counter">{{ combo.pizza.count() }}</div>
+    </a>
+  </li>
+{% endif %}
+{% if combo.drinks.count() > 0 %}
+  <li role="presentation">
+    <a href="#combo-tab-2" class="link--block comboTabsItem" aria-controls="combo-tab-2" role="tab" data-toggle="tab">
+      <div class="img hidden-sm">
+        <img src="/img/icon-drinks.png" srcset="/img/icon-drinks.png 1x, /img/icon-drinks.png 2x" class="img--cover" />
+      </div>
+      <div class="text">Напитки</div>
+      <div class="count green" data-output="counter">{{ combo.drinks.count() }}</div>
+    </a>
+  </li>
+{% endif %}
+{% if combo.snacks.count() > 0 %}
+  <li role="presentation">
+    <a href="#combo-tab-3" class="link--block comboTabsItem" aria-controls="combo-tab-3" role="tab" data-toggle="tab">
+      <div class="img hidden-sm">
+        <img src="/img/icon-snacks.png" srcset="/img/icon-snacks.png 1x, /img/icon-snacks.png 2x" class="img--cover" />
+      </div>
+      <div class="text">Закуски</div>
+      <div class="count green" data-output="counter">{{ combo.snacks.count() }}</div>
+    </a>
+  </li>
+{% endif %}
+{% if combo.sauces.count() > 0 %}
+  <li role="presentation">
+    <a href="#combo-tab-4" class="link--block comboTabsItem" aria-controls="combo-tab-4" role="tab" data-toggle="tab">
+      <div class="img hidden-sm">
+        <img src="/img/icon-sauces.png" srcset="/img/icon-sauces.png 1x, /img/icon-sauces.png 2x" class="img--cover" />
+      </div>
+      <div class="text">Соусы</div>
+      <div class="count green" data-output="counter">{{ combo.sauces.count() }}</div>
+    </a>
+  </li>
+{% endif %}
+{% if combo.desserts.count() > 0 %}
+  <li role="presentation">
+    <a href="#combo-tab-5" class="link--block comboTabsItem" aria-controls="combo-tab-5" role="tab" data-toggle="tab">
+      <div class="img hidden-sm">
+        <img src="/img/icon-desserts.png" srcset="/img/icon-desserts.png 1x, /img/icon-desserts.png 2x" class="img--cover" />
+      </div>
+      <div class="text">Десерты</div>
+      <div class="count green" data-output="counter">{{ combo.desserts.count() }}</div>
+    </a>
+  </li>
+{% endif %}

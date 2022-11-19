@@ -1,0 +1,27 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<div class="page content"><!-- page content -->
+    {% include 'src/common/breadcrumbs.html.twig' %}
+    <div class="s-title contacts-title container">
+      <h1 class="title-1">Новости</h1>
+    </div>
+    <div class="container">
+        <div class="news pages_news"><!-- main news -->
+            <div class="news__block">
+                {% for newsItem in newsList %}
+                    <div class="news__block__col">
+                        {{ newsItem.dateHtml()|raw }}
+                        <a href="{{ newsItem.url() }}">{{ newsItem.title }}</a>
+                        <p>{{ newsItem.preview }}</p>
+                        <a href="{{ newsItem.url() }}" class="all-read">{{ Translation.of('read all') }}</a>
+                    </div>
+                {% else %}
+                    {{ Translation.of('News list is empty') }}
+                {% endfor %}
+            </div>
+        </div>
+        {{ newsList.pagination() is defined ? newsList.pagination().render('src/common/pagination')|raw : '' }}
+    </div>
+</div>
+{% endblock %}    

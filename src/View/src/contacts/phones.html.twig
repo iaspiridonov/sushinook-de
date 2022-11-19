@@ -1,0 +1,3 @@
+{% for num in contacts.phones|split("\n") %}
+	<a href="tel:{{num|replace({' ': ''})}}"><b>{{ num }}</b></a>
+{% endfor %}

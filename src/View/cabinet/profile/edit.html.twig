@@ -1,0 +1,145 @@
+{% extends 'cabinet/layout.html.twig' %}
+
+{% block cabinet_content %}
+<div class="right">
+    <form id="profile-form" onsubmit="return sendFormWithAjax(this, '#success-save-profile');" class="row" method="POST">
+        <div class="col">
+            <span class="inp--title">Название компании</span>
+            <input name="name" type="text" {{ Form.getInputVal('name', user.name)|raw }} placeholder="Введите название" >
+        </div>
+        <div class="col">
+            <span class="inp--title">Вид деятельности</span>
+            <select name="activity" class="dropdown">
+                <option value="0" data-placeholder>Выберите категорию</option>
+                {% for activity in activities %}
+                    <option value="{{ activity.id }}" {{ Form.isSelected('activity', activity.id, user.category)|raw }}>{{ activity.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <span class="inp--title">Адрес на территории комплекса</span>
+            {% if user.addresses is not empty %}
+                {% for address in user.addresses %}
+                    <div class="flat copy">
+                        <div class="flat__block">
+                            <span>Ярус:</span>
+                            <input name="address[floor][]" type="text" value="{{ address.floor }}">
+                        </div>
+                        <div class="flat__block">
+                            <span>Бутик:</span>
+                            <input name="address[boutique][]" type="text" value="{{ address.boutique }}">
+                        </div>
+                    </div>
+                {% endfor %}    
+            {% else %}                
+                <div class="flat copy">
+                    <div class="flat__block">
+                        <span>Ярус:</span>
+                        <input name="address[floor][]" type="text" value="">
+                    </div>
+                    <div class="flat__block">
+                        <span>Бутик:</span>
+                        <input name="address[boutique][]" type="text" value="">
+                    </div>
+                </div>
+            {% endif %}
+            <a href="#" class="add--more">+ Добавить адрес</a>
+        </div>
+        <div class="col">
+            <span class="inp--title">Фото магазина</span>
+            <div class="add-foto">
+                <div class="file--upload">
+                    <label>
+                        <input type="file" name="avatar">
+                        <span class="filename">Загрузить фото</span>
+                    </label>
+                </div>
+                <span>Оптимальные размеры <br> 370 x 200 px</span>
+            </div>
+            <br>
+            <span class="inp--title">Фото обложки</span>
+            <div class="add-foto">
+                <div class="file--upload">
+                    <label>
+                        <input type="file" name="background">
+                        <span class="filename">Загрузить фото</span>
+                    </label>
+                </div>
+                <span>Оптимальные размеры <br> 1920 x 646 px</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="cabinet_row">
+                <span class="inp--title">Номер телефона</span>
+                {% if user.phones is not empty %}
+                    {% for phone in user.phones|split("\n") %}
+                        <input name="phones[]" type="text" class="tel copy" value="{{ phone }}" placeholder="+7 (___) ___-__-__"    >
+                    {% endfor %}
+                {% else %}
+                    <input name="phones[]" type="text" class="tel copy" placeholder="+7 (___) ___-__-__"    >
+                {% endif %}
+                <a href="#" class="add--more">+ Добавить телефон</a>
+            </div>
+            <div class="cabinet_row">
+                <span class="inp--title">Instagram</span>
+                {% if user.instagram is not empty %}
+                    {% for instagram in user.instagram|split("\n") %}
+                        <input name="instagram[]" type="text" class="copy"  value="{{ instagram }}" placeholder="Ссылка на аккаунт">
+                    {% endfor %}
+                {% else %}
+                    <input name="instagram[]" type="text" class="copy" placeholder="Ссылка на аккаунт">
+                {% endif %}
+                <a href="#" class="add--more">+ Добавить</a>
+            </div>
+            <div class="cabinet_row">
+                <span class="inp--title">Facebook</span>
+                {% if user.facebook is not empty %}
+                    {% for facebook in user.facebook|split("\n") %}
+                        <input name="facebook[]" type="text" class="copy"  value="{{ facebook }}" placeholder="Ссылка на аккаунт">
+                    {% endfor %}
+                {% else %}
+                    <input name="facebook[]" type="text" class="copy" placeholder="Ссылка на аккаунт">
+                {% endif %}
+                <a href="#" class="add--more">+ Добавить</a>
+            </div>
+            <div class="cabinet_row">
+                <span class="inp--title">ВКонтакте</span>
+                {% if user.vk is not empty %}
+                    {% for vk in user.vk|split("\n") %}
+                        <input name="vk[]" type="text" class="copy"  value="{{ vk }}" placeholder="Ссылка на аккаунт">
+                    {% endfor %}
+                {% else %}
+                    <input name="vk[]" type="text" class="copy" placeholder="Ссылка на аккаунт">
+                {% endif %}
+                <a href="#" class="add--more">+ Добавить</a>
+            </div>
+            <div class="cabinet_row">
+                <span class="inp--title">YouTube</span>
+                {% if user.youtube is not empty %}
+                    {% for youtube in user.youtube|split("\n") %}
+                        <input name="youtube[]" type="text" class="copy"  value="{{ youtube }}" placeholder="Ссылка на аккаунт">
+                    {% endfor %}
+                {% else %}
+                    <input name="youtube[]" type="text" class="copy" placeholder="Ссылка на аккаунт">
+                {% endif %}
+                <a href="#" class="add--more">+ Добавить</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="cabinet_row">
+                <span class="inp--title">О компании</span>
+                <textarea name="about" rows="8" placeholder="Текст о компании">{{ user.about }}</textarea>
+            </div>
+            <div class="cabinet_row">
+                <span class="inp--title">Сайт компании</span>
+                <input value="{{ user.company_url }}" name="company_url" type="text" placeholder="">
+            </div>
+        </div>
+        <div class="col">
+            <input type="submit" class="btn"  value="Сохранить изменения">
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

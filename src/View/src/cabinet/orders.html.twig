@@ -1,0 +1,31 @@
+<div role="tabpanel" class="tab-pane fade {{ orderPage == true ? 'active in' : '' }}" id="cabinet-tab-3">
+  <!-- cabinet-table -->
+  <div class="cabinet-table">
+    <div class="cabinet-table-in">
+      {% if orders is empty %}
+        <p>Вы ещё ничего не заказывали</p>
+      {% else %}
+        <table>
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Номер заказа</th>
+              <th>Общая стоимость</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in orders %}
+              <tr>
+                <td>{{ item.date|date("d") }} {{ Translation.of('months')[item.date|date("m")] }}, {{ item.date|date("Y") }} г.</td>
+                <td><a href="/{{ lang }}/cabinet/order/{{ item.id }}"><b>{{ item.orderID }}</b></a></td>
+                <td><b>{{ (item.total/100)|number_format(2,'.',' ') }} EUR</b></td>
+                <td><a href="/{{ lang }}/cabinet/order/{{ item.id }}" class="btn btn--default btn--block btn--more">Подробнее</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  </div><!-- /cabinet-table -->
+</div>

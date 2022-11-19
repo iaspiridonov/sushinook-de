@@ -1,0 +1,26 @@
+{% extends 'cms/module/settings/subjects/form.html.twig' %}
+
+{% block title %}{{ Translation.of('Create', 'cms/settings') }} {{ Translation.of('Subject', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">{{ Translation.of('Create', 'cms/settings') }} : {{ type.label }}</li>
+{% endblock %}
+
+{% block form_content %}
+    {% if form.getProperties().count() %}
+    {{ form.open()|raw }}
+    <br>
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-save"></i> {{ Translation.of('Create', 'cms/settings') }}</button>
+            <a href="{{ path.controller~'/subjects/'~type.name~(relationPath is not empty ? '/'~relationPath|join('/') : '') }}" class="btn btn-danger">{{ Translation.of('Cancel', 'cms/settings') }}</a>
+        </div>
+    </div>
+    {{ form.close()|raw }}
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            <div>{{ Translation.of('There is no any fields to build form', 'cms/form') }}</div>
+        </div>
+    {% endif %}
+{% endblock %}

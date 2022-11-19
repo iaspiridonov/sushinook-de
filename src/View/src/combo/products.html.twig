@@ -1,0 +1,172 @@
+{% if combo.pizza.count() > 0 %}
+  <div role="tabpanel" class="tab-pane fade in" id="combo-tab-1" data-id="1" data-limit="{{ combo.pizza.count() }}" data-role="tab">
+    <!-- items-list -->
+    <div class="items-list combo-list" data-name="Пиццы">
+      <div class="block-title">
+        <div class="info">!</div> Пиццы: выбрано <span data-output="count"></span> из <span data-output="limit">{{ combo.pizza.count() }}</span>
+      </div>
+      <div class="nano" data-role="scroll">
+        <div class="nano-content">
+          <div class="row row--alt block-in">
+            {% for item in combo.pizza.sortBy('sort') %}
+              {% if item.halfPizza != "1" %}
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                <!-- item -->
+                <div class="item combo-item text--center" data-role="item" data-id="{{ item.id }}" data-name="{{ item.name }}">
+                    <input type="hidden" name="price" data-full-price="{{ item.comboprice ? item.comboprice : item.price }}" value="{{ item.comboprice ? item.comboprice : item.price }}" />
+                    <input type="checkbox" id="pizza-{{ item.id }}" checked />
+                    <label for="pizza-{{ item.id }}" class="checkbox-alt">
+                      <div class="img">
+                        <div class="img--centered orange" data-role="lazyimg">
+                          <img data-src="{{ item.image }}" class="lazy" />
+                        </div>
+                      </div>
+                      <div class="title">{{ item.name }}</div>
+                      <div class="price text--gray" style="display:none;"><span data-output="price"></span> EUR</div>
+                    </label>
+                  </div><!-- /item -->
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- /items-list -->
+  </div>
+{% endif %}
+{% if combo.drinks.count() > 0 %}
+  <div role="tabpanel" class="tab-pane fade in" id="combo-tab-2" data-id="2" data-limit="{{ combo.drinks.count() }}" data-role="tab">
+    <!-- items-list -->
+    <div class="items-list combo-list" data-name="Напитки">
+      <div class="block-title">
+        <div class="info">!</div> Напитки: выбрано <span data-output="count"></span> из <span data-output="limit">{{ combo.drinks.count() }}</span>
+      </div>
+      <div class="nano" data-role="scroll">
+        <div class="nano-content">
+          <div class="row row--alt block-in">
+            {% for item in combo.drinks.sortBy('sort') %}
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <!-- item -->
+                <div class="item combo-item text--center" data-role="item" data-id="{{ item.id }}" data-name="{{ item.name }}">
+                    <input type="hidden" name="price" data-full-price="{{ item.comboprice ? item.comboprice : item.price }}" value="{{ item.comboprice ? item.comboprice : item.price }}" />
+                    <input type="checkbox" id="drinks-{{ item.id }}" checked />
+                    <label for="drinks-{{ item.id }}" class="checkbox-alt">
+                      <div class="img">
+                        <div class="img--centered orange" data-role="lazyimg">
+                          <img data-src="{{ item.image }}" class="lazy" />
+                        </div>
+                      </div>
+                      <div class="title">{{ item.name }}</div>
+                      <div class="price text--gray" style="display:none;"><span data-output="price"></span> EUR</div>
+                    </label>
+                  </div><!-- /item -->
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- /items-list -->
+  </div>
+{% endif %}
+{% if combo.snacks.count() > 0 %}
+  <div role="tabpanel" class="tab-pane fade in" id="combo-tab-3" data-id="3" data-limit="{{ combo.snacks.count() }}" data-role="tab">
+    <!-- items-list -->
+    <div class="items-list combo-list" data-name="Закуски">
+      <div class="block-title">
+        <div class="info">!</div> Закуски: выбрано <span data-output="count"></span> из <span data-output="limit">{{ combo.snacks.count() }}</span>
+      </div>
+      <div class="nano" data-role="scroll">
+        <div class="nano-content">
+          <div class="row row--alt block-in">
+            {% for item in combo.snacks.sortBy('sort') %}
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <!-- item -->
+                <div class="item combo-item text--center" data-role="item" data-id="{{ item.id }}" data-name="{{ item.name }}">
+                    <input type="hidden" name="price" data-full-price="{{ item.comboprice ? item.comboprice : item.price }}" value="{{ item.comboprice ? item.comboprice : item.price }}" />
+                    <input type="checkbox" id="snacks-{{ item.id }}" checked />
+                    <label for="snacks-{{ item.id }}" class="checkbox-alt">
+                      <div class="img">
+                        <div class="img--centered orange" data-role="lazyimg">
+                          <img data-src="{{ item.image }}" class="lazy" />
+                        </div>
+                      </div>
+                      <div class="title">{{ item.name }}</div>
+                      <div class="price text--gray" style="display:none;"><span data-output="price"></span> EUR</div>
+                    </label>
+                  </div><!-- /item -->
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- /items-list -->
+  </div>
+{% endif %}
+{% if combo.sauces.count() > 0 %}
+  <div role="tabpanel" class="tab-pane fade in" id="combo-tab-4" data-id="4" data-limit="{{ combo.sauces.count() }}" data-role="tab">
+    <!-- items-list -->
+    <div class="items-list combo-list" data-name="Закуски">
+      <div class="block-title">
+        <div class="info">!</div> Закуски: выбрано <span data-output="count"></span> из <span data-output="limit">{{ combo.sauces.count() }}</span>
+      </div>
+      <div class="nano" data-role="scroll">
+        <div class="nano-content">
+          <div class="row row--alt block-in">
+            {% for item in combo.sauces.sortBy('sort') %}
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <!-- item -->
+                <div class="item combo-item text--center" data-role="item" data-id="{{ item.id }}" data-name="{{ item.name }}">
+                    <input type="hidden" name="price" data-full-price="{{ item.comboprice ? item.comboprice : item.price }}" value="{{ item.comboprice ? item.comboprice : item.price }}" />
+                    <input type="checkbox" id="sauces-{{ item.id }}" checked />
+                    <label for="sauces-{{ item.id }}" class="checkbox-alt">
+                      <div class="img">
+                        <div class="img--centered orange" data-role="lazyimg">
+                          <img data-src="{{ item.image }}" class="lazy" />
+                        </div>
+                      </div>
+                      <div class="title">{{ item.name }}</div>
+                      <div class="price text--gray" style="display:none;"><span data-output="price"></span> EUR</div>
+                    </label>
+                  </div><!-- /item -->
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- /items-list -->
+  </div>
+{% endif %}
+{% if combo.desserts.count() > 0 %}
+  <div role="tabpanel" class="tab-pane fade in" id="combo-tab-5" data-id="5" data-limit="{{ combo.desserts.count() }}" data-role="tab">
+    <!-- items-list -->
+    <div class="items-list combo-list" data-name="Десерты">
+      <div class="block-title">
+        <div class="info">!</div> Десерты: выбрано <span data-output="count"></span> из <span data-output="limit">{{ combo.desserts.count() }}</span>
+      </div>
+      <div class="nano" data-role="scroll">
+        <div class="nano-content">
+          <div class="row row--alt block-in">
+            {% for item in combo.desserts.sortBy('sort') %}
+              <div class="col-lg-3 col-md-3 col-sm-6">
+                <!-- item -->
+                <div class="item combo-item text--center" data-role="item" data-id="{{ item.id }}" data-name="{{ item.name }}">
+                    <input type="hidden" name="price" data-full-price="{{ item.comboprice ? item.comboprice : item.price }}" value="{{ item.comboprice ? item.comboprice : item.price }}" />
+                    <input type="checkbox" id="desserts-{{ item.id }}" checked />
+                    <label for="desserts-{{ item.id }}" class="checkbox-alt">
+                      <div class="img">
+                        <div class="img--centered orange" data-role="lazyimg">
+                          <img data-src="{{ item.image }}" class="lazy" />
+                        </div>
+                      </div>
+                      <div class="title">{{ item.name }}</div>
+                      <div class="price text--gray" style="display:none;"><span data-output="price"></span> EUR</div>
+                    </label>
+                  </div><!-- /item -->
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div><!-- /items-list -->
+  </div>
+{% endif %}

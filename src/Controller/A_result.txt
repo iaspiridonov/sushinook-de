@@ -1,0 +1,60 @@
+stdClass Object
+(
+    [success] => 1
+    [data] => stdClass Object
+        (
+            [data] => stdClass Object
+                (
+                    [id] => 97428
+                    [name] => test
+                    [phone] => +79157457556
+                    [bonuses] => 0
+                    [orders] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [id] => 142472
+                                    [number] => 2
+                                    [date] => 2022-07-13 03:30:00
+                                    [sum] => 529000
+                                    [trade_point] => stdClass Object
+                                        (
+                                            [id] => 4
+                                            [title] => Костанай 3 - КСК
+                                            [city] => Костанай
+                                        )
+
+                                )
+
+                        )
+
+                    [addresses] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [street] => test
+                                    [building] => test
+                                    [coordinates] => stdClass Object
+                                        (
+                                            [latitude] => 0
+                                            [longitude] => 0
+                                        )
+
+                                    [entrance] => 1
+                                    [floor] => 2
+                                    [room] => 3
+                                    [city] => stdClass Object
+                                        (
+                                            [id] => 1
+                                            [title] => Костанай
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+)

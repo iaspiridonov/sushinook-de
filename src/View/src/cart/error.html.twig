@@ -1,0 +1,17 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<main class="content">
+  {% include 'src/common/breadcrumbs.html.twig' %}
+  <!-- section-cart -->
+  <section class="section s--cart" data-role="cart">
+    <div class="container">
+      <div class="form--order" data-form="cart" style="text-align: center;">
+            <img class="lazy img--cover" src="/img/modal-img.png" style="width: auto; height: auto; margin: 0 auto;">
+            {{ purchases.text | raw }}
+            
+          </div>
+    </div>
+  </section><!-- /section-cart -->
+</main><!-- /.content -->
+{% endblock %}

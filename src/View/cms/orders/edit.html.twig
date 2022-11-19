@@ -1,0 +1,19 @@
+{% extends 'cms/orders/form.html.twig' %}
+
+{% block title %}{{ Translation.of('Edit', 'cms/settings') }} {{ Translation.of('Subject', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">{{ Translation.of('Edit', 'cms/settings') }} : {{ form.getSubject().getTitle() }}</li>
+{% endblock %}
+
+{% block form_content %}
+    {{ form.open()|raw }}
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-save"></i> {{ Translation.of('Save', 'cms/settings') }}</button>
+            <a href="/ru/cms/orders/" class="btn btn-danger">{{ Translation.of('Cancel', 'cms/settings') }}</a>
+        </div>
+    </div>
+    {{ form.close()|raw }}
+{% endblock %}

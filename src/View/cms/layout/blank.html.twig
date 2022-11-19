@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>{% block title %}{% endblock %} &mdash;  CMS</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet">
+    <link href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/cms/css/layout.css" rel="stylesheet">
+
+    <script src="/assets/jquery-3.2.1.min.js"></script>
+    <script src="/assets/tether/js/tether.min.js"></script>
+    <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="/assets/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+</html>

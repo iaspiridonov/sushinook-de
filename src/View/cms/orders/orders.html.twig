@@ -1,0 +1,385 @@
+{% extends 'cms/orders/layout/layout.html.twig' %}
+
+
+{% block title %}{{ Translation.of('Subjects', 'cms/settings') }} &mdash; {{ Translation.of('Settings', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="{{ path.controller }}/types">{{ Translation.of('Types', 'cms/settings') }}</a></li>
+    {% if relationsChain is not defined %}
+        <li class="active"><a href="{{ path.uri }}/create" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>{{ type.label }}</a></li>
+    {% else %}
+        {% set url = [] %}
+        {% for chainItem in relationsChain %}
+
+            {% set url = url|merge([chainItem.type.name~'-'~chainItem.subject.id~'-'~chainItem.relation.name]) %}
+
+            {% if loop.first %}
+                <li><a href="{{ path.controller }}/subjects/{{ chainItem.type.name }}">{{ chainItem.type.label }}</a></li>
+            {% endif %}
+
+            {% if loop.last %}
+                <li class="active">
+                    {% if canCreateSubject is same as (false) %}
+                        {{ chainItem.subject.getTitle() }} {{ (chainItem.relation.isDirectRelation() ? '<i class="fa fa-fw fa-plug text-'~(chainItem.relation.isStrong() ? 'danger' : 'success')~'"></i>' : '<i class="fa fa-fw fa-reply text-warning"></i>')|raw }} {{ chainItem.relation.label }} : {{ Registry.get('types').get(chainItem.relation.isDirectRelation() and chainItem.relation.isFactory() ? parent.offsetGet(chainItem.relation.name) : chainItem.relation.settings.is).label }}
+                    {% else %}
+                        {% if chainItem.relation.isDirectRelation() and chainItem.relation.isFactory() %}
+                            {% if parent.offsetGet(chainItem.relation.name) is empty %}
+                                {% set typesCreateArray = [] %}
+                                {% set typesBindArray = [] %}
+                                {% for typeName in chainItem.relation.settings.is %}
+                                    {% set typesCreateArray = typesCreateArray|merge(['<li><a href="'~path.uri~'/create:'~typeName~'">'~Registry.get('types').get(typeName).label~'</a></li>']) %}
+                                    {% set typesBindArray = typesBindArray|merge(['<li><a href="'~path.uri~'/bind:'~typeName~'">'~Registry.get('types').get(typeName).label~'</a></li>']) %}
+                                {% endfor %}
+                                {{ chainItem.subject.getTitle() }}
+                                <span class="dropdown">
+                                    <a class="btn btn-danger" href="#" id="create-subject-type-menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-sitemap"></i> {{ chainItem.relation.label }} <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" aria-labelledby="create-subject-type-menu">
+                                        <li class="dropdown-header">{{ Translation.of('Create subject', 'cms/settings') }}</li>
+                                        {{ typesCreateArray|join("\n")|raw }}
+                                        {% if not relation.isStrong() %}
+                                        <li class="dropdown-header"><i class="fa fa-link"></i> {{ Translation.of('Bind subject', 'cms/settings') }}</li>
+                                        {{ typesBindArray|join("\n")|raw }}
+                                        {% endif %}
+                                    </ul>
+                                </span>
+                            {% else %}
+
+                                {% set relationName %}
+                                    {{ chainItem.subject.getTitle() }} {{ (chainItem.relation.isDirectRelation() ? '<i class="fa fa-fw fa-plug text-'~(chainItem.relation.isStrong() ? 'danger' : 'success')~'"></i>' : '<i class="fa fa-fw fa-reply text-warning"></i>')|raw }} {{ chainItem.relation.label }}
+                                {% endset %}
+
+                                {% set createLink %}
+                                    <span class="btn-group">
+                                        <a href="{{ path.uri }}/create:{{ parent.offsetGet(chainItem.relation.name) }}" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>{{ Registry.get('types').get(parent.offsetGet(chainItem.relation.name)).label }}</a>
+                                        {% if not relation.isStrong() %}
+                                        <a href="{{ path.uri }}/bind:{{ parent.offsetGet(chainItem.relation.name) }}" class="btn btn-success"><i class="fa fa-fw fa-link"></i></a>
+                                        {% endif %}
+                                    </span>
+                                {% endset %}
+
+                                {{ relationName|raw }}{{ (' : '~createLink)|raw }}
+
+                            {% endif %}
+                        {% else %}
+                            {% set relationName %}
+                                {{ chainItem.subject.getTitle() }} {{ (chainItem.relation.isDirectRelation() ? '<i class="fa fa-fw fa-plug text-'~(chainItem.relation.isStrong() ? 'danger' : 'success')~'"></i>' : '<i class="fa fa-fw fa-reply text-warning"></i>')|raw }} {{ chainItem.relation.label }}
+                            {% endset %}
+
+                            {% set createLink %}
+                                <span class="btn-group">
+                                    <a href="{{ path.uri }}/create:{{ chainItem.relation.settings.is }}" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>{{ Registry.get('types').get(chainItem.relation.settings.is).label }}</a>
+                                    {% if not relation.isStrong() %}
+                                    <a href="{{ path.uri~'/bind:'~chainItem.relation.settings.is }}" class="btn btn-success"><i class="fa fa-link"></i></a>
+                                    {% endif %}
+                                </span>
+                            {% endset %}
+
+                            {{ relationName|raw }}{{ (' : '~createLink)|raw }}
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path.controller~'/subjects/'~url|join('/') }}">{{ chainItem.subject.getTitle() }} {{ (chainItem.relation.isDirectRelation() ? '<i class="fa fa-fw fa-plug text-'~(chainItem.relation.isStrong() ? 'danger' : 'success')~'"></i>' : '<i class="fa fa-fw fa-reply text-warning"></i>')|raw }} {{ chainItem.relation.label }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+{% block head %}
+    <script src="/assets/jquery-ui/jquery-ui.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div>
+        {% if subjects is not empty %}
+        <table class="table cms-subjects-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th><input type="text" data-name="filter[id]" {% if query.filter.id is defined %} value="{{ query.filter.id }}" {% endif %} class="filters" style="width: 100%"></th>
+                    {% if type_properties is not empty %}
+                        {% for property in type_properties %}
+                            {% if property.isVisible() %}
+                                <th><input type="text"  data-name="filter[{{ property.name }}]" {% if query.filter[property.name] is defined %} value="{{ query.filter[property.name] }}" {% endif %} class="filters" name="filter[{{ property.name }}]" style="width: 100%" placeholder="{{ property.label }}"></th>
+                            {% endif  %}
+                        {% endfor %}
+                    {% endif %}
+                    <th><input type="submit" value="найти" id="filters-btn"></th>
+                </tr>
+                <tr>
+                    <th class="fit">
+                        <div class="dropdown">
+                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu-subjects-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" disabled>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-subjects-group">
+                                {% if relationsChain is defined %}
+                                    <li>
+                                        <a href="#unbind-subjects" onclick="return unbindSubjects(this, '{{ parent.getType('name') }}', '{{ relation.name }}', {{ parent.id }})">
+                                            <span class="fa fa-unlink"></span> {{ Translation.of('Unbind', 'cms/settings') }}
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                {% endif %}
+                                <li>
+                                    <a href="#delete-subjects" onclick="return deleteSubjects(this, '{{ type.name }}')">
+                                        <span class="fa fa-trash-o"></span> {{ Translation.of('Delete', 'cms/settings') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th class="fit">
+                        <input type="checkbox" id="check-all">
+                    </th>
+                    <th class="fit">id</th>
+                    {% if type_properties is not empty %}
+                        {% for property in type_properties %}
+                            {% if property.isVisible() %}
+                                <th>{{ property.label }}</th>
+                            {% endif  %}
+                        {% endfor %}
+                    {% endif %}
+                    <th></th>
+                    {% if sortable %}<th></th>{% endif %}
+                </tr>
+            </thead>
+            <tbody{% if sortable %} class="ui-sortable"{% endif %}>
+
+            {% for subject in subjects %}
+                <tr id="subject-{{ subject.id }}">
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu-{{ subject.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-{{ subject.id }}">
+                                <li>
+                                    <a href="{{ path.uri }}edit/{{ subject.id }}">
+                                        <span class="fa fa-pencil"></span> {{ Translation.of('Edit', 'cms/settings') }}
+                                    </a>
+                                </li>
+                                {% if relationsChain is defined %}
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#delete-{{ subject.getType('name') }}-{{ subject.id }}" onclick="return unbindSubject(this, '{{ parent.getType('name') }}', '{{ relation.name }}', {{ parent.id }}, {{ subject.id }})">
+                                            <span class="fa fa-unlink"></span> {{ Translation.of('Unbind', 'cms/settings') }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#delete-{{ subject.getType('name') }}-{{ subject.id }}" onclick="return deleteSubject(this, '{{ subject.getType('name') }}', {{ subject.id }})">
+                                        <span class="fa fa-trash-o"></span> {{ Translation.of('Delete', 'cms/settings') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="subject-checkbox" name="subject" value="{{ subject.id }}">
+                    </td>
+                    <td>{{ subject.id }}</td>
+                        {% if type_properties is not empty %}
+                            {% for property in type_properties %}
+                                {% if property.isVisible() %}
+                                    {% set value = attribute(subject, (property.name)) %}
+                                    <td>
+                                        {% if property.isMulticheck() %}
+                                            {{ value|join(', ') }}
+                                        {% elseif property.isPhoto() %}
+                                            <img src="{{ value }}" style="max-width: 150px;">
+                                        {% elseif property.isFile() %}
+                                            <a href="{{ value }}" target="_blank">{{ value }}</a>
+                                        {% elseif (property.kind == 'RADIO' or property.kind == 'SELECT') and value is not empty %}
+                                            {{ attribute(property.settings.values, value) }}
+                                        {% elseif property.kind == 'CHECKBOX' %}
+                                            {{ value == 1 ? Translation.of('Yes', 'cms/settings') : Translation.of('No', 'cms/settings') }}
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
+                                    </td>
+                                {% endif  %}
+                            {% endfor %}
+                        {% endif %}
+                    <td>
+                        {% for relation in subject.getType().getRelations() %}
+
+                            {% set color = relation.isBackRelation() ? 'warning' : 'danger' %}
+                            {% set relationCount = 0 %}
+
+                            {% if relation.isDirectRelation() %}
+                                {% if attribute(relationsCounts, subject.id) is defined %}
+
+                                    {% set subjectCounts = attribute(relationsCounts, subject.id) %}
+
+                                    {% if attribute(subjectCounts, relation.name) is defined %}
+                                        {% set relationCount = attribute(subjectCounts, relation.name) %}
+                                        {% set color = 'primary' %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% set relationType = null %}
+
+                            {% if relation.isDirectRelation() and relation.isFactory() %}
+                                {% if subject.offsetGet(relation.name) is not empty %}
+                                    {% set relationType = subject.offsetGet(relation.name) %}
+                                {% endif %}
+                            {% else %}
+                                {% set relationType = relation.settings.is %}
+                            {% endif %}
+
+                            <a href="{{ path.uri }}/{{ relation.type }}-{{ subject.id }}-{{ relation.name }}" class="btn btn-{{ color }} btn-xs" style="margin-bottom: 3px;">
+                                {% if relation.isDirectRelation() %}<i class="fa fa-fw fa-{{ relation.isFactory() and not relationCount ? 'sitemap' : 'plug' }}"></i>{% else %}<i class="fa fa-fw fa-reply"></i>{% endif %}
+                                {{ relation.label }}{{ relation.isDirectRelation() and relation.isFactory() and relationType is not empty ? ' : '~Registry.get('types').get(relationType).label : '' }}{{ not relation.isSingle() and not relation.isBackRelation() ? ' : '~relationCount : '' }}
+                            </a>
+                        {% endfor %}
+                    </td>
+                    {% if sortable %}<td class="sortable-td ui-sortable-handle"><i class="fa fa-arrows-v"></i></td>{% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                <div>{{ Translation.of('There is no any subjects yet', 'cms/settings')|raw }}</div>
+            </div>
+        {% endif %}
+    </div>
+    {{ subjects.pagination is defined ? subjects.pagination.render('cms/layout/pagination')|raw : '' }}
+<script type="text/javascript">
+    $(function () {
+
+        $('#filters-btn').click(function(e) {
+            var query_string = '';
+
+            $('.filters').each(function(i, el) {
+                var name = $(el).data('name');
+                var val = $(el).val();
+
+                query_string += name + '=' + val + '&';
+            });
+
+            location.href = location.pathname + '?' + query_string;
+        });
+
+        $('input[type="checkbox"]').click(function () {
+            var $checkboxes = $('table.cms-subjects-table>tbody>tr>td>input[type="checkbox"]');
+            var $checkbox = $(this);
+
+            if ($checkbox.attr('id') === 'check-all') {
+                $checkboxes.each(function () {
+                    $(this).prop('checked', $checkbox.is(':checked'));
+                });
+
+            } else {
+                var allChecked = true;
+
+                $checkboxes.each(function () {
+                    if (!$(this).is(':checked')) {
+                        allChecked = false;
+                    }
+                });
+
+                $('#check-all').prop('checked', allChecked);
+            }
+
+            if ($checkboxes.filter(':checked').length > 0) {
+                $('#dropdownMenu-subjects-group').prop('disabled', false);
+            } else {
+                $('#dropdownMenu-subjects-group').prop('disabled', true);
+            }
+        });
+
+        {% if sortable %}
+        $('tbody.ui-sortable').sortable({
+            axis: 'y',
+            handle: 'td.sortable-td',
+            helper: function(e, tr)
+            {
+                var $originals = tr.children();
+                var $helper = tr.clone();
+                $helper.children().each(function(index)
+                {
+                    // Set helper cell sizes to match the original sizes
+                    $(this).width($originals.eq(index).outerWidth());
+                });
+                return $helper;
+            },
+            update: function (event, ui) {
+                var data = $(this).sortable('serialize');
+
+                data += '&_csrf_token={{ Csrf.token() }}';
+
+                // POST to server using $.post or $.ajax
+                $.ajax({
+                    data: data,
+                    type: 'POST',
+                    url: '{{ path.uri~'/sort' }}'
+                });
+            }
+        });
+        {% endif %}
+    });
+
+    function deleteSubject(link, typeName, id) {
+
+        if (!confirm('{{ Translation.of('Are you shure to delete subject?', 'cms/settings') }}')) return false;
+
+        $.post('{{ path.controller }}/delete' , {subjects:[id], _csrf_token:'{{ Csrf.token() }}'}).done(function (data) {
+            $(link).parents('tr').remove();
+            location.reload();
+        });
+
+        return false;
+    }
+
+    function unbindSubject(link, typeName, relationName, parent_id, id) {
+
+        if (!confirm('{{ Translation.of('Are you shure to unbind subject?', 'cms/settings') }}')) return false;
+
+        $.post('{{ path.controller }}/unbind-subjects/'+typeName+'-'+parent_id+'-'+relationName, {subjects:[id], _csrf_token:'{{ Csrf.token() }}'}).done(function (data) {
+            $(link).parents('tr').remove();
+            location.reload();
+        });
+
+        return false;
+    }
+
+    function deleteSubjects(link, typeName) {
+
+        if (!confirm('{{ Translation.of('Are you shure to delete subjects?', 'cms/settings') }}')) return false;
+
+        var $checkboxes = $('input.subject-checkbox:checked');
+        var checkedValues = $checkboxes.map(function() {
+            return this.value;
+        }).get();
+
+        $.post('{{ path.controller }}/delete-subjects/'+typeName, {subjects:checkedValues, _csrf_token:'{{ Csrf.token() }}'}).done(function (data) {
+            $checkboxes.parents('tr').remove();
+            location.reload();
+        });
+
+        return false;
+    }
+
+    function unbindSubjects(link, typeName, relationName, parent_id, id) {
+
+        if (!confirm('{{ Translation.of('Are you shure to unbind subjects?', 'cms/settings') }}')) return false;
+
+        var $checkboxes = $('input.subject-checkbox:checked');
+        var checkedValues = $checkboxes.map(function() {
+            return this.value;
+        }).get();
+
+        $.post('{{ path.controller }}/unbind-subjects/'+typeName+'-'+parent_id+'-'+relationName, {subjects:checkedValues, _csrf_token:'{{ Csrf.token() }}'}).done(function (data) {
+            $checkboxes.parents('tr').remove();
+            location.reload();
+        });
+
+        return false;
+    }
+</script>
+{% endblock %}

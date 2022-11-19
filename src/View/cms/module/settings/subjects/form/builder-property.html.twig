@@ -1,0 +1,186 @@
+{% set id = form.getId()~'-'~property.name~'-id' %}
+
+{% if property.kind == 'STRING' %}
+    <div class="col-md-6">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div {#class="input-group"#}>
+                {#<span class="input-group-addon">
+                    {{ Translation.of('String', 'cms/settings') }}
+                </span>#}
+                <input type="text" name="{{ input.name }}" id="{{ id }}" class="form-control" value="{{ input.value }}">
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'NUMBER' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    {{ Translation.of('Number', 'cms/settings') }}
+                </span>
+                <input type="number" name="{{ input.name }}" id="{{ id }}" class="form-control" value="{{ input.value is not empty ? input.value : 0 }}">
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'TEXT' %}
+    <div class="col-md-12">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <textarea type="text" name="{{ input.name }}" id="{{ id }}" class="form-control" rows="10">{{ input.value }}</textarea>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'LONGTEXT' %}
+    <div class="col-md-12">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <textarea type="text" name="{{ input.name }}" id="{{ id }}" class="form-control" rows="20">{{ input.value }}</textarea>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'HTML' %}
+    <div class="col-md-12">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <textarea type="text" name="{{ input.name }}" id="{{ id }}" class="html-editor">{{ input.value }}</textarea>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'CHECKBOX' %}
+    <div class="col-md-2">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">
+                <input type="checkbox" name="{{ input.name }}" id="{{ id }}" value="1"{{ input.value is not empty and input.value == 1 ? ' checked' : '' }}>
+                {{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}
+            </label>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'RADIO' %}
+    <div class="col-md-12">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div>
+            {% for key,value in property.settings.values %}
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="{{ input.name }}" id="{{ id }}" value="{{ key }}"{{ ((input.value is not empty and input.value==key) or (input.value is empty and loop.first)) ? ' checked' : '' }}>{{ value }}
+                    </label>
+                </div>
+            {% endfor %}
+            </div>
+            {% if attribute(errors, property.name) is defined %} <p class="help-block">{{ attribute(errors, property.name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'DATE' %}
+    <div class="col-md-2">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div class="input-group date datepicker">
+                <input type="text" name="{{ input.name }}" id="{{ id }}" class="form-control" value="{{ input.value }}">
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'DATETIME' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div class="input-group date datetimepicker">
+                <input type="text" name="{{ input.name }}" id="{{ id }}" class="form-control" value="{{ input.value }}">
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'SELECT' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div>
+                <select name="{{ input.name }}" class="form-control" id="{{ id }}">
+                {% for key,value in property.settings.values %}
+                    <option value="{{ key }}"{{ input.value is not empty and input.value==key ? ' selected' : '' }}>{{ value }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'MULTISELECT' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div>
+                <select name="{{ input.name }}[]" class="multiselect-html" id="{{ id }}" multiple="multiple" style="display: none;">
+                    {% for key,value in property.settings.values %}
+                        <option value="{{ key }}"{{ input.value is not empty and input.value is iterable and key in input.value ? ' selected' : '' }}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'MULTICHECKBOX' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div>
+                    {% for key,value in property.settings.values %}
+                        <div><label style="font-weight: normal;"><input name="{{ input.name }}[]" type="checkbox" value="{{ key }}"{{ input.value is not empty and input.value is iterable and key in input.value ? ' checked' : '' }}> {{ value }}</label></div>
+                    {% endfor %}
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'PASSWORD' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label for="{{ id }}" class="control-label">{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="fa fa-unlock-alt"></span>
+                </span>
+                <input type="password" name="{{ input.name }}" id="{{ id }}" class="form-control" value="{{ input.value }}">
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'FILE' %}
+    <div class="col-md-2">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label>{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div>
+                {{ input.value is not empty ? ('<div><a href="'~input.value~'">Загруженный файл</a></div>')|raw : '' }}
+                <label class="btn btn-default btn-file">
+                    <i class="fa fa-cloud-upload"></i>&nbsp;<span>Выбрать</span> <input type="file" name="{{ input.name }}" style="display: none;">
+                </label>
+                {{ input.value is not empty ? ('<label><input type="checkbox" name="'~input.name~'" value="delete"> удалить файл</label>')|raw : '' }}
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% elseif property.kind == 'PHOTO' %}
+    <div class="col-md-3">
+        <div class="form-group{{ attribute(errors, name) is defined ? ' has-error' : '' }}">
+            <label>{{ property.settings.interface.required > 0 ? '<i class="fa fa-warning text-danger" title="Required field"></i> ' : '' }}{{ property.label }}</label>
+            <div>
+                <label class="btn btn-default btn-file">
+                    {{ input.value is not empty ? ('<div class="photo-preview"><img src="'~input.value~'" width="200"></div>')|raw : '' }}
+                    <i class="fa fa-image"></i>&nbsp;<span>Выбрать</span> <input type="file" class="file-photo" name="{{ input.name }}" accept="image/*" style="display: none;">
+                </label>
+                {{ input.value is not empty ? ('<label><input type="checkbox" name="'~input.name~'" value="delete"> удалить файл</label>')|raw : '' }}
+            </div>
+            {% if attribute(errors, name) is defined %} <p class="help-block">{{ attribute(errors, name) }}</p>{% endif %}
+        </div>
+    </div>
+{% endif %}

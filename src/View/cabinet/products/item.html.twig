@@ -1,0 +1,17 @@
+<div class="item radius">
+    <a href="{{ product.url() }}" class="item__img">
+        <img src="{{ product.previewImage() }}" alt="img-35.jpg">
+    </a>
+    <a href="{{ product.url() }}" class="item__down">
+        <h4>{{ product.name }}</h4>
+        <span class="brand">{{ product.shop.name }}</span>
+        <div class="item__price">
+            {% if product.price_old is not empty %}
+                <span class="old--price">{{ product.price_old|number_format(0, '', ' ') }} ₸</span>
+            {% endif %}
+            <span class="price">{{ product.price|number_format(0, '', ' ') }} ₸</span>
+        </div>
+    </a>
+    <a href="/{{ lang }}/cabinet/products/edit/{{ product.id }}" class="edit"></a>
+    <a href="#" class="del open--modal delete-product-event" onclick="return confirm('Вы уверены?')" data-id="{{ product.id }}" data-modal="#modal--edit"></a>
+</div>

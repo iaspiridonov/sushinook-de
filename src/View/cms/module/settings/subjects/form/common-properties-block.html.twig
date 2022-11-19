@@ -1,0 +1,7 @@
+{% if properties is not empty %}
+        {% for view in properties %}
+            <div class="row">
+            {{ view|raw }}
+            </div>
+        {% endfor %}
+{% endif %}

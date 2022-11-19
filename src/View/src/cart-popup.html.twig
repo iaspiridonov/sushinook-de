@@ -1,0 +1,114 @@
+{% if cart is empty and combo is empty and halfpizza is empty %}
+  <img class="lazy img--cover" src="/img/modal-img.png" style="">
+  <p>Mindestbestellwert für die Lieferung - 25 EUR</p>
+{% endif %}
+{% if combo is defined %}
+{% for id,item in combo %}
+  {% if item.total is defined %}
+  <!-- item -->
+  <div class="item cart-popup-item" data-role="item" data-id="{{ id }}" data-type="combo">
+    <input type="hidden" name="count" value="{{ item.count }}" />
+    <input type="hidden" name="price" value="{{ item.total }}" />
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="img">
+          <div class="img--centered orange" data-role="lazyimg">
+            <img data-src="{{ item.image }}" class="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="title">{{ item.name }}</div>
+        <div class="in">
+          <div class="count">
+            <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+              <i class="icon icon-minus"></i>
+            </button>
+            <div class="value text--center" data-output="count"></div>
+            <button type="button" class="btn btn--calc btn--plus" data-button="plus">
+              <i class="icon icon-plus"></i>
+            </button>
+          </div>
+          <div class="price"><span data-output="amount"></span> EUR</div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn--unstyled btn--remove comboRemove" data-id="{{ id }}" data-button="remove">
+      <i class="icon icon-remove"></i>
+    </button>
+  </div><!-- /item -->
+  {% endif %}
+{% endfor %}
+{% endif %}
+{% if halfpizza is defined %}
+{% for id,item in halfpizza %}
+  {% if item.price is defined %}
+    <!-- item -->
+    <div class="item cart-popup-item" data-role="item" data-id="{{ id }}" data-type="half">
+      <input type="hidden" name="count" value="{{ item.count }}" />
+      <input type="hidden" name="price" value="{{ item.price }}" />
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4">
+          <div class="img">
+            <div class="img--centered orange" data-role="lazyimg">
+              <img data-src="/uploads/images/2020/08/28/f_f741908772f3675dd31d50b2d46a47f1593f0c7f.jpg" class="lazy" />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8">
+          <div class="title">Пицца из половинок {{ item.left }} + {{ item.right }}</div>
+          <div class="in">
+            <div class="count">
+              <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+                <i class="icon icon-minus"></i>
+              </button>
+              <div class="value text--center" data-output="count"></div>
+              <button type="button" class="btn btn--calc btn--plus" data-button="plus">
+                <i class="icon icon-plus"></i>
+              </button>
+            </div>
+            <div class="price"><span data-output="amount"></span> EUR</div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn--unstyled btn--remove halfPizzaRemove" data-id="{{ id }}" data-button="remove">
+        <i class="icon icon-remove"></i>
+      </button>
+    </div><!-- /item -->
+  {% endif %}
+{% endfor %}
+{% endif %}
+{% for cartID,item in cart %}
+  <!-- item -->
+  <div class="item cart-popup-item" data-role="item" data-id="{{ cartID }}" data-type="prod">
+    <input type="hidden" name="count" value="{{ item.count }}" />
+    <input type="hidden" name="price" value="{{ item.price is defined ? item.price : '' }}" />
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="img">
+          <div class="img--centered orange" data-role="lazyimg">
+            <img data-src="{{ item.image is defined ? item.image : '' }}" class="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="title">{{ item.name is defined ? item.name : '' }}</div>
+        <div class="in">
+          <div class="count">
+            <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+              <i class="icon icon-minus"></i>
+            </button>
+            <div class="value text--center"><span data-id="{{ cartID }}" data-output="count"></span></div>
+            <button type="button" class="btn btn--calc btn--plus" data-button="plus">
+              <i class="icon icon-plus"></i>
+            </button>
+          </div>
+          <div class="price"><span data-output="amount"></span> EUR</div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn--unstyled btn--remove cartRemove" data-id="{{ cartID }}" data-button="remove">
+      <i class="icon icon-remove"></i>
+    </button>
+  </div><!-- /item -->
+{% endfor %}

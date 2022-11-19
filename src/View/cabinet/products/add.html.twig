@@ -1,0 +1,101 @@
+{% extends 'cabinet/layout.html.twig' %}
+
+{% block cabinet_content %}
+<div class="right">
+    <form onsubmit="return sendFormWithAjax(this, '#success-save-profile', true);" class="row">
+        <div class="col">
+            <span class="inp--title">Название <span class="star">*</span></span>
+            <input name="name" {% if product is defined %} value="{{ product.name }}" {% endif %} type="text" placeholder="Введите название" required="required">
+        </div>
+        <div class="col">
+            <span class="inp--title">Категория в каталоге <span class="star">*</span></span>
+            <select name="category" class="dropdown" required="required">
+                <option value="0" data-placeholder>Выберите категорию</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if product is defined and product.parent.id == category.id %} selected {% endif %}>{{ category.name }}</option>
+                    {% for subCat in category.categories %}
+                        <option value="{{ subCat.id }}" {% if product is defined and product.parent.id == subCat.id %} selected {% endif %}>{{ category.name }} &#8594; {{ subCat.name }}</option>
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <div class="cabinet__price">
+                <div class="col">
+                    <span class="inp--title">Цена</span>
+                    <input name="price" {% if product is defined %} value="{{ product.price }}" {% endif %} type="text" class="input-n" placeholder="Введите сумму">
+                </div>
+                <div class="col">
+                    <span class="inp--title">Цена со скидкой</span>
+                    <input name="price_discount" {% if product is defined %} value="{{ product.price_old }}" {% endif %} type="text" class="input-n" placeholder="Введите сумму">
+                </div>
+            </div>
+        </div>
+        <div class="col file-cont">
+            <span class="inp--title">Фото</span>
+            <div class="add-foto">
+                <div class="file">
+                    <div class="file--upload">
+                        <label>
+                            <input name="images[]" type="file" >
+                            <span class="filename">Загрузить фото</span>
+                        </label>
+                    </div>
+                </div>
+                <span>Форматы: JPG, GIF и PNG <br> Максимальный размер: 10 мб</span>
+            </div>
+            <a href="#" class="add--more add--files">+ Добавить файл</a>
+        </div>
+        <div class="col w">
+            <div class="check__block">
+                <span class="inp--title">Метки у товаров:</span>
+                <label class="check">
+                    <input name="sale" type="checkbox" {% if product is defined and product.sale %} checked {% endif %}>
+                    <div class="stiker">
+                        <span class="orange">акция</span>
+                    </div>
+                </label>
+                <label class="check">
+                    <input name="novetly" type="checkbox" {% if product is defined and product.novetly %} checked {% endif %}>
+                    <div class="stiker">
+                        <span class="green">Новинка</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="col w">
+            <span class="inp--title">Описание</span>
+            <textarea name="description"  rows="8" placeholder="Текст описания товара">{% if product is defined %} {{ product.description }} {% endif %}</textarea>
+        </div>
+        <div class="col w">
+            <span class="inp--title">Характеристики</span>
+            <div class="cabinet__table radius">
+                {% if product is defined %}
+                    {% for item in product.characteristics %}
+                        <div class="row">
+                            <div class="table__col"><input name="characteristics[name][]" value="{{ item.name }}" type="text" placeholder="Характеристики товара"></div>
+                            <div class="table__col"><input name="characteristics[value][]" value="{{ item.value }}" type="text" placeholder="Характеристики товара"></div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="row">
+                    <div class="table__col"><input name="characteristics[name][]" type="text" placeholder="Характеристики товара"></div>
+                    <div class="table__col"><input name="characteristics[value][]" type="text" placeholder="Характеристики товара"></div>
+                </div>
+                <div class="row">
+                    <div class="table__col"><input name="characteristics[name][]" type="text" placeholder="Характеристики товара"></div>
+                    <div class="table__col"><input name="characteristics[value][]" type="text" placeholder="Характеристики товара"></div>
+                </div>
+                <div class="row copy">
+                    <div class="table__col"><input name="characteristics[name][]" type="text" placeholder="Характеристики товара"></div>
+                    <div class="table__col"><input name="characteristics[value][]" type="text" placeholder="Характеристики товара"></div>
+                </div>
+                <a href="#" class="add--more">+ Добавить больше характеристик</a>
+            </div>
+        </div>
+        <div class="col">
+            <input type="submit" class="btn"  value="Сохранить">
+        </div>
+    </form>
+</div>
+{% endblock %}

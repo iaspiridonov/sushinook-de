@@ -1,0 +1,67 @@
+<div class="catalog-item-addons ingridientsAdd" data-id="{{ item.id }}" data-price="{{ item.price }}" >
+	<!-- <div class="title text--ellipsis">{{ item.name }}</div> -->
+	<!-- <button type="button" class="btn btn--primary btn--block text--left IngAddBtn IngHideBtn" data-id="{{ item.id }}">
+	  <i class="icon icon-plus"></i> Добавить в пиццу <sup>0</sup>
+	</button> -->
+	<p class="add_title">Добавить в пиццу</p>
+	<div class="catalog-addon-list ing_scroll" data-role="scroll">
+		<div class="row block-in additionalIng" data-id="{{ item.id }}">
+			{% for ing in item.addIngridients %}
+			  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="catalog-addon text--center ingBlock" data-id="{{ item.id }}"
+                {% for price in ing.prices %}
+                	{{ '25' in price.name ? 'data-price-25=' ~ price.value ~ ' data-price=' ~ price.value : '' }}
+                	{{ '30' in price.name ? 'data-price-30=' ~ price.value : '' }}
+                	{{ '35' in price.name ? 'data-price-35=' ~ price.value : '' }}
+                {% endfor %}
+                data-active="false">
+                  <input type="hidden" name="ingPrice" value="{{ ing.price }}">
+                  <input type="checkbox" id="addon-{{ item.id }}+{{ ing.id }}" data-name="{{ ing.name }}" />
+                  <label for="addon-{{ item.id }}+{{ ing.id }}">
+                    <div class="addon-img">
+                      <div class="img--centered orange" data-role="lazyimg" >
+                        <img data-src="{{ ing.image }}" class="lazy" />
+                      </div>
+                    </div>
+                    <div class="addon-title text--ellipsis">{{ ing.name }}</div>
+                    <div class="addon-value">{{ ing.price/100 }} EUR</div>
+                  </label>
+                </div>
+              </div>
+			{% endfor %}
+		</div>
+	</div>
+	<!-- <button type="button" class="btn btn--gray btn--block text--left popupToggle" {{ item.removeIngridients is empty ? 'style="display:none;' : '' }} data-id="{{ item.id }}" data-class="ingridientsRemove">
+	  <i class="icon icon-minus"></i> Убрать ингредиент </button> -->
+	<!-- <button type="button" class="btn btn--black btn--block" data-button="toggle"> Вернуться к выбору </button> -->
+</div>
+
+<div class="catalog-item-addons ingridientsRemove" data-id="{{ item.id }}" style="display:none;">
+	<div class="title text--ellipsis">{{ item.name }}</div>
+	<button type="button" class="btn btn--primary btn--block text--left IngRemoveBtn IngHideBtn" data-id="{{ item.id }}">
+	  <i class="icon icon-minus"></i> Убрать из пиццы <sup>0</sup>
+	</button>
+	<div class="catalog-addon-list">
+		<div class="row block-in additionalIng" data-id="{{ item.id }}">
+			{% for ing in item.removeIngridients %}
+			  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="catalog-addon text--center ingBlock" data-id="{{ item.id }}" data-active="false">
+                  <input type="checkbox" id="addon-{{ item.id }}-{{ ing.id }}" data-name="{{ ing.name }}" />
+                  <label for="addon-{{ item.id }}-{{ ing.id }}">
+                    <div class="addon-img">
+                      <div class="img--centered orange" data-role="lazyimg">
+                        <img data-src="{{ ing.image }}" class="lazy" />
+                      </div>
+                    </div>
+                    <div class="addon-title text--ellipsis">{{ ing.name }}</div>
+                    <div class="addon-value">{{ ing.price/100 }} EUR</div>
+                  </label>
+                </div>
+              </div>
+			{% endfor %}
+		</div>
+	</div>
+	<!-- <button type="button" class="btn btn--gray btn--block text--left popupToggle" {{ item.addIngridients is empty ? 'style="display:none;' : '' }} data-id="{{ item.id }}" data-class="ingridientsAdd">
+	  <i class="icon icon-plus"></i> Добавить ингредиент </button> -->
+	<!-- <button type="button" class="btn btn--black btn--block" data-button="toggle"> Вернуться к выбору </button> -->
+</div>

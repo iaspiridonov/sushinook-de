@@ -1,0 +1,35 @@
+<nav class="nav-main">
+    <ul class="list--unstyled">
+        {% if catalogList is not empty %}
+            {% for cat in catalogList %}
+                {% if cat.cat_id is not empty %}
+                    <li data-role="drop-parent">
+                        <a href="#">
+                            <span>{{ cat.title }}</span><i class="icon icon-toggle visible-xs"></i>
+                        </a>
+                        <div class="nav-drop" data-role="drop" style="display: none;">
+                            <div class="nav-drop-img hidden-xs">
+                                <img src="{{  cat.image  }}" srcset="{{  cat.image  }} 1x, img/nav-bg-male@2x.png 2x" class="lazy img--cover" />
+                            </div>
+                            <div class="nav-drop-in nav-drop-female">
+                                <ul class="list--unstyled">
+                                    {% for subCat in cat.categories() %}
+                                        <li><a href="{{ subCat.url }}">{{ subCat.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <strong class="hidden-xs">{{ cat.name }}</strong>
+                            </div>
+                        </div>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ cat.url() }}">
+                            <span>{{ cat.title }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+                
+            {% endfor %}
+        {% endif %}
+    </ul>
+</nav><!-- /nav-main -->

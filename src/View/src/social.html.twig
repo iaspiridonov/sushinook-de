@@ -1,0 +1,10 @@
+<h5>{{ title.title }}</h5>
+<ul class="list--inline">
+    {% for soc in socials %}
+      <li>
+        <a href="{{ soc.link }}" class="link--block" target="_blank">
+          <i class="icon fab fa-{{ soc.class }}"></i>
+        </a>
+      </li>
+    {% endfor %}
+</ul>

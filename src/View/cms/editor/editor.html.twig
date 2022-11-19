@@ -1,0 +1,26 @@
+<div class="cms-editor">
+    <ul class="cms-editor-list">
+        <li>
+            <span class="cms-editor-edit" data-type="{{ subject.getType('name') }}" data-id="{{ subject.id }}">
+                <img src="/cms/images/edit.png" alt="">
+            </span>
+        </li>
+        {% if subject.getType().getDirectRelations() is not empty %}
+            <li>
+            <span>
+                <img src="/cms/images/add.png" alt="">
+            </span>
+                <ul>
+                    {% for relation in subject.getType().getDirectRelations() %}
+                        <li class="cms-editor-add" data-id="{{ subject.id }}" data-parent-type="{{ subject.getType('name') }}" data-type="{{ relation.settings['is'] }}" data-relation="{{ relation.name }}">{{ relation.label }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+        <li class="cms-editor-remove" data-type="{{ subject.getType('name') }}" data-id="{{ subject.id }}">
+            <span>
+                <img src="/cms/images/remove.png" alt="">
+            </span>
+        </li>
+    </ul>
+</div>

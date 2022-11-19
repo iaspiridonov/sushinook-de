@@ -1,0 +1,17 @@
+{% extends 'cabinet/layout.html.twig' %}
+
+{% block cabinet_content %}
+<form onsubmit="return sendFormWithAjax(this, '#success-save-profile');" class="right">
+    <div class="row">
+        <div class="col w">
+            <span class="inp--title">Название</span>
+            <input name="name" value="{{ user.news_name }}" type="text" placeholder="Введите название" required="required">
+        </div> 
+        <div class="col w">
+            <span class="inp--title">Текст новости</span>
+            <textarea name="text" rows="5" placeholder="Текст новости" required="required">{{ user.news_text }}</textarea>
+        </div>
+    </div>
+    <input type="submit" class="btn" value="Сохранить">
+</form>
+{% endblock %}

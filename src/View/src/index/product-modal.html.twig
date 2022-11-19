@@ -1,0 +1,70 @@
+<div class="modal-dialog modal-dialog-centered long_modal2" role="document">
+  <div class="modal-content">
+    <div class="modal-body">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        <div class="modal_flex">
+          <div class="modal_left">
+            <div class="modal_img">
+              <div class="img--centered img" data-role="lazyimg">
+                {% set blockID = s.blockID|replace({'-block':''}) %}
+                <img data-src="{{ item.image ? item.image : '/img/noimage/' ~ blockID ~ '.svg' }}" class="lazy full_img" />
+              </div>
+            </div>
+          </div>
+          <div class="modal_right">
+            <div class="catalog-item-in">
+                  <div class="catalog-item-title">{{ item.name }}</div>
+                  <div class="catalog-item-meta text--gray"><span class="pizzaSize">30</span> см, <span class="pizzaType">традиционное</span> тесто</div>
+            </div>
+            <div class="post_ings" data-id="{{ item.id }}">
+              {% for ing in item.removeIngridients.sortBy('sort') %}
+                <div class="post_ing"><span>{{ ing.name }}</span> <i class="fa fa-times ingRemove" data-name="{{ ing.name }}" data-id="{{ ing.id }}"></i>{{ loop.index < loop.length ? ',' : '' }}</div>
+              {% endfor %}
+              {{ item.description }}
+            </div>
+            <div class="modal_items">
+              {% if s.hasAdditional == 1 %}
+                  <div class="catalog-item-sizes">
+                    <input type="radio" data-size="25" data-price="{{ item.pizzaPriceSmall }}" name="size-{{ item.id }}" id="size-{{ item.id }}-1" /> <label for="size-{{ item.id }}-1">25 см</label>
+                    <input type="radio" data-size="30" data-price="{{ item.price }}" name="size-{{ item.id }}" id="size-{{ item.id }}-2" checked /> <label for="size-{{ item.id }}-2">30 см</label>
+                    <input type="radio" data-size="35" data-price="{{ item.pizzaPriceBig }}" name="size-{{ item.id }}" id="size-{{ item.id }}-3" /> <label for="size-{{ item.id }}-3">35 см</label>
+                  </div>
+                  <div class="catalog-item-types">
+                    <input type="radio" name="type-{{ item.id }}" id="types-{{ item.id }}-1" checked />
+                    <label for="types-{{ item.id }}-1">Традиционное</label>
+                    <input type="radio" name="type-{{ item.id }}" id="types-{{ item.id }}-2" />
+                    <label for="types-{{ item.id }}-2">Тонкое</label>
+                  </div>
+                  <div class="catalog-item-add text--center">
+                    {% if item.addIngridients is not empty or item.removeIngridients is not empty %}
+                      {% include 'src/index/ingridients.html.twig' %}
+                      <!-- <a href="#" data-button="toggle">Дополнить</a> -->
+                    {% endif %}
+                  </div>
+                {% endif %}
+                <div class="btn_flex_box">
+                  <div class="catalog-item-controls w-left">
+                    <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+                      <i class="icon icon-minus"></i>
+                    </button>
+                    <div class="value text--center">
+                      <span class="text--gray"><span class="prodCount" data-output="count" data-id="{{ item.id }}">1</span> x </span><b><span data-output="amount"></span> EUR</b>
+                    </div>
+                    <button type="button" class="btn btn--calc btn--plus" data-button="plus">
+                      <i class="icon icon-plus"></i>
+                    </button>
+                  </div>
+                  <div class="catalog-item-button w-right">
+                    <button type="button" class="btn btn--primary btn--block cartAdd" data-id="{{ item.id }}"> In den Warenkorb </button>
+                  </div>
+                </div>
+                <input type="hidden" name="price" value="{{ item.price }}" />
+                <input type="hidden" name="count" value="1" />
+            </div> 
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+
+.btn--primary[disabled] {
+    background-color: gray;
+    border-color: gray;
+}
+
+.form--cart .btn--submit {
+    width: 13rem;
+}
+
+.header-logo {
+    top: 0.6rem;
+}
+
+.catalog-item-amount [class^=col-]:first-child {
+    width: 40%;
+}
+
+.catalog-item-amount [class^=col-]:nth-child(2) {
+    width: 60%;
+}
+
+.header .nav-contacts .icon {
+    left: -18px;
+}
+
+.img--contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -o-object-fit: contain;
+}
+
+
+.header-logo-small {
+    display: none;
+}
+
+.nav-schedule {
+    font-size: 10px;
+}
+
+input[type=checkbox], input[type=radio] {
+    display: block;
+    opacity: 0;
+    position: absolute;
+}
+
+@media (min-width: 769px) {
+    .header--fixed .header-logo-small {
+        margin-right: 1.5rem;
+    }
+}
+
+@media (max-width: 768.9px) {
+    .nav-delivery .icon {
+        left: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    .header-logo-small {
+        width: 8rem;
+        display: inline-block;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .nav-schedule {
+        font-size: 14px;
+    }
+
+    .nav-main li {
+        padding: 0 1rem;
+    }
+}

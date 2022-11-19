@@ -1,0 +1,9 @@
+<i class="icon fas fa-phone-alt text--orange"></i>
+<b>
+{% for num in phones|split("\n") %}
+  <a href="tel:{{num|replace({' ': ''})}}">{{ num }}</a>
+  {% if count > 1 and loop.index == 1 %}
+    <span class="hidden-xs"> / </span><br class="visible-xs" />
+  {% endif %}
+{% endfor %}
+</b>

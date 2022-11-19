@@ -1,0 +1,85 @@
+<fieldset id="{{ form.getId() }}-fieldset">
+{% if edit is defined %}
+    <input type="hidden" name="subject{{ form.getPrefixString() }}[{{ form.getType('name') }}][id]" value="{{ edit.id }}">
+{% endif %}
+
+{% set commonProperties = [] %}
+{% set translatableProperties = {} %}
+
+{% for attribute in properties %}
+
+    {% set name = attribute.name %}
+
+    {% if attribute.isProperty() %}
+
+        {% set property = attribute %}
+
+        {% if property.isTranslatable() %}
+
+            {% if commonProperties is not empty %}
+                {% include 'cms/module/settings/subjects/form/common-properties-block.html.twig' with {'properties':commonProperties} %}
+                {% set commonProperties = [] %}
+            {% endif %}
+
+            {% for locale in Locale.getLocales %}
+
+                {% set input = {
+                    'name':'subject'~form.getPrefixString()~'['~form.getType('name')~']['~property.getColumnName(locale)~']',
+                    'value':(attribute(old, property.getColumnName(locale)) is defined ? attribute(old, property.getColumnName(locale)) : (edit is defined and property.kind != 'PASSWORD' ? attribute(edit, property.getColumnName(locale)) : null))
+                } %}
+
+                {% set html = include('cms/module/settings/subjects/form/builder-property.html.twig', {'locale':locale, 'property':property, 'name':property.getColumnName(locale), 'input':input, 'errors':errors}) %}
+
+                {% if attribute(translatableProperties, locale) is not defined %}
+                    {% set translatableProperties = translatableProperties|merge({(locale):[]}) %}
+                {% endif %}
+
+                {% set translatableProperties = translatableProperties|merge({(locale):attribute(translatableProperties, locale)|merge([html])}) %}
+
+            {% endfor %}
+
+        {% else %}
+
+            {% if translatableProperties is not empty %}
+                {% include 'cms/module/settings/subjects/form/translatable-properties-block.html.twig' with {'properties':translatableProperties} %}
+                {% set translatableProperties = {} %}
+            {% endif %}
+
+            {% set input = {
+                'name':'subject'~form.getPrefixString()~'['~form.getType('name')~']['~property.name~']',
+                'value':(attribute(old, name) is defined ? attribute(old, name) : (attribute(edit, name) is defined and property.kind != 'PASSWORD' ? attribute(edit, name) : null))
+            } %}
+
+            {% set html = include('cms/module/settings/subjects/form/builder-property.html.twig', {'locale':null, 'property':property, 'name':name, 'input':input, 'errors':errors}) %}
+
+            {% set commonProperties = commonProperties|merge([html]) %}
+        {% endif %}
+    {% elseif attribute.isRelation() %}
+
+        {% if commonProperties is not empty %}
+            {% include 'cms/module/settings/subjects/form/common-properties-block.html.twig' with {'properties':commonProperties} %}
+            {% set commonProperties = [] %}
+        {% elseif translatableProperties is not empty %}
+            {% include 'cms/module/settings/subjects/form/translatable-properties-block.html.twig' with {'properties':translatableProperties} %}
+            {% set translatableProperties = {} %}
+        {% endif %}
+
+        {% set relation = attribute %}
+
+        {% if relation.isDirectRelation() %}
+            {% if relation.isFactory() %}
+                {% include 'cms/module/settings/subjects/form/builder-direct-relation-factory.html.twig' with {'relation':relation} %}
+            {% else %}
+                {% include 'cms/module/settings/subjects/form/builder-direct-relation.html.twig' with {'relation':relation} %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+{% endfor %}
+
+{% if translatableProperties is not empty %}
+    {% include 'cms/module/settings/subjects/form/translatable-properties-block.html.twig' with {'properties':translatableProperties} %}
+{% else %}
+    {% include 'cms/module/settings/subjects/form/common-properties-block.html.twig' with {'properties':commonProperties} %}
+{% endif %}
+</fieldset>

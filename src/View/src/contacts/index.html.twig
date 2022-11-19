@@ -1,0 +1,83 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<!-- .content -->
+<main class="content">
+  <!-- breadcrumbs -->
+  <div class="breadcrumbs">
+    <div class="container">
+      <ul class="list--inline">
+        <li>
+          <a href="/{{ lang }}/">{{ Translation.of('Main') }}</a> <i class="icon fa fa-chevron-right"></i>
+        </li>
+        <li>{{ contacts.name }}</li>
+      </ul>
+    </div>
+  </div><!-- /breadcrumbs -->
+  <!-- section-contacts -->
+  <section class="section s--contacts">
+    <div class="container">
+      <div class="s-title contacts-title">
+        <h1 class="title-1">{{ contacts.name }}</h1>
+      </div>
+      <div class="s-content contacts-content">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-11">
+            <h5>Telefon:</h5>
+            {% include '/src/contacts/phones.html.twig' %}
+            <h5 style="margin-top: 1rem;">Arbeitszeiten:</h5>
+            <b>{{ contacts.schedule }}</b>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-7 col-lg-offset-0 col-md-offset-0 col-sm-offset-5">
+            <h5>Fragen, Feedback und Anregungen:</h5>
+            <a href="mailto:{{ contacts.email }}"><b>{{ contacts.email }}</b></a>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-7 col-lg-offset-0 col-md-offset-0 col-sm-offset-5">
+            <!-- nav-social -->
+            <div class="nav-social">
+              {{ socials|raw }}
+            </div><!-- /nav-social -->
+          </div>
+        </div>
+      </div>
+      <!-- items-list -->
+      <div class="items-list contacts-list">
+        <div class="block-in">
+          {% for item in branch %}
+              <!-- item -->
+              <div class="item contacts-item">
+                <div class="title">
+                  <b>{{ item.name }}</b>
+                </div>
+                <div class="time text--gray"> {{ item.deliverytime }} <a href="#" class="info" title="{{ item.hint }}">i</a>
+                </div>
+                <div class="table">
+                  <table>
+                    <thead>
+                      <tr>
+                        {{ item.address ? '<th>Adresse:</th>' : '' }}
+                        {{ item.deliveryschedule ? '<th>Lieferung und Abholung:</th>' : '' }}
+                        {{ item.restarauntschedule ? '<th>Restaurant:</th>' : '' }}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{ item.address ? item.address : '' }}</td>
+                        <td>{{ item.deliveryschedule ? item.deliveryschedule : '' }}</td>
+                        <td>{{ item.restarauntschedule ? item.restarauntschedule : '' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div><!-- /item -->
+          {% endfor %}
+        </div>
+      </div><!-- /contacts-list -->
+      <!-- form-feedback -->
+    </div>
+  </section><!-- /section-contacts -->
+</main><!-- /.content -->
+{% endblock %}
+{% block other_scripts %}
+
+{% endblock %}

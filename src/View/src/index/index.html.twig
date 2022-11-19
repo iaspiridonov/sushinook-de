@@ -1,0 +1,61 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+	<!-- .content -->
+        <span id="this_index"></span>
+        <main class="content">
+          <!-- section-promo -->
+          {% if slides is not empty %}
+            <section class="section s--promo" data-role="promo">
+              <!-- items-list -->
+              <div class="items-list swiper-container home_slider" data-role="slider">
+                <div class="block-in swiper-wrapper">
+                  {% for item in slides %}
+                    <!-- slide -->
+                    <div class="slide promo-slide swiper-slide">
+                      <div class="img orange hidden-xs" data-role="lazyimg">
+                        <img data-src="{{ item.image }}" class=" slider_img hidden-xs lazy" />
+                      </div>
+                      <div class="img orange visible-xs" data-role="lazyimg">
+                        <img data-src="{{ item.image_phone }}" class=" img--cover visible-xs lazy" />
+                      </div>
+                      <div class="in">
+                        <div class="title text--white">{{ item.text|raw }}</div>
+                        {{ item.cost ? '<div class="price text--orange">' ~ item.cost/100 ~ '<small>EUR</small> </div>' : '' }}
+                      </div>
+                    </div><!-- /slide -->
+                  {% endfor %}
+                </div>
+              </div><!-- /items-list -->
+              <div class="promo-controls hidden-xs">
+                <button type="button" class="btn--unstyled promo--prev">
+                  <i class="icon fa fa-chevron-left"></i>
+                </button>
+                <button type="button" class="btn--unstyled promo--next">
+                  <i class="icon fa fa-chevron-right"></i>
+                </button>
+              </div>
+              <div class="promo-pager"></div>
+            </section><!-- /section-promo -->
+            {% endif %}
+          <div class="mobile-fixed visible-xs">
+            <nav class="nav-fixed new_flex">
+              <a href="#" class="sm_logo"><img src="/img/logo.png"></a>
+              {{ header.menu|raw }}
+            </nav><!-- /nav-main -->
+          </div>
+          {% include 'src/index/combo.html.twig' %}
+          {% include 'src/index/products.html.twig' %}
+          <!-- section-delivery -->
+          <section class="section s--delivery" data-role="delivery">
+            <div class="container">
+              <div class="s-title delivery-title">
+                <h1 class="title-h">{{ text.name }}</h1>
+              </div>
+              <div class="s-content delivery-content clearfix">
+                {{ text.text|raw }}
+              </div>
+            </div>
+          </section><!-- /section-delivery -->
+        </main><!-- /.content -->
+{% endblock %}

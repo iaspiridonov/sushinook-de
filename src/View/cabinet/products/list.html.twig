@@ -1,0 +1,11 @@
+{% extends 'cabinet/layout.html.twig' %}
+
+{% block cabinet_content %}
+<div class="cat__items">
+    {% for product in products %}
+        {% include 'cabinet/products/item.html.twig' %}
+    {% endfor %}
+
+    {{ products.pagination() is defined ? products.pagination().render('src/common/pagination')|raw : '' }}
+</div>
+{% endblock %}

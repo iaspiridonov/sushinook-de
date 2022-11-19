@@ -1,0 +1,55 @@
+{% extends 'cms/layout/blank.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ Locale }}/cms/settings">{#<i id="logo-icon" class="fa fa-heart text-danger"></i> #}Artmedia Order Manager</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <!--<img class="img-rounded" style="margin-top: -3px;" src="/img/1.jpg" width="20" height="20"> --> {{ Auth.user().name }}  <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        {#<li>
+                            <a href="{{ Locale }}/cms/profile">
+                                <span class="fa fa-user fa-fw"></span> {{ Translation.of('Profile', 'cms') }}
+                            </a>
+                        </li>#}
+                        <li>
+                            <a href="{{ Locale }}/cms/change-password" target="_blank" {# data-toggle="modal" data-target="#change-user-password"#}>
+                                <span class="fa fa-key fa-fw"></span> {{ Translation.of('Change password', 'cms/auth') }}
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{ Locale }}/cms/logout" onclick="return confirm('Are you shure?')">
+                                <span class="fa fa-sign-out fa-fw"></span> {{ Translation.of('Exit', 'cms/auth') }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                </ul>
+            </div><!--/.navbar-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+        {% if alerts is defined %}
+            {% for alertType,alertMessage in alerts %}
+                <div class="alert alert-{{ alertType }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
+                    <div>{{ alertMessage|raw }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div><!-- /.container -->
+{% endblock %}

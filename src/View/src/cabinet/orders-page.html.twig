@@ -1,0 +1,55 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<!-- .content -->
+<main class="content">
+  <!-- breadcrumbs -->
+  <div class="breadcrumbs">
+    <div class="container">
+      <ul class="list--inline">
+        <li>
+          <a href="/{{ lang }}/">{{ Translation.of('Main') }}</a> <i class="icon fa fa-chevron-right"></i>
+        </li>
+        <li>Личный кабинет</li>
+      </ul>
+    </div>
+  </div><!-- /breadcrumbs -->
+  <!-- section-cabinet -->
+  <section class="section s--cabinet">
+    <div class="container">
+      <div class="s-title cabinet-title">
+        <h1 class="title-1">Личный кабинет</h1>
+      </div>
+      <div class="s-content cabinet-content">
+        <div class="row">
+          <div class="col-lg-4 col-md-3 col-sm-4">
+            <div class="s-sidebar cabinet-sidebar">
+              <div class="s-nav cabinet-nav">
+                <ul class="list--unstyled" role="tablist">
+                  <li role="presentation">
+                    <a href="#cabinet-tab-1" aria-controls="cabinet-tab-1" role="tab" data-toggle="tab">Личные данные</a>
+                  </li>
+                  <li role="presentation">
+                    <a href="#cabinet-tab-2" aria-controls="cabinet-tab-2" role="tab" data-toggle="tab">Пароль</a>
+                  </li>
+                  <li role="presentation" class="active">
+                    <a href="/{{ lang }}/cabinet/orders">История заказов</a>
+                  </li>
+                  <li>
+                    <a href="#" class="logOut">Выйти</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-9 col-sm-8">
+            {% include('/src/cabinet/orders.html.twig') %}
+            {% include('/src/cabinet/profile.html.twig') %}
+            {% include('/src/cabinet/pass.html.twig') %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- /section-cabinet -->
+</main><!-- /.content -->
+{% endblock %}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="{% block keywords %}{{ seo.keywords is defined ? seo.keywords : 'Johnny Pizza' }}{% endblock %}">
+	<meta name="description" content="{% block description %}{{ seo.description is defined ? seo.description : 'Johnny Pizza' }}{% endblock %}">
+	<title>{% block title %}{{ seo.title is defined ? seo.title : 'Sushi\'s Nook' }}{% endblock %}</title>
+  <!-- Facebook Pixel Code -->
+{#  <script>#}
+{#  !function(f,b,e,v,n,t,s)#}
+{#  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
+{#  n.callMethod.apply(n,arguments):n.queue.push(arguments)};#}
+{#  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';#}
+{#  n.queue=[];t=b.createElement(e);t.async=!0;#}
+{#  t.src=v;s=b.getElementsByTagName(e)[0];#}
+{#  s.parentNode.insertBefore(t,s)}(window, document,'script',#}
+{#  'https://connect.facebook.net/en_US/fbevents.js');#}
+{#  fbq('init', '734204537472084');#}
+{#  fbq('track', 'PageView');#}
+{#  </script>#}
+{#  <noscript><img height="1" width="1" style="display:none"#}
+{#  src="https://www.facebook.com/tr?id=734204537472084&ev=PageView&noscript=1"#}
+{#  /></noscript>#}
+  <!-- End Facebook Pixel Code -->
+  <!-- Yandex.Metrika counter -->
+{#  <script type="text/javascript" >#}
+{#     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};#}
+{#     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})#}
+{#     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");#}
+
+{#     ym(68484895, "init", {#}
+{#          clickmap:true,#}
+{#          trackLinks:true,#}
+{#          accurateTrackBounce:true,#}
+{#          webvisor:true#}
+{#     });#}
+{#  </script>#}
+{#  <noscript><div><img src="https://mc.yandex.ru/watch/68484895" style="position:absolute; left:-9999px;" alt="" /></div></noscript>#}
+  <!-- /Yandex.Metrika counter -->
+{#  <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?168",t.onload=function(){VK.Retargeting.Init("VK-RTRG-536157-azuWC"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-536157-azuWC" style="position:fixed; left:-999px;" alt=""/></noscript>#}
+	<meta name="HandheldFriendly" content="true">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="x-dns-prefetch-control" content="off">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="/img/favicon/favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/img/favicon/favicon.png" type="image/x-icon" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <!-- set page scale -->
+    <script type="text/javascript">
+      var original = {
+        phone: 414,
+        tablet: 769
+      };
+
+      function getScale()
+      {
+        var vh = window["innerHeight"] * .01;
+        var width = window["innerWidth"] || document["documentElement"]["clientWidth"] || document["body"]["clientWidth"];
+        var scale = width * 16 / original["phone"];
+        if (width < original["tablet"])
+        {
+          document["documentElement"]["style"].setProperty("font-size", scale + "px");
+          document["documentElement"]["style"].setProperty("--vh", vh + "px");
+        }
+        else
+        {
+          document["documentElement"]["style"].removeProperty("--vh");
+          document["documentElement"]["style"].removeProperty("font-size");
+        }
+      };
+      
+      // var el = document["documentElement"];
+      // el.addEventListener("touchstart", handleStart, false);
+      // el.addEventListener("touchend", handleEnd, false);
+      // el.addEventListener("touchcancel", handleCancel, false);
+      // el.addEventListener("touchmove", handleMove, false);
+
+      // var resizeBlock = true;
+      // function handleStart(evt) {
+      //     alert('handleStart');
+      // }
+      // function handleEnd(evt) {
+      //     alert('handleEnd');
+      // }
+      // function handleCancel(evt) {
+      //    alert('handleCancel');
+      // }
+      // function handleMove(evt) {
+      //     alert('handleMove');
+      // }
+      var width2 = window["innerWidth"] || document["documentElement"]["clientWidth"] || document["body"]["clientWidth"];
+      if(width2 > 1000){
+        window.onresize = function(event) { getScale();  };
+      }
+      
+      getScale();
+    </script>
+      <link rel="preload" href="/css/style.min.css" as="font">
+      <link rel="preload" href="/css/dev.min.css" as="font">
+
+      <link rel="stylesheet" href="/css/style.min.css">
+      <link rel="stylesheet" href="/css/dev.min.css">
+      <link rel="stylesheet" href="/css/new.css">
+
+	<script>
+		var lang = '{{ lang }}';
+	</script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-30522755-36"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-30522755-36');
+</script>
+
+<meta name="facebook-domain-verification" content="earm669m490cc4w3nymk28bg8sjnlp" />
+</head>
+<body data-lang="{{ lang }}">
+  <div class="body_wrap">
+{#    <div class="running--line">#}
+{#      <span>#}
+{#        Уважаемые посетители нашего сайта. На данный момент сайт находится в режиме тестирования. Приносим извинения за временные неудобства.#}
+{#      </span>#}
+{#    </div>#}
+  	{% block body_content %}
+  	{% endblock %}
+  </div>
+	<script type="text/javascript">
+      var DEVICE;
+  </script>
+  
+  <script src="/js/interface.js" defer></script>
+  <script src="/js/forms.js" defer></script>
+  <script src="/js/dev.js" defer></script>
+	{% block other_scripts %}
+	{% endblock %}
+
+
+</body>
+</html>

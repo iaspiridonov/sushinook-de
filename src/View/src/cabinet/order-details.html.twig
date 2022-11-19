@@ -1,0 +1,102 @@
+<div role="tabpanel" class="tab-pane fade active in" id="cabinet-tab-3">
+  <!-- order-info -->
+  <div class="order-info">
+    <div class="row">
+      <div class="col-lg-8 col-md-8">
+        <dl>
+          <dt><span>Получатель</span></dt>
+          <dd> {{ account.name }}<br /> {{ account.phone }}<br /> {{ account.email }} </dd>
+          <dt><span>Адрес доставки</span></dt>
+          <dd>{{ account.street }} {{ account.house is not empty ? ', д.' ~ account.house : '' }}</dd>
+        </dl>
+        <b>Bestellpreis: <span class="text--orange">{{ (order.total/100)|number_format(2,'.',' ') }} EUR</span></b>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <a href="#" class="btn btn--primary replyOrder" data-id="{{ order.id }}">Повторить заказ</a>
+      </div>
+    </div>
+  </div><!-- /order-info -->
+  <!-- order-table -->
+  <div class="order-table">
+    <div class="order-table-in">
+      <table>
+        <tbody>
+          {% for item in comboDetails %}
+            <tr>
+              <td>
+                <div class="img">
+                  <div class="img--centered orange" data-role="lazyimg">
+                    <img data-src="{{ item.image }}" class="lazy" />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="title">{{ item.name }}</div>
+                <div class="meta text--gray">{{ item.desc|raw }}</div>
+                {% for title,items in item.details %}
+                  <div class="meta text--gray">{{ title != 'Пиццы' ? title : '' }}</div>
+                  <div class="desc">
+                    <ul>
+                      {% for c in items %}
+                        <li>{{ c }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endfor %}
+                <div class="amount visible-sm">{{ item.count }} x <b>{{ (item.total/100)|number_format(2, '', ' ') }} EUR</b></div>
+              </td>
+              <td class="hidden-sm">
+                <div class="amount">{{ item.count }} x <b>{{ (item.total/100)|number_format(2, '', ' ') }} EUR</b></div>
+              </td>
+            </tr>
+          {% endfor %}
+          {% for item in halfDetails %}
+            <tr>
+              <td>
+                <div class="img">
+                  <div class="img--centered orange" data-role="lazyimg">
+                    <img data-src="/samples/pic-cart-2.png" class="lazy" />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="title">{{ item.left }} + {{ item.right }}</div>
+                <div class="meta text--gray">Большая {{ item.size }} см, {{ item.type }} тесто</div>
+                <div class="amount visible-sm">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }} EUR</b></div>
+              </td>
+              <td class="hidden-sm">
+                <div class="amount">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }} EUR</b></div>
+              </td>
+            </tr>
+          {% endfor %}
+          {% for item in orderDetails %}
+            <tr>
+              <td>
+                <div class="img">
+                  <div class="img--centered orange" data-role="lazyimg">
+                    <img data-src="{{ item.image }}" class="lazy" />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="title">{{ item.name }}</div>
+                <div class="meta text--gray">{{ item.desc }}</div>
+                <div class="desc">
+                  <ul>
+                    <li class="text--green"><b>{{ item.size is not empty ? 'Размер: ' ~ item.size : '' }}</b></li>
+                    <li class="text--green"><b>{{ item.type is not empty ? 'Тесто: ' ~ item.type : '' }}</b></li>
+                    <li class='text--green'><b>{{ item.ingsAdd }}</b></li>
+                  </ul>
+                </div>
+                <div class="amount visible-sm">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }} EUR</b></div>
+              </td>
+              <td class="hidden-sm">
+                <div class="amount">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }} EUR</b></div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div><!-- /order-table -->
+</div>

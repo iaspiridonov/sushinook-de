@@ -1,0 +1,136 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block title %}{{ Translation.of('Types', 'cms/settings') }} &mdash; {{ Translation.of('Settings', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="active"><a href="{{ path.controller }}/type/create" class="btn btn-danger" style="margin-left:-14px;"><i class="fa fa-fw fa-plus"></i>{{ Translation.of('Type', 'cms/settings') }}</a></li>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <table class="table cms-subjects-table">
+            <thead>
+                <tr>
+                    <th class="fit">
+                    </th>
+                    {#<th class="fit">
+                        <i class="fa fa-fw fa-pencil-square-o" title="Inputs"></i>
+                    </th>
+                    <th class="fit">
+                        <i class="fa fa-fw fa-language text-primary" title="Translatable inputs"></i>
+                    <th class="fit">
+                        <i class="fa fa-fw fa-plug text-danger" title="Direct relations"></i>
+                    </th>
+                    <th class="fit">
+                        <i class="fa fa-fw fa-reply text-warning" title="Back relations"></i>
+                    </th>#}
+                    <th class="fit">{{ Translation.of('Name', 'cms/settings') }}</th>
+                    <th>{{ Translation.of('Label', 'cms/settings') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for type in types %}
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu-{{ type.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-{{ type.id }}">
+                                <li>
+                                    <a href="{{ path.controller }}/type/{{ type.name }}/edit">
+                                        <span class="fa fa-pencil"></span> {{ Translation.of('Edit', 'cms/settings') }}
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ path.controller }}/delete-type/{{ type.id }}" onclick="return confirm('{{ Translation.of('Are you shure?', 'cms/settings') }}')">
+                                        <span class="fa fa-trash-o"></span> {{ Translation.of('Delete', 'cms/settings') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    {#<td>
+                        <input type="checkbox">
+                    </td>#}
+                    {#<td>{{ type.getCommonProperties().count() }}</td>
+                    <td>{{ type.getTranslatableProperties().count() }}</td>
+                    <td>{{ type.getDirectRelations().count() }}</td>
+                    <td>{{ type.getBackRelations().count() }}</td>#}
+                    <td>
+                        {{ type.name }}
+                    </td>
+                    <td>
+                        <a href="{{ path.controller }}/subjects/{{ type.name }}">{{ type.label }}</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">{{ Translation.of('There is no any type yet', 'cms/settings') }}.</td>
+                </tr>
+            {% endfor %}
+            {% if related is not empty %}
+                <tr>
+                    <td colspan="7"><a href="#" id="related-toggle">{{ Translation.of('Hidden types', 'cms/settings') }} <i class="fa fa-caret-down"></i></a></td>
+                </tr>
+                </tbody>
+                <tbody id="related-types-block" style="display:none;">
+
+                {% for type in related %}
+                    <tr>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu-{{ type.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu-{{ type.id }}">
+                                    <li>
+                                        <a href="{{ path.controller }}/type/{{ type.name }}/edit">
+                                            <span class="fa fa-pencil"></span> {{ Translation.of('Edit', 'cms/settings') }}
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="{{ path.controller }}/delete-type/{{ type.id }}" onclick="return confirm('{{ Translation.of('Are you shure?', 'cms/settings') }}')">
+                                            <span class="fa fa-trash-o"></span> {{ Translation.of('Delete', 'cms/settings') }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        {#<td>{{ type.getCommonProperties().count() }}</td>
+                        <td>{{ type.getTranslatableProperties().count() }}</td>
+                        <td>{{ type.getDirectRelations().count() }}</td>
+                        <td>{{ type.getBackRelations().count() }}</td>#}
+                        <td>
+                            <span class="text-muted">{{ type.name }}</span>
+                        </td>
+                        <td>
+                            <span class="text-muted">{{ type.label }}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#related-toggle').click(function (link) {
+                var $tbody = $('#related-types-block');
+                var $a = $('#related-toggle');
+
+                if ($tbody.is(':hidden')) {
+                    $tbody.show();//css('display', 'table-row-group');
+                    $a.find('i.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
+                } else {
+                    $tbody.hide();
+                    $a.find('i.fa').removeClass('fa-caret-up').addClass('fa-caret-down');
+                }
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

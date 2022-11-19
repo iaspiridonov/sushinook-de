@@ -1,0 +1,220 @@
+{% extends 'src/blank.html.twig' %}
+
+{% block body_content %}
+	<!-- .wrapper -->
+    
+    <div class="wrapper">
+      <div class="wrapper-in">
+        <div class="header-wrapper">
+          <!-- .header -->
+          <header class="header" data-role="header">
+            <div class="header-mobile visible-xs">
+              <!-- logo -->
+              <a href="/{{ lang }}/" class="link--block header-logo">
+                <img src="/img/logo.png" class="img--cover" />
+              </a><!-- /logo -->
+              <button type="button" class="btn--unstyled btn--nav" data-button="nav">
+                <span></span>
+              </button>
+              <a href="/{{ lang }}/cart/" class="btn btn--primary btn--cart">
+                <i class="icon fas fa-shopping-cart"></i>
+                <span class="count headerRycleCount">{{ header.rycleinfo.totalcount }}</span>
+              </a>
+{#              <a href="#" class="btn btn--gray btn--auth" data-toggle="modal" data-target="#modal--login">#}
+{#                <i class="icon fa fa-user"></i>#}
+{#              </a>#}
+              <div class="nav-mobile" data-role="nav">
+                <div class="nav-mobile-in">
+                  <!-- nav-main -->
+                  <nav class="nav-main">
+                    {{ header.menu|raw }}
+                  </nav><!-- /nav-main -->
+                  <!-- nav-delivery -->
+                  <div class="nav-delivery">
+                    <i class="icon fas fa-map-marker-alt text--orange"></i>
+                    <b>{{ contacts.scheduleTitle }}</b>
+                    <div class="text--gray">{{ contacts.schedule }}</div>
+                  </div><!-- /nav-delivery -->
+                  <!-- nav-contacts -->
+                  <div class="nav-contacts">
+                    {{ header.phones|raw }}
+                    <div class="text--gray">{{ slogan.value }}</div>
+                  </div><!-- /nav-contacts -->
+                </div>
+              </div>
+            </div>
+            <div class="header-sup hidden-xs" data-role="header-sup">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <!-- logo -->
+                    <a href="/{{ lang }}/" class="link--block header-logo">
+                      <img src="/img/logo.png" class="img--cover" />
+                    </a><!-- /logo -->
+                  </div>
+                  <div class="col-lg-3 col-md-3 hidden-sm">
+                    <!-- nav-delivery -->
+                    <div class="nav-delivery">
+                      <i class="icon fas fa-map-marker-alt text--orange"></i>
+                      <b>{{ contacts.scheduleTitle }}</b>
+                      <div class="text--gray nav-schedule">{{ contacts.schedule }}</div>
+                    </div><!-- /nav-delivery -->
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 h_logo">
+                    <!-- nav-contacts -->
+                    <!-- <div class="hidden-sm halol"> <img src="/img/halal.png" alt=""><p class="ttu">Мы не используем свинину</p></div> -->
+                    <div class="nav-contacts">
+                      {{ header.phones|raw }}
+                      <div class="text--gray">{{ slogan.value }}</div>
+                    </div><!-- /nav-contacts -->
+                  </div>
+                  <div class="col-lg-1 col-md-1 col-sm-3">
+{#                    <!-- nav-auth -->#}
+{#                    <div class="nav-auth">#}
+{#                      {% if header.user is not empty %}#}
+{#                        <a href="/{{ lang }}/cabinet/" class="btn btn--gray btn--auth btn--block">#}
+{#                          <i class="icon fa fa-user"></i> <span>{{ header.user.name }}</span>#}
+{#                        </a>#}
+{#                      {% else %}#}
+{#                        <a href="#" class="btn btn--gray btn--auth btn--block" data-toggle="modal" data-target="#modal--login">#}
+{#                          <i class="icon fa fa-user"></i> <span>Вход</span>#}
+{#                        </a>#}
+{#                      {% endif %}#}
+{#                    </div><!-- /nav-auth -->#}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="header-sub hidden-xs" data-role="header-sub">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-10 col-md-10 col-sm-10 col--left">
+                    <a href="/{{ lang }}/" class="link--block header-logo-small">
+                      <img src="/img/logo.png" class="img--contain" />
+                    </a>
+                    <!-- nav-main -->
+                    <nav class="nav-main">
+                      {{ header.menu|raw }}
+                    </nav><!-- /nav-main -->
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2 col--right">
+                    <div class="cart-popup-wrapper">
+                      <a href="/{{ lang }}/cart/" class="btn btn--primary btn--cart btn--block" data-button="cart">
+                        <i class="icon fas fa-shopping-cart"></i>
+                        <span class="text hidden-sm">Warenkorb</span>
+                        <span class="count headerRycleCount">{{ header.rycleinfo.totalcount }}</span>
+                      </a>
+                      <!-- cart-popup -->
+                      <div class="cart-popup" data-role="cart-popup">
+                        <div class="nano" data-role="scroll">
+                          <div class="nano-content">
+                            <div class="cart-popup-list" id="headerRyclePopup">
+                              {{ header.popup|raw }}
+                            </div>
+                          </div>
+                        </div>
+                        {% if promoamount is defined and promoamount is not empty %}
+                          <div class="cart-popup-amount"> Bestellpreis: <span class="text--orange"><span>{{ promoamount/100 }}</span> EUR</span>
+                        {% else %}
+                          <div class="cart-popup-amount"> Bestellpreis: <span class="text--orange"><span data-output="result"></span> EUR</span>
+                        {% endif %}                        
+                        </div>
+                        {% if header.recommended is not empty %}
+                        <div class="cart-popup-relative" style="display:none;">
+                          <div class="block-title">Рекомендуем к вашему заказу</div>
+                          <div class="block-in swiper-container start" data-role="slider">
+                            <div class="swiper-wrapper">
+                              {{ header.recommended|raw }}
+                            </div>
+                            <div class="cart-popup-relative-controls">
+                              <button type="button" class="btn--unstyled btn--popup-prev">
+                                <i class="icon fa fa-chevron-left"></i>
+                              </button>
+                              <button type="button" class="btn--unstyled btn--popup-next">
+                                <i class="icon fa fa-chevron-right"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                      </div><!-- /cart-popup -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="overlay" data-role="overlay"></div>
+          </header><!-- /.header -->
+        </div>
+			{% block content %}
+			{% endblock %}
+		</div>
+		<!-- footer -->
+      <footer class="footer">
+        <div class="footer-sup">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- logo -->
+                <a href="/{{ lang }}/" class="link--block footer-logo">
+                  <img src="/img/logo-alt.png" class="img--cover" />
+                </a><!-- /logo -->
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4">
+                <!-- nav-footer -->
+                <div class="nav-footer">
+                  <div class="row">
+{#                    <div class="col-lg-7 col-md-7 col-xs-7">#}
+{#                      {{ footer.menu|raw }}#}
+{#                    </div>#}
+                    <div class="col-12">
+                      {{ footer.menu2|raw }}
+                    </div>
+                  </div>
+                </div><!-- /nav-footer -->
+              </div>
+              <div class="col-lg-3 col-md-3 hidden-sm">
+                <!-- nav-social -->
+                <div class="nav-social">
+                  {{ socials|raw }}
+                </div><!-- /nav-social -->
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-5">
+                <div class="visible-sm">
+                  <!-- nav-social -->
+                  <div class="nav-social">
+                    {{ socials|raw }}
+                  </div><!-- /nav-social -->
+                </div>
+                <!-- nav-contacts -->
+                <div class="nav-contacts">
+                  <i class="icon fas fa-phone-alt text--orange"></i>
+                  {{ footer.phones|raw }}
+                  <div class="text--gray">{{ contacts.schedule }}</div>
+                  <div class="email">
+                    <i class="icon fas fa-envelope text--orange"></i> <a href="mailto:{{ contacts.email }}">{{ contacts.email }}</a>
+                  </div>
+                </div><!-- /nav-contacts -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-sub">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <!-- copyright -->
+                <div class="copyright">{{ copyright.value|raw }}</div><!-- /copyright -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer><!-- /footer -->
+    </div><!-- /.wrapper -->
+    {% include('/src/modals.html.twig') %}
+    <span class="visible-lg" data-device="desktop"></span>
+    <span class="visible-md" data-device="laptop"></span>
+    <span class="visible-sm" data-device="tablet"></span>
+    <span class="visible-xs" data-device="phone"></span>
+{% endblock %}

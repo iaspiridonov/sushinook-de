@@ -1,0 +1,23 @@
+<a href="{{ product.url() }}" class="item radius">
+    <div class="item__img">
+        <div class="stiker">
+            {% if product.sale %}
+                <span class="orange">Акция</span>
+            {% endif %}
+            {% if product.novetly %}
+                <span class="green">Новинка</span>
+            {% endif %}
+        </div>
+        <img src="{{ product.previewImage() }}" alt="img-35.jpg">
+    </div>
+    <div class="item__down">
+        <h4>{{ product.name }}</h4>
+        <span class="brand">{{ product.shop.name }}</span>
+        <div class="item__price">
+            {% if product.price_old is not empty %}
+                <span class="old--price">{{ (product.price_old/100)|number_format(2, '', ' ') }} EUR</span>
+            {% endif %}
+            <span class="price">{{ (product.price/100)|number_format(2, '', ' ') }} EUR</span>
+        </div>
+    </div>
+</a>

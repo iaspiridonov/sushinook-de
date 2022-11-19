@@ -1,0 +1,21 @@
+{% for item in prods %}
+  <!-- item -->
+  <div class="item cart-popup-relative-item swiper-slide">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3">
+        <div class="img">
+          <div class="img--centered orange" data-role="slideimg">
+            <img data-src="{{ item.image }}" class="swiper-lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9">
+        <div class="in">
+          <div class="title">{{ item.name }}</div>
+          <div class="price">{{ item.price/100 }} EUR</div>
+        </div>
+        <button type="button" class="btn btn--default btn--block cartAddAdditional" data-id="{{ item.id }}" data-reload="false">In den Warenkorb</button>
+      </div>
+    </div>
+  </div><!-- /item -->
+{% endfor %}

@@ -1,0 +1,129 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<main class="content">
+  {% include 'src/common/breadcrumbs.html.twig' %}
+  <!-- section-cart -->
+  <section class="section s--cart" data-role="cart">
+    <div class="container">
+      <div class="s-title cart-title">
+        <h1 class="title-1">Warenkorb</h1>
+      </div>
+      <div class="cart-tabs">
+        <ul class="list--inline" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#cart-tab-1" class="link--block" aria-controls="cart-tab-1" role="tab" data-toggle="tab" style="pointer-events:none;">1. Meine Bestellung</a>
+          </li>
+          <li role="presentation">
+            <a href="#cart-tab-2" class="link--block" aria-controls="cart-tab-2" role="tab" data-toggle="tab" style="pointer-events:none;">2. Bestellung aufgeben</a>
+          </li>
+          <li role="presentation">
+            <a href="#cart-tab-3" class="link--block" aria-controls="cart-tab-3" role="tab" data-toggle="tab" style="pointer-events:none;">3. Bestellung angenommen</a>
+          </li>
+        </ul>
+      </div>
+      <div role="tabpanel" class="tab-pane fade active in" id="cart-tab-1">
+        {% if products is empty and combo is empty and half is empty %}
+          <div class="form--order" data-form="cart" style="text-align: center;">
+            <img class="lazy img--cover" src="/img/modal-img.png" style="width: auto; height: auto; margin: 0 auto;">
+            <p><strong>Ihr Warenkorb ist leer.</strong><br>Mindestbestellwert für die Lieferung - 25  EUR</p>
+            <button type="button" class="btn btn--primary redirectBtn" data-href="/ru/">
+              <span>Gehen Sie zum Menü</span>
+            </button>
+          </div>
+          {% include 'src/cart/recommended.html.twig' %}
+        {% else %}
+          {% include 'src/cart/table.html.twig' %}
+        {% endif %}
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="cart-tab-2">
+        <!-- form-order -->
+        {% include 'src/cart/complete-order.html.twig' %}
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="cart-tab-3">
+        <div class="cart-response text--center">
+          <div class="icon">
+            <img src="/img/icon-checked.svg" />
+          </div>
+          <div class="title">
+            <h3 class="title-2">{{ successText.name }}</h3>
+          </div>
+          <div class="text--center">
+            {{ successText.value|raw }}
+          </div>
+          <a href="/{{ lang }}/" class="btn btn--primary">Zur Startseite</a>
+        </div>
+      </div>
+    </div>
+  </section><!-- /section-cart -->
+</main><!-- /.content -->
+
+<!-- modal-time -->
+<div class="modal fade modal--recovery" tabindex="-1" role="dialog" id="modal--time">
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white"> Lieferzeit </div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/modal-img.png" class="lazy img--cover" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs"> Lieferzeit </div>
+          <div id="currentTimes">
+            <div class="modal_times">
+              {% if workTimeActive %}
+                <a href="#" class="time_item active " data-current=" {{ currentTime }} " id="current_item">Sofort</a>
+                 {% for i in 9..23 %}
+{#                   {% if i!=13 and i!=14 and i!=15 and i!=17 and i!=18 %}#}
+                      {% if i >= orderHour  %}
+                        {% if orderMinute == 30 %}
+
+                         {% if (i+1) < 24 and i < 24 %}
+                             <a href="#" class="time_item" data-hour1="{{ i }}:{{ orderMinute }}" data-hour2="{{ i + 1 }}:00">{{ i }}:{{ orderMinute }} — {{ i + 1 }}:00</a>
+                              <a href="#" class="time_item" data-hour1="{{ i + 1 }}:00" data-hour2="{{ i + 1 }}:{{ orderMinute }}">{{ i + 1 }}:00 — {{ i + 1 }}:{{ orderMinute }}</a>
+                             {% endif %}
+                             {% else %}
+                             <a href="#" class="time_item" data-hour1="{{ i }}:{{ orderMinute }}" data-hour2="{{ i }}:30">{{ i }}: {{orderMinute}} — {{ i }}:30</a>
+                             {% if (i+1) < 24 %}
+                              <a href="#" class="time_item" data-hour1="{{ i }}:30" data-hour2="{{ i+1 }}:{{orderMinute}}">{{ i }}:30 — {{ i+1 }}:{{orderMinute}}</a>
+                             {% endif %}
+
+                            {% endif %}
+
+
+                          {% endif %}
+{#                   {% endif %}#}
+
+                 {% endfor %}
+
+              {% else %}
+                 {% for i in 9..23 %}
+{#                   {% if i!=13 and i!=14 and i!=15 and i!=17 and i!=18 %}#}
+                     {% if i+1 != 24 %}
+                     <a href="#" class="time_item {{ i == 9 ? ' active ' : ''}}" data-hour1="{{ i }}:30" data-hour2="{{ i+1 }}:00">{{ i }}: 30 — {{ i+1 }}:00</a>
+                      <a href="#" class="time_item" data-hour1="{{ i+1 }}:00" data-hour2="{{ i+1 }}:30">{{ i+1 }}: 00 — {{ i+1 }}:30</a>
+                     {% endif %}
+{#                  {% endif %}#}
+                 {% endfor %}
+
+              {% endif %}
+            
+           
+
+          </div>
+
+         
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-time -->
+{% endblock %}

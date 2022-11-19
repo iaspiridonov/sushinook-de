@@ -1,0 +1,300 @@
+<!-- form-cart -->
+<div class="form--cart" data-form="cart">
+  <form action="/">
+	<div class="cart-table">
+	  <div class="cart-table-in">
+		<table class="hidden-xs">
+		  <tbody>
+			{% for id,item in combo %}
+			  <tr data-price="{{ item.total }}" data-count="{{ item.count }}" data-role="item">
+				<td>
+				  <div class="img">
+					<div class="img--centered orange" data-role="lazyimg">
+					  <img data-src="{{ item.image }}" class="lazy" />
+					</div>
+				  </div>
+				</td>
+				<td>
+				  <div class="title">{{ item.name }}</div>
+				  <div class="meta text--gray">{{ item.desc|raw }}</div>
+				  {% for title,items in item.details %}
+					<div class="meta text--gray">{{ title != 'Пиццы' ? title : '' }}</div>
+					<div class="desc">
+					  <ul>
+						{% for c in items %}
+						  <li>{{ c }}</li>
+						{% endfor %}
+					  </ul>
+					</div>
+				  {% endfor %}
+				</td>
+				<td>
+				  <div class="count comboChangeCount">
+					<button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+					  <i class="icon icon-minus"></i>
+					</button>
+					<div class="value text--center">
+					  <span data-output="count" data-id="{{ id }}"></span>
+					</div>
+					<button type="button" class="btn btn--calc btn--plus" data-button="plus">
+					  <i class="icon icon-plus"></i>
+					</button>
+				  </div>
+				</td>
+				<td>
+				  <div class="amount"><span data-output="amount"></span> EUR</div>
+				</td>
+				<td>
+				  <button type="button" class="btn--unstyled btn--remove comboRemove" data-id="{{ id }}" data-button="remove">
+					<i class="icon icon-remove"></i>
+				  </button>
+				</td>
+			  </tr>
+			{% endfor %}
+			{% for id,item in half %}
+			  <tr data-price="{{ item.price }}" data-count="{{ item.count }}" data-role="item">
+				<td>
+				  <div class="img">
+					<div class="img--centered orange" data-role="lazyimg">
+					  <img data-src="/uploads/images/2020/08/28/f_209f1a85774075ec862ff61967e42b5d0e29f431.jpg" class="lazy" />
+					</div>
+				  </div>
+				</td>
+				<td>
+				  <div class="title">{{ item.left }} + {{ item.right }}</div>
+				  <div class="meta text--gray">Большая {{ item.size }} см, {{ item.type }} тесто</div>
+				  <div class="desc">
+				  </div>
+				</td>
+				<td>
+				  <div class="count halfChangeCount">
+					<button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+					  <i class="icon icon-minus"></i>
+					</button>
+					<div class="value text--center">
+					  <span data-output="count" data-id="{{ id }}"></span>
+					</div>
+					<button type="button" class="btn btn--calc btn--plus" data-button="plus">
+					  <i class="icon icon-plus"></i>
+					</button>
+				  </div>
+				</td>
+				<td>
+				  <div class="amount"><span data-output="amount"></span> EUR</div>
+				</td>
+				<td>
+				  <button type="button" class="btn--unstyled btn--remove halfPizzaRemove" data-id="{{ id }}" data-button="remove">
+					<i class="icon icon-remove"></i>
+				  </button>
+				</td>
+			  </tr>
+			{% endfor %}
+			{% for cartID,item in products %}        
+			  <tr data-price="{{ item.price is defined ? item.price : '' }}" data-count="{{ item.count }}" data-role="item">
+				<td>
+				  <div class="img">
+					<div class="img--centered orange" data-role="lazyimg">
+					  <img data-src="{{ item.image ? item.image : '/img/noimage/' ~ item.block_id ~ '.svg' }}" class="lazy" />
+					</div>
+				  </div>
+				</td>
+				<td>
+				  <div class="title">{{ item.name }}</div>
+				  <div class="meta text--gray">{{ item.size is not empty ? Translation.of('pizza')['sizes'][item.size] : '' }} {{ item.size is not empty ? item.size ~ ' см' : '' }}{{ item.type is not empty ? ', ' ~ item.type|lower ~ ' тесто' : '' }}</div>
+				  <div class="desc">
+					<ul>
+					  <li class='text--green'><b>{{ item.ingsAdd }}</b></li>
+					</ul>
+				  </div>
+				</td>
+				<td>
+				  <div class="count cartChangeCount" {{ item.countChange is defined and item.countChange == false ? 'style="display:none;"' : '' }}>
+					<button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+					  <i class="icon icon-minus"></i>
+					</button>
+					<div class="value text--center">
+					  <span data-output="count" data-id="{{ cartID }}"></span>
+					</div>
+					<button type="button" class="btn btn--calc btn--plus" data-button="plus">
+					  <i class="icon icon-plus"></i>
+					</button>
+				  </div>
+				  {{ item.countChange is defined and item.countChange == false ? '<p>В подарок</p>' : '' }}
+				</td>
+				<td>
+				  <div class="amount"><span data-output="amount"></span> EUR</div>
+				</td>
+				<td>
+				  <button type="button" class="btn--unstyled btn--remove cartRemove" data-id="{{ cartID }}" data-button="remove">
+					<i class="icon icon-remove"></i>
+				  </button>
+				</td>
+			  </tr>
+			{% endfor %}
+		  </tbody>
+		</table>
+
+		<div class="visible-xs">
+			<div class="mob_carts">
+				{% for id,item in combo %}
+				  <div class="mob_cart_item" data-price="{{ item.total }}" data-count="{{ item.count }}" data-role="item">
+					<div class="mob_cart_img">
+					  <div class="img--centered gray_img" data-role="lazyimg">
+						<img data-src="{{ item.image }}" class="lazy" />
+					  </div>
+					</div>
+					<div class="mob_cart_info">
+					   <button type="button" class="btn--unstyled btn--remove comboRemove" data-id="{{ id }}" data-button="remove">
+						<i class="icon icon-remove"></i>
+					  </button>
+					  <div class="title">{{ item.name }}</div>
+					  <div class="meta text--gray">{{ item.desc|raw }}</div>
+					  {% for title,items in item.details %}
+						<div class="meta text--gray">{{ title != 'Пиццы' ? title : '' }}</div>
+						<div class="desc">
+						  <ul>
+							{% for c in items %}
+							  <li>{{ c }}</li>
+							{% endfor %}
+						  </ul>
+						</div>
+					  {% endfor %}
+					  <div class="mob_controls">
+						<div class="amount"><span data-output="amount"></span> EUR</div>
+						<div class="count comboChangeCount">
+						  <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+							<i class="icon icon-minus"></i>
+						  </button>
+						  <div class="value text--center">
+							<span data-output="count" data-id="{{ id }}"></span>
+						  </div>
+						  <button type="button" class="btn btn--calc btn--plus" data-button="plus">
+							<i class="icon icon-plus"></i>
+						  </button>
+					  </div>
+					  </div>
+					</div>
+				  </div>
+				{% endfor %}
+				{% for cartID,item in half %}
+				  <div class="mob_cart_item" data-price="{{ item.price }}" data-count="{{ item.count }}" data-role="item">
+					<div class="mob_cart_img">
+					  <div class="img--centered gray_img" data-role="lazyimg">
+						<img data-src="/uploads/images/2020/08/28/f_209f1a85774075ec862ff61967e42b5d0e29f431.jpg" class="lazy" />
+					  </div>
+					</div>
+					<div class="mob_cart_info">
+					  <button type="button" class="btn--unstyled btn--remove halfPizzaRemove" data-id="{{ cartID }}" data-button="remove">
+					  <i class="icon icon-remove"></i>
+					</button>
+					  <div class="title">{{ item.left }} + {{ item.right }}</div>
+					  <div class="meta text--gray">{{ item.size is not empty ? Translation.of('pizza')['sizes'][item.size] : '' }} {{ item.size is not empty ? item.size ~ ' см,' : '' }} {{ item.type is not empty ? item.type|lower ~ ' тесто' : '' }}</div>
+					  <div class="desc">
+					  </div>
+					  <div class="mob_controls">
+						<div class="amount"><span data-output="amount"></span> EUR</div>
+						<div class="count cartChangeCount">
+						 <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+						  <i class="icon icon-minus"></i>
+						</button>
+						<div class="value text--center">
+						  <span data-output="count" data-id="{{ cartID }}"></span>
+						</div>
+						<button type="button" class="btn btn--calc btn--plus" data-button="plus">
+						  <i class="icon icon-plus"></i>
+						</button>
+					  </div>
+					  </div>
+					</div>  
+				  </div>
+				{% endfor %}
+				{% for cartID,item in products %} 
+				<div class="mob_cart_item" data-price="{{ item.price }}" data-count="{{ item.count }}" data-role="item">
+					<div class="mob_cart_img">
+					  <div class="img--centered gray_img" data-role="lazyimg">
+						<img data-src="{{ item.image }}" class="lazy" />
+					  </div>
+					</div>
+					<div class="mob_cart_info">
+					  <button type="button" class="btn--unstyled btn--remove cartRemove" data-id="{{ cartID }}" data-button="remove">
+					  <i class="icon icon-remove"></i>
+					</button>
+					  <div class="title">{{ item.name }}</div>
+					  <div class="meta text--gray">{{ item.size is not empty ? Translation.of('pizza')['sizes'][item.size] : '' }} {{ item.size is not empty ? item.size ~ ' см,' : '' }} {{ item.type is not empty ? item.type|lower ~ ' тесто' : '' }}</div>
+					  <div class="desc">
+						<ul>
+						  <li class='text--green'><b>{{ item.ingsAdd }}</b></li>
+						</ul>
+					  </div>
+					  <div class="mob_controls">
+						<div class="amount"><span data-output="amount"></span> EUR</div>
+						<div class="count cartChangeCount">
+						 <button type="button" class="btn btn--calc btn--minus" data-button="minus" disabled>
+						  <i class="icon icon-minus"></i>
+						</button>
+						<div class="value text--center">
+						  <span data-output="count" data-id="{{ cartID }}"></span>
+						</div>
+						<button type="button" class="btn btn--calc btn--plus" data-button="plus">
+						  <i class="icon icon-plus"></i>
+						</button>
+					  </div>
+					  </div>
+					</div>  
+				  </div>       
+			{% endfor %}
+			</div>
+		</div>
+	  </div>
+	</div>
+	
+	{% include 'src/cart/recommended.html.twig' %}
+
+	{% include 'src/cart/promo.html.twig' %}
+	
+	<div class="cart-table">
+	  <table>
+		<tfoot>
+		  <tr class="hidden-xs">
+			<th colspan="2">
+			  <a href="/{{ lang }}/" class="btn btn--black btn--back">Zurück zum Menü</a>
+			</th>
+			<th colspan="3">
+			  <div class="result"> 
+				{% if promoamount is defined and promoamount is not null %}
+					Bestellpreis: <b class="text--orange text--crossed"><span data-output="result"></span> EUR</b>
+				  <b class="text--orange"><span data-output="promoamount">{{ promoamount/100 }}</span> EUR</b>
+				{% else %}
+					Bestellpreis: <b class="text--orange"><span data-output="result"></span> EUR</b>
+				{% endif %}
+				<button type="button" class="btn btn--primary btn--submit sumCheck" data-step="cart-tab-2">
+				  <span>Weiter</span>
+				</button>
+			  </div>
+			</th>
+		  </tr>
+		  <tr class="visible-xs">
+			<th>
+			  <a href="/{{ lang }}/" class="btn btn--black btn--back">Zurück zum Menü</a>
+			</th>
+		  </tr>
+		  <tr class="visible-xs">
+			<th>
+			  <div class="result">
+			  	{% if promoamount is defined and promoamount is not null %}
+					Bestellpreis: <b class="text--orange text--crossed"><span data-output="result"></span> EUR</b>
+				  <b class="text--orange"><span data-output="promoamount">{{ promoamount/100 }}</span> EUR</b>
+				{% else %}
+					Bestellpreis: <b class="text--orange"><span data-output="result"></span> EUR</b>
+				{% endif %}
+				<button type="button" class="btn btn--primary btn--submit sumCheck" data-step="cart-tab-2">
+				  <span>Weiter</span>
+				</button>
+			  </div>
+			</th>
+		  </tr>
+		</tfoot>
+	  </table>
+	</div>
+  </form>
+</div><!-- /form-cart -->

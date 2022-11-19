@@ -1,0 +1,104 @@
+<div class="modal-dialog modal-dialog-centered long_modal" role="document">
+  <div class="modal-content">
+    <div class="modal-body">
+      <button type="button" class="close mob_hide_c_control" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="halves-subtitle text--gray">
+        <div class="info">!</div> Выберите обе половинки своей пиццы. Соедини 2 любимых вкуса.
+      </div>
+        <div class="modal_flex start_flex">
+          <div class="modal_left hidden-xs">
+            <div class="modal_img">
+              <div class="halves-viewport">
+                <div class="halves-placeholder" style="position: relative;">
+                <img id="p_holder" src="/img/pizza-placeholder.png" class="img--cover" />
+                <img class="ph_img left_i" id="post_left_img" src="">
+                <img class="ph_img right_i" id="post_right_img" src="">
+              </div>
+              </div>
+            </div>
+            <div class="halves-sides">
+              <div class="halves-side left">
+                <div class="h_img_ab">
+                  <img src="/img/half_p.png" id="post_left_img3">
+                </div>
+                <div class="in">
+                  <div class="text text--gray" data-output="placeholder-left">Левая половинка</div>
+                  <div class="text text--gray" data-output="description-left" style="display: none;"></div>
+                  <div class="post_ings" style="margin: 0" data-output="ings-left"></div>
+                </div>
+              </div>
+              <div class="halves-side right">
+                <div class="h_img_ab">
+                  <img src="/img/half_p.png" id="post_right_img3">
+                </div>
+                <div class="in">
+                  <div class="text text--gray" data-output="placeholder-right">Правая половинка</div>
+                  <div class="text text--gray" data-output="description-right" style="display: none;"></div>
+                  <div class="post_ings" style="margin: 0" data-output="ings-right"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal_items">
+                <div class="halves-values">
+                <div class="text--center">
+                  <span>Большая 35 см</span>
+                  <input type="hidden" name="size" data-size="35">
+                </div>
+              </div>
+              <div class="halves-values">            
+                <div class="text--center">
+                  <input type="radio" name="type" id="types-1-1" />
+                  <label class="radio-type" id="trigger_radio" for="types-1-1">Традиционное</label>
+                  <input type="radio" name="type" id="types-1-2" />
+                  <label class="radio-type" for="types-1-2">Тонкое</label>
+                </div>
+              </div>
+              <div class="halves-result halvesTotal" data-role="result">
+                <div>
+                  <b><span data-output="result">0</span> EUR</b>
+                </div>
+                <div>
+                  <a href="#" class="btn btn--primary halfPizzaAdd btnDisabled">In den Warenkorb</a>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="modal_right">
+              <div class="modal-scroll">
+                <div class="p_flex">
+                  {% for item in constructorProducts %}
+                    {% if item.halfPizza != 1 %}
+                        {% set halfPrice = item.price %}
+                        {% for price in item.prices %}
+                          {% if '35смП' in price.name %}
+                            {% set halfPrice = price.value %}
+                          {% endif %}
+                        {% endfor %}
+                        <div class="p_item halves-item" data-item="{{ item.id }}" data-role="item">
+                          <input type="hidden" name="price" value="{{ halfPrice }}" />
+                          <input type="checkbox" class="constructor_checkbox" name="halv_checkbox" id="left-pizza-{{ item.id }}" data-price="{{ item.price }}" data-image="{{ item.image }}" data-id="pizza-{{ item.id }}" data-name="{{ item.name }}" />
+                          <label for="left-pizza-{{ item.id }}" class="checkbox-alt">
+                              <div class="p_top">
+                               <div class="p_img">
+                                <div class="orange" data-role="lazyimg">
+                                  <img data-src="{{ item.image }}" class="lazy full_img" />
+                                </div>
+                              </div>
+                              <div class="p_name title" data-role="title">{{ item.name }}</div>
+                            </div>
+                            <div class="p_price price text--gray"><span data-output="price">{{ halfPrice }}</span> тг.</div>
+                          </label>
+                        </div> 
+                    {% endif %}
+                  {% endfor %}                 
+                </div>
+              </div>
+            </div> 
+          </div>
+        </div>
+
+    </div>
+  </div>

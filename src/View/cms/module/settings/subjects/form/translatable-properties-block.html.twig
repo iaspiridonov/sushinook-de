@@ -1,0 +1,29 @@
+{% if properties is not empty %}
+
+    {% set blockId = random() %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs translatable-tab" role="tablist">
+            {% for locale in Locale.getLocales() %}
+                 <li role="presentation"{{ loop.first ? ' class="active"' : '' }}>
+                     <a onclick="switchAllLocales('locale-switch-{{ locale }}')" class="locale-switch-{{ locale }}" href="#locale-{{ locale }}-{{ blockId }}" aria-controls="locale-{{ locale }}-{{ blockId }}" role="tab" data-toggle="tab">{{ locale }}</a>
+                 </li>
+            {% endfor %}
+            </ul>
+
+            <div class="tab-content">
+            {% for locale in Locale.getLocales() %}
+                <div role="tabpanel" class="translatable-tab-panel tab-pane{{ loop.first ? ' active' : '' }}" id="locale-{{ locale }}-{{ blockId }}">
+                    {% for view in attribute(properties, locale) %}
+                        <div class="row">
+                        {{ view|raw }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br>
+{% endif %}

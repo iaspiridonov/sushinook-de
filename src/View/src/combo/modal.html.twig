@@ -1,0 +1,37 @@
+<div class="modal-dialog modal-dialog-centered long_modal" role="document">
+<div class="modal-content">
+  <div class="modal-body">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+      <div class="combo_flex">
+        <div class="combo_left">
+          <div class="c_name">{{ combo.name }}</div>
+          <div class="s-tabs combo-tabs">
+            <ul class="list--inline comboTabs" role="tablist">
+              {% include '/src/combo/tab.html.twig' %}
+            </ul>
+          </div>
+          <div class="amount text--center" style="display: none;" data-role="result">
+            <div class="discount text--gray fullPriceCrossed">{{ combo.priceOld/100 }} EUR</div>
+            <span class="comboTotal">{{ combo.price/100 }}</span> EUR <a href="#" class="btn btn--primary comboAddCart btnDisabled">In den Warenkorb</a>
+          </div>
+        </div>
+        <div class="combo_right">
+          <div role="tabpanel" class="tab-pane fade in active">
+            <div class="combo-result">
+              <div class="quantity"><i class="icon fa fa-user text--orange"></i> {{ combo.people }}</div>
+              <div class="img text--center">
+                <div class="img--centered orange" data-role="lazyimg">
+                  <img data-src="{{ combo.image }}" class="lazy" />
+                </div>
+              </div>
+              <div class="meta text--gray">{{ combo.description|raw }}</div>
+            </div>
+          </div>
+          {% include '/src/combo/products.html.twig' %}
+        </div> 
+        </div>
+      </div>
+  </div>
+</div>

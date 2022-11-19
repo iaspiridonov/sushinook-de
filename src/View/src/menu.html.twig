@@ -1,0 +1,13 @@
+<ul class="list--inline">
+  {% for item in menu %}
+    {% if item.cat_id is not empty %}
+      <li {{ item.isActive() ? 'class="active"' : '' }}>
+        <a href="{{ item.cat_id.url }}" class="link--block">{% if item.highlight == 1 %} <i class="icon fa fa-star text--red"></i> {% endif %}  {{ item.cat_id.name }}</a>
+      </li>
+    {% else %}
+      <li {{ item.isActive() ? 'class="active"' : '' }}>
+        <a href="{{ item.url }}" class="link--block">{% if item.highlight == 1 %} <i class="icon fa fa-star text--red"></i> {% endif %} {{ item.title }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>

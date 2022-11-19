@@ -1,0 +1,3 @@
+{% for ing in ings %}
+	<div class="post_ing ingRemove" data-name="{{ ing.name }}" data-id="{{ ing.id }}"><span>{{ ing.name }}</span> <i class="fa fa-times"></i>{{ loop.index < loop.length ? ',' : '' }}</div>
+{% endfor %}

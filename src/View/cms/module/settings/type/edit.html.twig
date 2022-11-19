@@ -1,0 +1,276 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block title %}{{ Translation.of('Edit', 'cms/settings') }} {{ Translation.of('Type', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{{ path.controller }}/types">{{ Translation.of('Types', 'cms/settings') }}</a></li>
+    <li class="breadcrumb-item active">{{ Translation.of('Edit', 'cms/settings') }} : {{ type.label }}</li>
+{% endblock %}
+{% block head %}
+    <script src="/assets/jquery-ui/jquery-ui.min.js"></script>
+{% endblock %}
+{% block content %}
+    <form id="edit-form" method="post">
+        {{ Csrf|raw }}
+        <div class="row">
+            <div class="col-sm-6 form-group{{ errors.name is defined ? ' has-error' : '' }}">
+                <label for="input-type-name" class="control-label">{{ Translation.of('Name', 'cms/settings') }}</label>
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <label style="margin:0;">
+                                <input type="checkbox" name="is_hidden" value="1"{{ old.is_hidden is defined or type.is_hidden == 1 ? ' checked' : '' }}> {{ Translation.of('Hidden', 'cms/settings') }}
+                            </label>
+                        </span>
+                    <input type="text" name="name" value="{{ old.name is defined ? old.name : type.name }}" class="form-control" id="input-type-name">
+                </div>
+                <div>
+                    {% if errors.name is defined %} <div class="help-block">{{ errors.name }}</div>{% endif %}
+                </div>
+            </div>
+            <div class="col-sm-6 form-group {{ errors.label is defined ? ' has-error' : '' }}">
+                <label for="input-type-label" class="control-label">{{ Translation.of('Label', 'cms/settings') }}</label>
+                <div>
+                    <input type="text" name="label" value="{{ old.label is defined ? old.label : type.label }}" class="form-control" id="input-type-label">
+                    {% if errors.label is defined %} <div class="help-block">{{ errors.label }}</div>{% endif%}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default" style="border-bottom-left-radius: 0; margin-bottom: 0;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{ Translation.of('Attributes', 'cms/settings') }}
+                        </h3>
+                    </div>
+                    {% if type.getAttributes() is not empty %}
+                        <table class="table cms-type-attributes-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ Translation.of('Name', 'cms/settings') }}</th>
+                                    <th>{{ Translation.of('Label', 'cms/settings') }}</th>
+                                    <th>{{ Translation.of('Kind', 'cms/settings') }}</th>
+                                    <th>{{ Translation.of('Settings', 'cms/settings') }}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="ui-sortable">
+                            {% for attribute in type.getAttributes() %}
+                                <tr id="attribute-{{ attribute.id }}">
+                                    <td class="fit">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu-{{ attribute.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu-{{ attribute.id }}">
+                                                <li>
+                                                    <a href="{{ path.controller }}/type/{{ type.name }}/edit/attribute-edit-{{ attribute.id }}">
+                                                        <span class="fa fa-pencil"></span> {{ Translation.of('Edit', 'cms/settings') }}
+                                                    </a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="{{ path.controller }}/delete-type-attribute/{{ attribute.id }}" onclick="return confirm('{{ Translation.of('Are you shure to delete', 'cms/settings') }} {{ attribute.name }}?')">
+                                                        <span class="fa fa-trash-o"></span> {{ Translation.of('Delete', 'cms/settings') }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td class="fit">
+                                        {% if attribute.isRelation() and attribute.isDirectRelation() %}<i class="fa fa-fw fa-plug text-{{ attribute.isStrong() ? 'danger' : 'success' }}"></i>{% elseif attribute.isRelation() and attribute.isBackRelation() %}<i class="fa fa-fw fa-reply text-danger"></i>{% elseif attribute.isTranslatable() %}<i class="fa fa-fw fa-language text-primary"></i>{% else %}<i class="fa fa-fw fa-pencil-square-o"></i>{% endif %}&nbsp;{{ attribute.name }}</td>
+                                    <td>{{ attribute.label }}</td>
+                                    <td class="fit">{{ attribute.kind }}</td>
+                                    <td>{{ attribute.settings|json_encode() }}</td>
+                                    <td class="sortable-td ui-sortable-handle"><i class="fa fa-arrows-v"></i></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    <div class="panel-body">
+                        There is no any attributes yet.
+                    </div>
+                    {% endif %}
+                    <div id="attribute-div" class="panel-footer" style="display: {{ old.attribute is defined or editAttribute is not empty ? 'block' : 'none' }};">
+                        {% if editAttribute is not empty %}
+                            {% include 'cms/module/settings/type/edit-attribute.html.twig' with {'allowedKinds':allowedKinds, 'possibleBackRelations':possibleBackRelations, 'edit':editAttribute} %}
+                        {% else %}
+                            {% include 'cms/module/settings/type/create-attribute.html.twig' with {'allowedKinds':allowedKinds, 'possibleBackRelations':possibleBackRelations} %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if editAttribute is not empty %}
+                    <button id="attribute-submit-btn" type="submit" class="btn btn-success" style="margin-top: -1px; border-top-left-radius: 0; border-top-right-radius: 0;"><i class="fa fa-fw fa-save"></i> {{ Translation.of('Save attribute', 'cms/settings') }}</button>
+                    <a href="{{ path.controller }}/type/{{ type.name }}/edit" class="btn btn-danger" style="margin-top: -1px; border-top-left-radius: 0; border-top-right-radius: 0;">{{ Translation.of('Cancel', 'cms/settings') }}</a>
+                {% else %}
+                    <button id="add-attribute-btn" type="button" class="btn btn-default" style="margin-top: -1px; border-top-left-radius: 0; border-top-right-radius: 0;"><i class="fa fa-fw fa-plus"></i> {{ Translation.of('Add attribute', 'cms/settings') }}</button>
+                    <button id="attribute-submit-btn" type="submit" class="btn btn-success" style="display: none; margin-top: -1px; border-top-left-radius: 0; border-top-right-radius: 0;"><i class="fa fa-fw fa-save"></i> {{ Translation.of('Add attribute', 'cms/settings') }}</button>
+                    <button id="cancel-attribute-btn" type="button" class="btn btn-danger" style="display: none; margin-top: -1px; border-top-left-radius: 0; border-top-right-radius: 0;">Cancel</button>
+                {% endif %}
+            </div>
+        </div>
+        <div id="submit-btn" class="row" style="display: {{ old.attribute is defined or editAttribute is not empty ? 'none' : 'block' }}; margin-top: 1rem;">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-save"></i> {{ Translation.of('Save type', 'cms/settings') }}</button>
+                <a href="{{ path.controller }}/types" class="btn btn-danger">{{ Translation.of('Cancel', 'cms/settings') }}</a>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+
+        var DIRECT_RELATION = '{{ constant('Core\\Model\\Type\\Attribute\\Relation\\DirectRelation::KIND')|raw }}';
+        var BACK_RELATION = '{{ constant('Core\\Model\\Type\\Attribute\\Relation\\BackRelation::KIND')|raw }}';
+        var MULTIVALUE_PROPERTIES = ['{{ constant('Core\\Model\\Type\\Attribute\\Property::MULTIVALUE_PROPERTIES')|join("', '")|raw }}'];
+
+        var $relationsFieldset = $('#attribute-relations');
+        var $directRelationsFieldset = $('#attribute-direct-relations-fieldset');
+        var $backRelationsFieldset = $('#attribute-back-relations-fieldset');
+        var $multivaluePropertiesFieldset = $('#attribute-multivalue-fieldset');
+        var $propertiesFieldset = $('#attribute-properties-fieldset');
+
+        $(function(){
+            $('tbody.ui-sortable').sortable({
+                axis: 'y',
+                handle: 'td.sortable-td',
+                helper: function(e, tr)
+                {
+                    var $originals = tr.children();
+                    var $helper = tr.clone();
+                    $helper.children().each(function(index)
+                    {
+                        // Set helper cell sizes to match the original sizes
+                        $(this).width($originals.eq(index).outerWidth());
+                    });
+                    return $helper;
+                },
+                update: function (event, ui) {
+                    var data = $(this).sortable('serialize');
+
+                    data += '&_csrf_token={{ Csrf.token() }}';
+
+                    // POST to server using $.post or $.ajax
+                    $.ajax({
+                        data: data,
+                        type: 'POST',
+                        url: '{{ Locale }}/cms/settings/type/{{ type.name }}/sort-attributes'
+                    });
+                }
+            });
+
+
+            $('#add-attribute-btn').click(function(){
+                return showAttributeForm(false);
+            });
+
+            $('#cancel-attribute-btn').click(function(){
+                return hideAttributeForm();
+            });
+
+            $('#attribute-direct-relations-select').multiselect({
+                maxHeight: 400,
+                nonSelectedText: 'Not selected',
+                allSelectedText: 'All selected',
+                numberDisplayed: 1
+            }).change(function() {
+                var $select = $(this);
+
+                if($select.val().length > 1) {// factory
+                    $('#single-fieldset').prop('disabled', true);
+                    $('#internal-fieldset').prop('disabled', false);
+                    $('#is-factory').show();
+                } else {
+                    $('#internal-fieldset').find('input:radio').change();
+                    $('#is-factory').hide();
+                }
+            });
+
+            $('#single-fieldset').find('input:radio').change(function () {
+                var $radio = $(this);
+
+                if (!$radio.is(':checked')) return true;
+
+                if($radio.val() === '0') {
+                    $('#internal-fieldset').prop('disabled', true);
+                } else {
+                    $('#internal-fieldset').prop('disabled', false);
+                }
+
+                return true;
+            });
+
+            $('#internal-fieldset').find('input:radio').change(function () {
+                var $radio = $(this);
+
+                if (!$radio.is(':checked')) return true;
+
+                if($radio.val() === '1') {
+                    $('#single-fieldset').prop('disabled', true);
+                } else if ($('#attribute-direct-relations-select').val().length<2) {
+                    $('#single-fieldset').prop('disabled', false).find('input:radio').change();
+                }
+
+                return true;
+            });
+
+            $('#input-type-attribute-kind').change(function(){
+                var $select = $(this);
+                var value = $select.find('option:selected').val();
+
+                $relationsFieldset.hide().prop('disabled', true);
+                $directRelationsFieldset.hide().prop('disabled', true);
+                $backRelationsFieldset.hide().prop('disabled', true);
+                $propertiesFieldset.hide().prop('disabled', true);
+                $multivaluePropertiesFieldset.hide().prop('disabled', true);
+
+                if(value == DIRECT_RELATION) {
+                    $relationsFieldset.show().prop('disabled', false);
+                    $directRelationsFieldset.show().prop('disabled', false);
+                    $('#attribute-direct-relations-select').change();
+                    $('#internal-fieldset').change();
+                }else if(value == BACK_RELATION) {
+                    $relationsFieldset.show().prop('disabled', false);
+                    $backRelationsFieldset.show().prop('disabled', false);
+                    $('#single-fieldset').prop('disabled', false);
+                }else if($.inArray(value, MULTIVALUE_PROPERTIES)>=0) {
+                    $propertiesFieldset.show().prop('disabled', false);
+                    $multivaluePropertiesFieldset.show().prop('disabled', false);
+                }else{
+                    $propertiesFieldset.show().prop('disabled', false);
+                }
+
+            }).change();
+
+            {% if old.attribute is defined or editAttribute is not empty %}
+            showAttributeForm();
+            {% endif %}
+        });
+
+        function showAttributeForm() {
+
+            var attributeDiv = $('#attribute-div');
+
+            if (attributeDiv.is(':hidden')) {
+                attributeDiv.slideDown();
+            }
+
+            $('#attribute-fieldset').prop('disabled', false);
+            $('#add-attribute-btn').hide();
+            $('#cancel-attribute-btn').show();
+
+            $('#submit-btn').hide();
+            $('#attribute-submit-btn').show();
+        }
+
+        function hideAttributeForm() {
+            $('#attribute-div').slideUp();
+            $('#attribute-fieldset').prop('disabled', true);
+            $('#cancel-attribute-btn').hide();
+            $('#add-attribute-btn').show();
+
+            $('#submit-btn').show();
+            $('#attribute-submit-btn').hide();
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+	<main class="content">
+  <!-- breadcrumbs -->
+  <div class="breadcrumbs">
+    <div class="container">
+      <ul class="list--inline">
+        <li>
+          <a href="/{{ lang }}/">{{ Translation.of('Main') }}</a> <i class="icon fa fa-chevron-right"></i>
+        </li>
+        <li>{{ combo.name }}</li>
+      </ul>
+    </div>
+  </div><!-- /breadcrumbs -->
+  <!-- section-combo -->
+  <section class="section s--combo" data-role="combo">
+    <div class="container">
+      <div class="s-title combo-title">
+        <h1 class="title-1" data-id="{{ combo.id }}">{{ combo.name }}</h1>
+      </div>
+      <div class="s-tabs combo-tabs">
+        <ul class="list--inline comboTabs" role="tablist">
+          {% include '/src/combo/tab.html.twig' %}
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-7">
+          {% include '/src/combo/products.html.twig' %}
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-5">
+          <div class="combo-result">
+            <div class="quantity"><i class="icon fa fa-user text--orange"></i> {{ combo.people }}</div>
+            <div class="img text--center">
+              <div class="img--centered orange" data-role="lazyimg">
+                <img data-src="{{ combo.image }}" class="lazy" />
+              </div>
+            </div>
+            <div class="meta text--gray">{{ combo.description|raw }}</div>
+            <div class="amount text--center" style="display: none;" data-role="result">
+              <div class="discount text--gray fullPriceCrossed">{{ combo.priceOld/100 }} EUR</div>
+              <span class="comboTotal">{{ combo.price/100 }}</span> EUR <a href="#" class="btn btn--primary comboAddCart btnDisabled">In den Warenkorb</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- /section-combo -->
+
+</main><!-- /.content -->
+
+{% endblock %}

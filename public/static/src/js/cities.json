@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Алматы",
+    "code": "ALA"
+  },
+  {
+    "title": "Астана",
+    "code": "AST"
+  },
+  {
+    "title": "Шымкент",
+    "code": "SHM"
+  },
+  {
+    "title": "Москва",
+    "code": "MSK"
+  },
+  {
+    "title": "Караганда",
+    "code": "KRG"
+  },
+  {
+    "title": "Костанай",
+    "code": "KOS"
+  }
+]

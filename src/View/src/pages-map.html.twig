@@ -1,0 +1,8 @@
+<ul>
+	<li><a href="/{{ lang }}/">{{ Translation.of('Main') }}</a></li>
+	{% for s in menu %}
+		{% for item in s.elements.sortBy('sort') %}
+		<li><a href="{{ item.url() }}">{{ item.title }}</a></li>
+		{% endfor %}
+	{% endfor %}
+</ul>

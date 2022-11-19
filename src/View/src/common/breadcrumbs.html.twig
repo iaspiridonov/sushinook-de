@@ -1,0 +1,14 @@
+<div class="breadcrumbs"><!-- breadcrumbs -->
+    <div class="container">
+        <ul class="list--inline">
+            <li><a href="/{{ lang }}/">{{ Translation.of('Main') }}</a> <i class="icon fa fa-chevron-right"></i></li>
+            {% for url,name in breadcrumbs %}
+				{% if loop.last %}
+					<li>{{ name }}</li>
+				{% else %}
+					<li><a href="{{ url }}">{{ name }}</a> <i class="icon fa fa-chevron-right"></i></li>
+				{% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div><!-- breadcrumbs -->	

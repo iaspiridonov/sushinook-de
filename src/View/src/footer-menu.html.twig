@@ -1,0 +1,6 @@
+<h5>{{ title.name }}</h5>
+<ul class="list--unstyled">
+    {% for item in menu %}
+    	<li {{ item.isActive()? 'class="active"' : '' }}><a href="{{ item.url }}">{{ item.title }}</a></li>
+    {% endfor %}
+</ul>

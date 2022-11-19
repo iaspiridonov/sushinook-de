@@ -1,0 +1,31 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+	<!-- .content -->
+  <main class="content">
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <ul class="list--inline">
+          <li>
+            <a href="/{{ lang }}/">{{ Translation.of('Main') }}</a> <i class="icon fa fa-chevron-right"></i>
+          </li>
+          <li>{{ Translation.of('404') }}</li>
+        </ul>
+      </div>
+    </div><!-- /breadcrumbs -->
+    <!-- section-text -->
+    <section class="section s--text" data-role="text">
+      <div class="container">
+        <div class="s-title text-title">
+          <h1 class="title-1">{{ Translation.of('404') }}</h1>
+        </div>
+        <div class="s-content text-content">
+          <p>Запрашиваемая Вами страница не найдена.</p>
+          <p>Возможно Вы найдете её на нашей карте сайта:</p>
+          {{ pagesMap|raw }}
+        </div>
+      </div>
+    </section><!-- /section-text -->
+  </main><!-- /.content -->
+{% endblock %}

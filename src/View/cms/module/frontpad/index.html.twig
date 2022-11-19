@@ -1,0 +1,32 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block title %}{{ Translation.of('Subjects', 'cms/settings') }}{% endblock %}
+
+
+{% block content %}
+    <form method="POST" class="articlesSync">
+    	<div class="result"></div>
+        <input type="submit" class="btn btn-success" value="синхронизировать товары">
+    </form>
+
+    <script>
+    	$('.articlesSync').submit(function(){
+    		var form = $(this);
+            var btn = form.find('[type=submit]');
+            btn.attr('disabled',true);
+    		$.ajax({
+    			url: '/ru/cms/frontpad/articles',
+    			data: {},
+    			type: "POST",
+    			success: function(data){
+    				form.find('.result').html(data);
+                    btn.removeAttr('disabled');
+                    setTimeout(function(){
+                        form.find('.result').html('');
+                    },3000);
+    			}
+    		});
+    		return false;
+    	});
+    </script>	
+{% endblock %}

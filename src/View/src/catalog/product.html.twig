@@ -1,0 +1,137 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<div class="page"><!-- page content -->
+    {% include 'src/common/breadcrumbs.html.twig' %}
+    <div class="container-fluid">
+        <div class="cat--unit">
+            <div class="left">
+                <div class="stiker">
+                    {% if product.sale %}
+                        <span class="orange">Акция</span>
+                    {% endif %}
+                    {% if product.novetly %}
+                        <span class="green">Новинка</span>
+                    {% endif %}
+                </div>
+                {% set images = product.images %}
+                <div class="slider--for">
+                    {% for image in images %}
+                        <a href="{{ image.src }}" data-fancybox="group">
+                            <img src="{{ image.src }}" alt="img-38">
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="slider--nav arr">
+                    {% for image in images %}
+                        <div>
+                            <img src="{{ image.src }}" alt="img-38">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="right">
+                <h1>245/40R20 X-Ice North 4 99T Michelin б/к ШИП</h1>
+                <span class="price">{% if product.price_old is not empty %}<span class="old--price">{{ (product.price_old/100)|number_format(2, '', ' ') }} ₸</span>{% endif %} {{ (product.price/100)|number_format(2, '', ' ') }} ₸</span>
+                <div class="cat--unit__block">
+                    <span class="cat--title">{{ product.shop.name }}</span>
+                    <div class="cat--unit__info">
+                        <span class="cat--gr--title">{{ product.parent.name }}</span>
+                        <div class="row">
+                            <div class="col">
+                                <ul>
+                                    {% for address in product.shop.addresses %}
+                                        <li>{{ address.floor }} ярус, {{ address.boutique }} бутик</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <ul class="col--phone">
+                                    {% for phone in product.shop.phones|split("\n") %}
+                                        <li>
+                                            <a href="tel:+{{ phone|replace({'(':'','+':'',')':'',' ':'','-':''}) }}">{{ phone }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="/{{ lang }}/scheme/#show:{{ product.shop.getTier() }},{{ product.shop.id }}" class="btn btn-tr">показать на Схеме комплекса</a>
+                    </div>
+                </div>
+                <a href="#" class="btn open--modal" data-modal="#modal--unit">Сделать Заявку продавцу</a> 
+                <a href="{{ product.shop.url() }}" class="btn btn-tr">подробнее о продавце</a>
+            </div>
+        </div>
+        <div id="modal--unit" class="modal">
+            <div class="modal__layer"></div>
+            <div class="modal__block">
+                <a href="#" class="close"></a>
+                <h4>Заполните поля!</h4>
+                <form>
+                    <input type="text" placeholder="Имя" required="required">
+                    <input type="text" class="tel" placeholder="+7 (___) ___-__-__" required="required">
+                    <div class="g-recaptcha"><div style="width: 304px; height: 78px;"><div><iframe src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Le_fb0UAAAAACrlSoep_x3QphJ5Ly6BEy_KTfck&amp;co=aHR0cDovL251cmJhcy45ei5rejo4MA..&amp;hl=ru&amp;v=P6KLRNy7h3K160ZmYNUOAce7&amp;size=normal&amp;cb=8zofyprunfe0" width="304" height="78" role="presentation" name="a-ck68p0z6h28p" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></div>
+                    <button type="submit" class="btn open--modal" data-modal="#modal--successfully">Отправить</button>
+                </form>
+            </div>
+        </div>
+        <div id="modal--successfully" class="modal">
+            <div class="modal__layer"></div>
+            <div class="modal__block">
+                <a href="#" class="close"></a>
+                <h4>Ваше заявка успешно отправлена!</h4>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container">
+        <ul class="tabs">
+            <li class="active"><a href="#" data-tab="#tab1">Описание</a></li>
+            <li><a href="#" data-tab="#tab2">Характеристики</a></li>
+            <li><a href="#" data-tab="#tab3">Как купить</a></li>
+            <li><a href="#" data-tab="#tab4">Дополнительно</a></li>
+        </ul>
+        <div class="tabs--block" id="tab1" style="display: block;">
+            <div class="row">
+                    <p>{{ product.description|nl2br }}</p>
+            </div>
+        </div>
+        <div class="tabs--block" id="tab2">
+            <div class="row">
+                {% for characteristics in product.characteristics|batch(7) %}
+                    <div class="tabs__item">
+                        <table class="tabs__table">
+                            {% for item in characteristics %}
+                                <tr>
+                                    <td><span>{{ item.name }}</span></td>
+                                    <td>{{ item.value }}"</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="similar">
+        <div class="container">
+            <h2><a href="{{ product.shop.url() }}">Товары продавца</a></h2>
+        </div>
+        <div class="similar__slider arr num">
+            {% for item in other_products %}
+                {% include 'src/catalog/item.html.twig' with {product:item} %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="similar">
+        <div class="container">
+            <h2><a href="#">Похожие товары</a></h2>
+        </div>
+        <div class="similar__slider arr num">
+            {% for item in category_products %}
+                {% include 'src/catalog/item.html.twig' with {product:item} %}
+            {% endfor %}
+        </div>
+    </div>
+</div><!-- page content -->
+{% endblock %}

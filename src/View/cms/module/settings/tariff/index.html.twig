@@ -1,0 +1,174 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block head %}
+    <script src="/static/src/js/jquery.easy-autocomplete.min.js"></script>
+    <link rel="stylesheet" href="/static/src/css/easy-autocomplete.min.css">
+    <script src="/static/src/js/calculator.js"></script>
+{% endblock %}
+
+{% block title %}
+    Тарифы маршрутов
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                {% for country in countries %}
+                    <a href="?country={{ country.name }}" class="list-group-item {% if(country.name == activeCountry) %} active {% endif %}">{{ country.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="list-group">
+                {% for city in cities %}
+                    <a href="?country={{ activeCountry }}&city={{ city.name }}" class="list-group-item {% if(city.name == activeCity) %} active {% endif %}">{{ city.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <input type="button" class="add-tariff-btn btn btn-success" value="добавить тариф">
+                <br/>
+                <br/>
+            </div>
+            <form id="add-form" class="hidden" method="POST">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Из</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ activeCity }}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Куда</label>
+                    <input type="text" name="to" class="form-control jsCities" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Вес до 30 кг</label>
+                    <input type="number" name="cost1" class="form-control" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">за каждый  кг от 30 до 300</label>
+                    <input type="number" name="cost2" class="form-control" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">за каждый  кг от 300 до 1000</label>
+                    <input type="number" name="cost3" class="form-control" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">за каждый  кг от 1т до 3т</label>
+                    <input type="number" name="cost4" class="form-control" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">за каждый  кг свыше 3-х тонн</label>
+                    <input type="number" name="cost5" class="form-control" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Срок доставки</label>
+                    <input type="text" name="delivery_time" class="form-control" id="exampleFormControlInput1" placeholder="">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="добавить">
+                </div>
+            </form>
+            <table id="example" class="display table" cellspacing="0" width="100%" style="font-size:10px; text-align: center;">
+                <thead>
+                <tr>
+                    <th>Маршрут</th>
+                    <th>Вес до 30 кг</th>
+                    <th>за каждый  кг от 30 до 300</th>
+                    <th>за каждый  кг от 300 до 1000</th>
+                    <th>за каждый  кг от 1т до 3т</th>
+                    <th>за каждый  кг свыше 3-х тонн</th>
+                    <th>Срок доставки</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tariff in tariffs %}
+                    <tr id="tr-{{ tariff.id }}">
+                        <td>{{ tariff.from_city }}<br> ↕	 <br>{{ tariff.to_city }}</td>
+                        <td class="val1" data-id="cost1">{{ tariff.cost1 }}</td>
+                        <td class="val1" data-id="cost2">{{ tariff.cost2 }}</td>
+                        <td class="val1" data-id="cost3">{{ tariff.cost3 }}</td>
+                        <td class="val1" data-id="cost4">{{ tariff.cost4 }}</td>
+                        <td class="val1" data-id="cost5">{{ tariff.cost5 }}</td>
+                        <td class="val1" data-id="delivery_time">{{ tariff.delivery_time }}</td>
+                        <td data-id="{{ tariff.id }}"><a href="#"  class="glyphicon glyphicon-pencil edit-tariff"></a></td>
+                        <td><a href="#" class="glyphicon glyphicon-trash remove-tariff" data-id="{{ tariff.id }}"></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        var editor; // use a global for the submit and return data rendering in the examples
+
+        $(document).ready(function() {
+            $('#example').DataTable();
+
+            $('#example').on('click', '.edit-tariff', function (e) {
+                e.preventDefault();
+                var id = $(this).parent().data('id');
+                $saveElement = $('<a>').attr('href','#').addClass('glyphicon glyphicon-ok save-tariff');
+                $(this).parent().html();
+                var $tr = $('#tr-'+id);
+                $tr.find('.val1').each(function (index, el) {
+                    var $el = $(el);
+                    var inputID = $el.data('id');
+                    var input = $('<input>').css('width','40px').attr('id',inputID);
+                    input.val($el.text());
+                    $el.html(input);
+                });
+                $(this).replaceWith($saveElement);
+            });
+
+            $('.add-tariff-btn').click(function(e) {
+                e.preventDefault();
+                $('#add-form').toggleClass('hidden');
+                $('.easy-autocomplete').css('width','100%');
+            });
+        } );
+
+        $('#example').on('click', '.save-tariff', function (e) {
+            e.preventDefault();
+            var self = this;
+            var id = $(this).parent().data('id');
+            var cost1 = $('#cost1').val();
+            var cost2 = $('#cost2').val();
+            var cost3 = $('#cost3').val();
+            var cost4 = $('#cost4').val();
+            var cost5 = $('#cost5').val();
+            var delivery_time = $('#delivery_time').val();
+
+            $.post('/ru/cms/settings/tariff/edit', {
+                    id: id,
+                    cost1: cost1,
+                    cost2: cost2,
+                    cost3: cost3,
+                    cost4: cost4,
+                    cost5: cost5,
+                    delivery_time: delivery_time
+            }).done(function() {
+                var $tr = $('#tr-'+id);
+                $tr.find('.val1').each(function (index, el) {
+                    var $el = $(el);
+                    var value = $el.find('input').val();
+                    $el.html(value);
+                    $editElement = $('<a>').attr('href','#').addClass('glyphicon glyphicon-pencil edit-tariff');
+                    $(self).replaceWith($editElement);
+                });
+            });
+
+        });
+
+        $('.remove-tariff').click(function(e) {
+            var id = $(this).data('id');
+            $.post('/ru/cms/settings/tariff/remove',{ id: id})
+                .done(function(e) {
+                    $('#tr-'+id).remove();
+                });
+        });
+    </script>
+{% endblock %}

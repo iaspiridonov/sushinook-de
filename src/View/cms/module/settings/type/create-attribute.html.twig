@@ -1,0 +1,193 @@
+<fieldset id="attribute-fieldset" disabled>
+    <div class="row">
+        <div class="col-sm-4{{ errors.attribute.kind is defined ? ' has-error' : ''}}">
+            <label for="input-type-attribute-kind" class="form-control-label">{{ Translation.of('Kind', 'cms/settings') }}</label>
+            <div>
+                <select id="input-type-attribute-kind" name="attribute[kind]" class="form-control disabled">
+                    {% for group, kinds in allowedKinds %}
+                        <optgroup label="{{ group }}">
+                            {% for kind, name in kinds %}
+                                <option value="{{ kind }}"{{ old.attribute.kind is defined and old.attribute.kind == kind ? ' selected' : '' }}>{{ name }}</option>
+                            {% endfor %}
+                        </optgroup>
+                    {% endfor %}
+                </select>
+                {% if errors.attribute.kind is defined %} <div class="help-block">{{ errors.attribute.kind }}</div>{% endif%}
+            </div>
+        </div>
+        <div class="col-sm-4 form-group{{ errors.attribute.name is defined ? ' has-error' : ''}}">
+            <label for="input-type-attribute-label" class="control-label">{{ Translation.of('Name', 'cms/settings') }}</label>
+            <div>
+                <input type="text" name="attribute[name]" value="{{ old.attribute.name is defined ? old.attribute.name : '' }}" class="form-control" id="input-type-attribute-label">
+                {% if errors.attribute.name is defined %} <div class="help-block">{{ errors.attribute.name }}</div>{% endif%}
+            </div>
+        </div>
+        <div class="col-sm-4 form-group{{ errors.attribute.label is defined ? ' has-error' : ''}}">
+            <label for="input-type-attribute-name" class="control-label">{{ Translation.of('Label', 'cms/settings') }}</label>
+            <div>
+                <input type="text" name="attribute[label]" value="{{ old.attribute.label is defined ? old.attribute.label : '' }}" class="form-control" id="input-type-attribute-name">
+                {% if errors.attribute.label is defined %} <div class="help-block">{{ errors.attribute.label }}</div>{% endif%}
+            </div>
+        </div>
+    </div>
+
+    <fieldset id="attribute-properties-fieldset" style="display: none;" disabled>
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-sm-4">
+                <fieldset{{ Locale.getLocales()|length<2 ? ' disabled' : '' }}>
+                    {% set translatable = 0 %}
+                    {% if old.attribute.translatable is defined %}
+                        {% set translatable = old.attribute.translatable %}
+                    {% endif %}
+                    <label class="control-label">{{ Translation.of('Field', 'cms/settings') }}</label>
+                    <div>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default{{ translatable == 0 ? ' active' : '' }}">
+                                <input type="radio" name="attribute[translatable]" value="0"{{ translatable == 0 ? ' checked' : '' }}><i class="fa fa-pencil-square-o"></i> {{ Translation.of('Simple', 'cms/settings') }}
+                            </label>
+                            <label class="btn btn-default{{ translatable == 1 ? ' active' : '' }}">
+                                <input type="radio" name="attribute[translatable]" value="1"{{ translatable == 1 ? ' checked' : '' }}><i class="fa fa-fw fa-language text-primary"></i>{{ Translation.of('Translatable', 'cms/settings') }}
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-sm-4">
+                {% set required = 0 %}
+                {% if old.attribute.required is defined %}
+                    {% set required = old.attribute.required %}
+                {% endif %}
+                <label class="control-label">{{ Translation.of('For filling', 'cms/settings') }}</label>
+                <div>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default{{ required == 0 ? ' active' : '' }}">
+                            <input type="radio" name="attribute[required]" value="0"{{ required == 0 ? ' checked' : '' }}>{{ Translation.of('Not required', 'cms/settings') }}
+                        </label>
+                        <label class="btn btn-default{{ required == 1 ? ' active' : '' }}">
+                            <input type="radio" name="attribute[required]" value="1"{{ required == 1 ? ' checked' : '' }}><i class="fa fa-warning text-danger"></i> {{ Translation.of('Required', 'cms/settings') }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                {% set visible = 0 %}
+                {% if old.attribute.visible is defined %}
+                    {% set visible = old.attribute.visible %}
+                {% endif %}
+                <label class="control-label">{{ Translation.of('In subjects list table', 'cms/settings') }}</label>
+                <div>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default{{ visible == 0 ? ' active' : '' }}">
+                            <input type="radio" name="attribute[visible]" value="0"{{ visible == 0 ? ' checked' : '' }}><i class="fa fa-eye-slash"></i>  {{ Translation.of('Not visible', 'cms/settings') }}
+                        </label>
+                        <label class="btn btn-default{{ visible == 1 ? ' active' : '' }}">
+                            <input type="radio" name="attribute[visible]" value="1"{{ visible == 1 ? ' checked' : '' }}><i class="fa fa-eye text-primary"></i> {{ Translation.of('Visible', 'cms/settings') }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <fieldset id="attribute-multivalue-fieldset" style="display: none;" disabled>
+            <div class="row">
+                <div class="col-sm-12 form-group{{ errors.attribute.values is defined ? ' has-error' : ''}}">
+                    <label for="attribute-property-textarea" class="control-label">Key:Value<i class="fa fa-fw fa-level-down"></i></label>
+                    <div>
+                        <textarea name="attribute[values]" id="attribute-property-textarea" class="form-control" rows="10">{{ old.attribute.values is defined ? old.attribute.values : '' }}</textarea>
+                    </div>
+                    {% if errors.attribute.values is defined %} <div class="help-block">{{ errors.attribute.values }}</div>{% endif%}
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset id="attribute-relations" style="display: none;" disabled>
+        <fieldset id="attribute-direct-relations-fieldset" style="display: none;" disabled>
+            <div  class="row">
+                <div class="col-sm-4 form-group{{ errors.attribute.relation is defined ? ' has-error' : ''}}">
+                    <label class="control-label" for="attribute-direct-relations-select">
+                        {{ Translation.of('Choose types', 'cms/settings') }}
+                    </label>
+                    <div>
+                        <span id="is-factory" class="label label-primary" style="font-size: 13px; display: none;"><i class="fa fa-sitemap"></i></span> <select id="attribute-direct-relations-select" name="attribute[relation][]" size="1" multiple="multiple">
+                            {% for type in Registry.get('types') %}
+                                <option value="{{ type.name }}"{{ old.attribute.relation is defined and type.name in old.attribute.relation ? ' selected' : '' }}>{{ type.label }} #{{ type.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% if errors.attribute.relation is defined %} <div class="help-block">{{ errors.attribute.relation }}</div>{% endif%}
+                </div>
+                <div class="col-sm-4 form-group">
+                    {% set strong = 1 %}
+                    {% if old.attribute.strong is defined %}
+                        {% set strong = old.attribute.strong %}
+                    {% endif %}
+                    <label class="control-label">{{ Translation.of('Relation', 'cms/settings') }}</label>
+                    <div>
+                        <fieldset id="strong-fieldset" class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default{{ strong == 1 ? ' active' : '' }}">
+                                <input type="radio" name="attribute[strong]" value="1"{{ strong == 1 ? ' checked' : '' }}><i class="fa fa-plug text-danger"></i> {{ Translation.of('Strong', 'cms/settings') }}
+                            </label>
+                            <label class="btn btn-default{{ strong == 0 ? ' active' : '' }}">
+                                <input type="radio" name="attribute[strong]" value="0"{{ strong == 0 ? ' checked' : '' }}><i class="fa fa-plug text-success"></i> {{ Translation.of('Weak', 'cms/settings') }}
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="col-sm-4 form-group">
+                    {% set internal = 0 %}
+                    {% if old.attribute.internal is defined %}
+                        {% set internal = old.attribute.internal %}
+                    {% endif %}
+                    <label class="control-label">{{ Translation.of('Form fills', 'cms/settings') }}</label>
+                    <div>
+                        <fieldset id="internal-fieldset" class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default{{ internal == 0 ? ' active' : '' }}">
+                                <input type="radio" name="attribute[internal]" value="0"{{ internal == 0 ? ' checked' : '' }}><i class="fa fa-object-ungroup text-primary"></i> {{ Translation.of('External', 'cms/settings') }}
+                            </label>
+                            <label class="btn btn-default{{ internal == 1 ? ' active' : '' }}">
+                                <input type="radio" name="attribute[internal]" value="1"{{ internal == 1 ? ' checked' : '' }}><i class="fa fa-object-group text-primary"></i> {{ Translation.of('Internal', 'cms/settings') }}
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset id="attribute-back-relations-fieldset" style="display: none;" disabled>
+            <div class="row">
+            {% if possibleBackRelations.count() %}
+                <div class="col-md-4 form-group{{ errors.attribute.back_relation is defined ? ' has-error' : ''}}">
+                    <label class="control-label" for="attribute-back-relations-select">
+                        {{ Translation.of('Choose foreign relation', 'cms/settings') }}
+                    </label>
+                    <div>
+                        <select id="attribute-back-relations-select" name="attribute[back_relation]" class="form-control">
+                            {% for relation in possibleBackRelations %}
+                                <option value="{{ relation.id }}"{{ old.attribute.back_relation is defined and old.attribute.back_relation == relation.id ? ' selected' : '' }}>{{ relation.type }}.{{ relation.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% if errors.attribute.back_relation is defined %} <div class="help-block">{{ errors.attribute.back_relation }}</div>{% endif%}
+                </div>
+            {% else %}
+                <div class="col-md-12 text-danger">There is no any direct-relation to this type, for creating back-relation.</div>
+            {% endif %}
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-sm-12 form-group{{ errors.attribute.single is defined ? ' has-error' : ''}}">
+                <label class="control-label">{{ Translation.of('Result is', 'cms/settings') }}</label>
+                {% set single = old.attribute.single is defined ? old.attribute.single : 1 %}
+                <div>
+                    <fieldset id="single-fieldset" class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default{{ single == 1 ? ' active' : '' }}">
+                            <input type="radio" name="attribute[single]" value="1"{{ single == 1 ? ' checked' : '' }}><i class="fa fa-cube text-primary"></i> {{ Translation.of('Single subject', 'cms/settings') }}
+                        </label>
+                        <label class="btn btn-default{{ single == 0 ? ' active' : '' }}">
+                            <input type="radio" name="attribute[single]" value="0"{{ single == 0 ? ' checked' : '' }}><i class="fa fa-cubes text-primary"></i> {{ Translation.of('Collection of subjects', 'cms/settings') }}
+                        </label>
+                    </fieldset>
+                </div>
+                {% if errors.attribute.single is defined %} <div class="help-block">{{ errors.attribute.single }}</div>{% endif%}
+            </div>
+        </div>
+    </fieldset>
+</fieldset>

@@ -1,0 +1,100 @@
+<!-- Constructor Modal -->
+<div class="modal modal-o fade" id="constructor-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="desktop-constructor-modal-container">
+    {% include '/src/index/constructor-modal-desktop.html.twig' %}
+  </div>
+</div>
+
+
+
+  <!-- mobile -->
+  <div class="m_fixed">
+    <div class="mob_result_box"></div>
+    <div class="halves-sides">
+        <div class="halves-side left">
+          <div class="in">
+            <div class="text text--gray" data-output="placeholder-left">Левая половинка</div>
+            <div class="text text--gray" data-output="description-left" style="display: none;"></div>
+          </div>
+        </div>
+        <div class="halves-side right">
+          <div class="in">
+            <div class="text text--gray" data-output="placeholder-right">Правая половинка</div>
+            <div class="text text--gray" data-output="description-right" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+     <div class="m_fixed_box">
+       <button class="btn btn--primary mobileHalfControl">Объединить половинки</button>
+     </div>
+  </div>
+
+ <!-- Mobile Constructor Modal -->
+<div class="modal modal-o fade" id="mobile-constructor-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered long_modal" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close mob_show_c_control" data-target="#constructor-modal" data-toggle="modal" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <div class="modal_flex start_flex">
+            <div class="modal_left">
+              <div class="modal_img">
+                <div class="halves-viewport">
+                  <div class="halves-placeholder" style="position: relative;">
+                  <img id="p_holder2" src="/img/pizza-placeholder.png" class="img--cover" />
+                  <img class="ph_img left_i" id="post_left_img2" src="">
+                  <img class="ph_img right_i" id="post_right_img2" src="">
+                </div>
+                </div>
+              </div>
+              <div class="halves-side left">
+                	<div class="h_img_ab">
+                		<img src="/img/half_p.png" id="post_left_img4">
+                	</div>
+                  <div class="in">
+                    <div class="text text--gray" data-output="placeholder-left">Левая половинка</div>
+                    <div class="text text--gray" data-output="description-left" style="display: none;"></div>
+                 		<div class="post_ings" style="margin: 0" data-output="ings-left"></div>
+                  </div>
+                </div>
+                <div class="halves-side right">
+                	<div class="h_img_ab">
+                		<img src="/img/half_p.png" id="post_right_img4">
+                	</div>
+                  <div class="in">
+                    <div class="text text--gray" data-output="placeholder-right">Правая половинка</div>
+                    <div class="text text--gray" data-output="description-right" style="display: none;"></div>
+                    <div class="post_ings" style="margin: 0" data-output="ings-right"></div>
+                  </div>
+                </div>        
+              <div class="modal_items">
+                  <div class="halves-values">
+                  <div class="text--center">
+                    <span>Большая 35 см</span>
+                    <input type="hidden" name="size" data-size="35">
+                  </div>
+                </div>
+                <div class="halves-values">            
+                  <div class="text--center">
+                    <input type="radio" name="type" id="types-1-3" />
+                    <label class="radio-type" id="trigger_radio2" for="types-1-3">Традиционное</label>
+                    <input type="radio" name="type" id="types-1-4" />
+                    <label class="radio-type" for="types-1-4">Тонкое</label>
+                  </div>
+                </div>
+                <div class="halves-result halvesTotal" data-role="result">
+                  <div>
+                    <b><span data-output="result">0</span> тг.</b>
+                  </div>
+                  <div>
+                    <a href="#" class="btn btn--primary halfPizzaAdd btnDisabled">In den Warenkorb</a>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

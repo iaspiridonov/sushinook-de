@@ -1,0 +1,6 @@
+<h2>{{ Translation.of('mail')['user-title'] }}</h2>
+{% for name,val in data %}
+	{% if val is not empty %}
+		<p><b>{{ Translation.of('mail')[name] }}:</b> {{ val }}</p>
+	{% endif %}
+{% endfor %}

@@ -1,0 +1,43 @@
+{% set relationForm = form.of(relation.settings.is, form.getPrefix()|merge([form.getType('name'), relation.name])) %}
+{% set relationSubject = null %}
+{% if form.getSubject() is not empty %}
+    {% set relationSubject = form.getSubject().getRelations(relation.name) %}
+    {% set relationForm = relationForm.setSubject(relationSubject) %}
+{% endif %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-plug text-{{ relation.isStrong() ? 'danger' : 'success' }}"></i> {{ relation.label }}{% if relationSubject is empty %}: <button id="{{ relationForm.getId() }}-show-switch" type="button" class="btn btn-sm btn-primary" style="margin-top:-8px; margin-bottom: -6px;"><i class="fa fa-plus"></i>{{ relation.label != Registry.get('types').get(relation.settings.is).label ? Registry.get('types').get(relation.settings.is).label : '' }}</button>{% elseif relation.label != Registry.get('types').get(relation.settings.is).label %}: {{ Registry.get('types').get(relation.settings.is).label }}{% endif %}</h3>
+            </div>
+            <div class="panel-body">
+                {{ relationForm.builder()|raw }}
+                {% if relationSubject is empty %}
+                <script type="text/javascript">
+                    $(function () {
+
+                        $('#{{ relationForm.getId() }}-fieldset').prop('disabled', true).closest('div.panel-body').hide();
+
+                        $('#{{ relationForm.getId() }}-show-switch').click(function () {
+                            $btn = $(this);
+                            $fieldset = $('#{{ relationForm.getId() }}-fieldset');
+                            if ($fieldset.prop('disabled')) {
+                                $fieldset.prop('disabled', false).show();
+                                $fieldset.closest('.panel-body').slideDown();
+                                $btn.removeClass('btn-primary').addClass('btn-danger').find('i.fa').removeClass('fa-plus').addClass('fa-remove');
+                            } else {
+                                $fieldset.closest('.panel-body').slideUp("slow", function () {
+                                    $fieldset.prop('disabled', true).hide();
+                                });
+                                $btn.removeClass('btn-danger').addClass('btn-primary').find('i.fa').removeClass('fa-remove').addClass('fa-plus');
+                            }
+                        });
+
+                        {% if relationForm.old() is not empty %}$('#{{ relationForm.getId() }}-show-switch').click();{% endif %}
+                    });
+                </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

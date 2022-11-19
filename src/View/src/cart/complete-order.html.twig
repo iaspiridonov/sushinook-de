@@ -1,0 +1,371 @@
+<div class="form--order" data-form="order">
+  <form method="POST" class="orderForm">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-5 col-lg-push-8 col-md-push-8 col-sm-push-7 checkBlock">
+        {% include '/src/cart/check.html.twig' %}
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-7 col-lg-pull-4 col-md-pull-4 col-sm-pull-5">
+
+        <fieldset>
+          <div class="form-title">
+            <h3 class="title-3">Kontaktinformationen</h3>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label class="control-label">Name<sup>*</sup></label>
+                <div class="controls">
+                  <input type="text" class="form-control" name="name" required value="{{ account is not empty ? account.name : '' }}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group">
+                <label class="control-label">Handy<sup>*</sup></label>
+                <div class="controls">
+                  <input type="tel" class="form-control" id="js-phone" name="phone" value="{{ account is not empty ? account.phone : '' }}" data-inputmask="'alias':'phone', 'mask':'+49 9999999999[9]'" placeholder="+49 " required />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group" style="display:none;">
+                <label class="control-label">E-mail</label>
+                <div class="controls">
+                  <input type="email" class="form-control" name="email" value="{{ account is not empty ? account.email : '' }}" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-title delivery-options">
+            {% if info.sum < 2500 %}
+              <input type="radio" name="delivery" id="delivery-2" data-type="2" value="Самовывоз" checked />
+              <label class="radio span_block" for="delivery-2">Abholung</label>
+            {% else %}
+              <input type="radio" name="delivery" id="delivery-1" data-type="1" value="Доставка" checked />
+              <label class="radio" for="delivery-1">Lieferung</label>
+              <input type="radio" name="delivery" id="delivery-2" data-type="2" value="Самовывоз" />
+              <label class="radio" for="delivery-2">Abholung</label>
+            {% endif %}
+          </div>
+          <div class="addressBlock" data-delivery="1">
+            <div class="row">
+              <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label">Straße<sup>*</sup></label>
+                  <div class="controls rel_box">
+                    <input type="text" autocomplete="nope" class="form-control" name="street" />
+                    <ul class="suggestions"></ul>
+
+                    <div class="t_tipe" id="address-error" style="display: none;">
+                      <div class="t_tipe_box">
+                        <svg class="alert_icon" width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6126 0.460866C10.2489 -0.153622 9.65353 -0.153622 9.29031 0.460866L0.160069 15.8786C-0.20315 16.4919 0.0729962 16.9948 0.773728 16.9948H19.1288C19.8295 16.9948 20.106 16.4919 19.7428 15.8786L10.6126 0.460866Z" transform="translate(1 1)" fill="white" stroke="white" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M-1.90735e-07 0V4.5" transform="translate(10.9492 8)" stroke="#EB1D00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M2 0.998193C2 1.5512 1.5494 2 1.00181 2C0.446386 2 0 1.5512 0 0.998193C0 0.449398 0.446386 0 1.00181 0C1.5494 0 2 0.449398 2 0.998193Z" transform="translate(10 14)" fill="#EB1D00"></path>
+                        </svg>
+                        <div class="res-block address-res">Geben Sie Ihre Adresse ein</div>
+                        <svg class="arr_svg" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <path transform="translate(-2 0)" fill-rule="evenodd" d="M 9.52569 1.60834L 3.07216 8.64855C 1.89626 9.93135 2.80626 12 4.54647 12L 17.4535 12C 19.1937 12 20.1037 9.93135 18.9278 8.64855L 12.4743 1.60834C 11.6816 0.743602 10.3184 0.743603 9.52569 1.60834Z"></path>
+                        </svg>
+                        <svg class="t_tipe_close" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <path fill="#FFFFFF" fill-opacity="0.2" fill-rule="evenodd" d="M 11 0C 4.92487 1.14941e-15 -7.1838e-16 4.92487 0 11C 8.62056e-16 17.0751 4.92487 22 11 22C 17.0751 22 22 17.0751 22 11C 22 4.92487 17.0751 -1.14941e-15 11 0Z"></path>
+                          <path transform="translate(6.5 6.5)" fill-rule="evenodd" d="M 5.33691 4.39941L 8.60645 1.12793C 8.86426 0.870117 8.86426 0.452148 8.60645 0.193359C 8.34863 -0.0644531 7.93066 -0.0644531 7.67285 0.193359L 4.39941 3.46582L 1.12988 0.193359C 0.87207 -0.0644531 0.454102 -0.0644531 0.196289 0.193359C -0.0654297 0.452148 -0.0654297 0.870117 0.196289 1.12793L 3.46582 4.39941L 0.196289 7.67188C -0.0654297 7.92969 -0.0654297 8.34863 0.196289 8.60645C 0.454102 8.86426 0.87207 8.86426 1.12988 8.60645L 4.39941 5.33398L 7.67285 8.60645C 7.93066 8.86426 8.34863 8.86426 8.60645 8.60645C 8.86426 8.34863 8.86426 7.92969 8.60645 7.67188L 5.33691 4.39941Z"></path>
+                        </svg>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                <div class="form-group">
+                  <label class="control-label">Hausnummer<sup>*</sup></label>
+                  <div class="controls">
+                    <input type="text" class="form-control" name="house" value="{{ account is not empty ? account.house : '' }}" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-8 col-xs-8">
+                <div class="form-group">
+                  <label class="control-label">Wohnung</label>
+                  <div class="controls">
+                    <input type="text" class="form-control" name="flat" value="{{ account is not empty ? account.flat : '' }}" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                <div class="form-group">
+                  <label class="control-label">Stock</label>
+                  <div class="controls">
+                    <input type="text" class="form-control" name="level" value="{{ account is not empty ? account.level : '' }}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pizzaAddressBlock" data-delivery="2">
+            <div class="form-group">
+                <label class="control-label">Restaurant<sup>*</sup></label>
+                <div class="controls rel_box">
+                  <select class="form-control" name="branch">
+                    {% for b in branches %}
+                      <option {{ loop.index == 1 ? ' selected ' : '' }} value="{{ b.address }}">{{ b.address }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+          </div>
+        </fieldset>
+        <fieldset class="deliveryHide" {{ info.sum < 2500 ? 'style="display:none;"' : '' }}>
+          <div class="form-title">
+            <h3 class="title-3">Zahlung</h3>
+          </div>
+          <div class="form-group group--payment">
+            <div class="controls">
+              <div class="row">
+                <div class="col-xs-6">
+                  <input type="radio" name="payment" id="payment-1" value="Наличными" checked />
+                  <label class="radio" for="payment-1">Bar</label>
+                </div>
+                <div class="col-xs-6">
+                  <input type="radio" name="payment" id="payment-2" value="Картой курьеру" />
+                  <label class="radio" for="payment-2">Karte</label>
+                </div>
+{#                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 m_t_margin">#}
+{#                  <input type="radio" name="payment" id="payment-3" value="Картой" />#}
+{#                  <label class="radio" for="payment-3">Картой на сайте</label>#}
+{#                </div>#}
+              </div>
+            </div>
+          </div>
+          <div class="form-group group--surrender">
+            <label class="control-label">Wechselgeld von</label>
+            <div class="controls">
+              <input type="text" class="form-control surrender" name="surrender" />
+              <input type="checkbox" id="surrender" />
+              <label class="checkbox" for="surrender">Exakt</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-title">
+            <div {{ workTimeActive ? 'style="display: none;"' : '' }}>
+              <p style="color:red; margin-bottom:5px;">* Wir sind derzeit geschlossen.</p>
+              <p>Arbeitszeiten:<br>
+                Montag – Freitag: <br>
+                11Uhr bis 14Uhr <br>
+                17Uhr bis 22Uhr <br>
+                Samstags, Sonntags & Feiertags: 15Uhr bis 22Uhr <br>
+                Dienstag: Ruhetag
+              </p>
+            </div>
+            <h3 class="title-3">Vorbestellung</h3>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group">
+                  <label class="control-label">Lieferzeit wählen</label>
+                
+                <div class="controls rel">
+                  <a href="#modal--time" data-toggle="modal" class="select_time">Veränderung</a>
+                  <input type="hidden" name="time_from" value="{{ workTimeActive ? currentTime : '09:30' }}">
+                  <input type="hidden" name="time_to" value="{{ workTimeActive ? '' : '10:00' }}">
+                  <input type="text" class="form-control time_input" name="preorder" value="{{ workTimeActive ? 'Sofort' : 'von 09:30 bis 10:00 Uhr' }}">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group" style="display:none;">
+                <label class="control-label">E-mail</label>
+                <div class="controls">
+                  <input type="email" class="form-control" name="email" value="{{ account is not empty ? account.email : '' }}" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-title">
+            <h3 class="title-3">Bemerkungen</h3>
+          </div>
+          <div class="form-group">
+            <label class="control-label"></label>
+            <div class="controls">
+              <textarea class="form-control" name="message" rows="5"></textarea>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <input type="hidden" name="cod_sms" value="{{ random(1111, 9999) }}">
+          <div class="form-title">
+            <h3 class="title-3">Bestätigung einer Bestellung</h3>
+          </div>
+          <div class="form-group group--surrender">
+            <div class="controls">
+              <button class="btn btn--primary" id="submit_code" type="button">Senden Sie mir den WhatsApp-Code</button>
+            </div>
+          </div>
+          <div class="form-group" id="js-bonus-block" style="display: none;">
+            Sie haben <span class="js-bonus-count"></span> Boni <br>
+            <input class="js-bonus-count js-use-bonus" type="checkbox" name="count_bonus" id="js-use-bonus" value="0" style="display: none;" />
+            <label class="checkbox span_block js-use-bonus" for="js-use-bonus" style="display: none;">Verwenden?</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="agb" required>
+            <label for="agb" class="checkbox span_block">
+              <a href="/page/26-dogovor-publichnoy-oferty.html" target="_blank">Ich stimme AGB zu</a>
+            </label>
+          </div>
+        </fieldset>
+        <div class="form-controls">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8 m_m0 m_mar">
+              <a href="/{{ lang }}/" class="btn btn--black btn--back" data-step="cart-tab-1">Zurück zum Menü</a>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text--right m_m0">
+              <button type="submit" id="js-send-order" disabled class="btn btn--primary btn--block completeTotalBtn">
+                {% if promoamount is defined and promoamount is not null %}
+                  <span>Bestellung aufgeben &nbsp;{{ (promoamount/100)|number_format(2,'.',' ') }} EUR</span>
+                {% else %}
+                  <span>Bestellung aufgeben &nbsp;{{ (info.sum/100)|number_format(2,'.',' ') }} EUR</span>
+                {% endif %}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div><!-- /form-order -->
+
+
+
+
+ <script src="/js/jquery.js"></script>
+ <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
+ <script>
+
+    $('#submit_code').click(function (e) {
+      var form = $('.orderForm');
+      var data = form.serialize();
+      $.ajax({
+        type: "POST",
+        url: '/ru/cart/sendcode',
+        data: data,
+        dataType: 'json',
+        success: function(data) {
+          if (data.status === false) {
+            alert(data.error);
+            return false;
+          }
+
+          $('#js-send-order').prop('disabled', false);
+          if (!$('#js-phone_code').length) {
+            $('<input>').attr({
+              type: 'text',
+              id: 'js-phone_code',
+              name: 'phone_code',
+              class: 'form-control',
+              placeholder: 'Code eingeben',
+              style: 'margin-left: 1.625rem; margin-right: 0;'
+            }).insertAfter($('#submit_code'));
+          }
+
+          if (data.count > 0) {
+            $('#js-use-bonus').val(data.count);
+            $('.js-use-bonus').show('').val(data.count);
+          }
+
+          $('.js-bonus-count').html(data.count ? data.count : 0);
+          $('#js-bonus-block').show('');
+        }
+      });
+    });
+
+    var inputSave = function(form){
+        form.find('[type="text"]').each(function(){
+            var el = $(this);
+            var name = el.attr('name');
+            var val = el.val();
+            if(name == 'promo') return;
+            localStorage.setItem(name,val);
+        });
+
+        form.find('[type="tel"]').each(function(){
+            var el = $(this);
+            var name = el.attr('name');
+            var val = el.val();
+            localStorage.setItem(name,val);
+        });
+
+        form.find('[type="email"]').each(function(){
+            var el = $(this);
+            var name = el.attr('name');
+            var val = el.val();
+            localStorage.setItem(name,val);
+        });
+    }
+
+    var sendorder = function(data){
+        $.ajax({
+            type: "POST",
+            url: '/ru/cart/send',
+            data: data,
+            dataType: 'json',
+            success: function(data) {
+                if (data.test) {
+                  alert(JSON.stringify(data.test));
+                }
+                if (data == 'code_error') {
+                  alert("ungültiger Bestätigungscode");
+                  $('#js-phone_code').val('').css('borderColor', 'red');
+                  return false;
+                }
+
+                if(data.status === false){
+                  alert("Fehler bei der Bestellung");
+                  window.location.href("/");
+                  return false;
+                }
+                updateRycleSum();
+
+                $('.cart-tabs ul li').removeClass('active');
+                $('.cart-tabs ul li:last').addClass('active');
+                $('#cart-tab-2').removeClass('active in');
+                $('#cart-tab-3').find('.orderNum').text(data.order);
+                $('#cart-tab-3').addClass('active in');
+            }
+        });
+    };
+
+    $('.orderForm').on('submit', function(e){
+        e.preventDefault();
+        var form = $(this);
+        var pay = form.find('[name="payment"]:checked').val();
+        var data = form.serialize();
+        console.log(data);
+        var amount = form.find('.completeTotal').html().replace(' ','');
+        amount = parseInt(amount);
+
+        inputSave(form);
+
+        if(pay == 'Картой'){
+            //   if($('input[name="name"]').val() == 'testpay'){
+            //     amount = 10;
+            // }
+            cloudpay(amount,data);
+            return false;
+        }
+
+        sendorder(data);
+        return false;
+    });
+
+    $(document).ready(function(){
+
+      // $('#modal--time').modal();
+    })
+    
+ </script>

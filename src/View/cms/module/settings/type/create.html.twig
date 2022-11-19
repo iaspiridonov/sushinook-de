@@ -1,0 +1,46 @@
+{% extends 'cms/layout/layout.html.twig' %}
+
+{% block title %}{{ Translation.of('Create', 'cms/settings') }} {{ Translation.of('Type', 'cms/settings') }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{{ path.controller }}/types">{{ Translation.of('Types', 'cms/settings') }}</a></li>
+    <li class="breadcrumb-item active">{{ Translation.of('Create', 'cms/settings') }}</li>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <form method="post">
+            {{ Csrf|raw }}
+            <div class="row">
+                <div class="form-group col-sm-6{{ errors.name is defined ? ' has-error' : '' }}">
+                    <label for="input-type-name" class="control-label">{{ Translation.of('Name', 'cms/settings') }}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <label style="margin:0;">
+                                <input type="checkbox" name="is_hidden" value="1"{{ old is empty or old.is_hidden == 1 ? ' checked' : '' }}> {{ Translation.of('Hidden', 'cms/settings') }}
+                            </label>
+                        </span>
+                        <input type="text" name="name" value="{{ old.name is defined ? old.name : '' }}" class="form-control" id="input-type-name">
+                    </div>
+                    <div>
+                        {% if errors.name is defined %} <div class="help-block">{{ errors.name }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="form-group col-sm-6{{ errors.label is defined ? ' has-error' : '' }}">
+                    <label for="input-type-label" class="control-label">{{ Translation.of('Label', 'cms/settings') }}</label>
+                    <div>
+                        <input type="text" name="label" value="{{ old.label is defined ? old.label : '' }}" class="form-control" id="input-type-label">
+                        {% if errors.label is defined %} <div class="help-block">{{ errors.label }}</div>{% endif%}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-save"></i> {{ Translation.of('Create', 'cms/settings') }}</button>
+                    <a href="{{ path.controller }}/types" class="btn btn-danger">{{ Translation.of('Cancel', 'cms/settings') }}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% if pagination.get('maxPages') > 1 %}
+    <div>
+        <nav aria-label="pagination">
+            <ul class="pagination">
+                {% if pagination.previousPageUrl() %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ pagination.previousPageUrl() }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                {% endif %}
+
+                {% for page,url in pagination.next() %}
+
+                    {% if page == pagination.get('page') %}
+                        <li class="page-item active">
+                        <span class="page-link">
+                            {{ page }}<span class="sr-only">(current)</span>
+                        </span>
+                        </li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ url }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if pagination.nextPageUrl() %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ pagination.nextPageUrl() }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endif %}

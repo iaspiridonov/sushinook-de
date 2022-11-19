@@ -1,0 +1,5 @@
+<ul class="list--unstyled">
+    {% for num in phones|split("\n") %}
+    	<li><a href="tel:{{num|replace({' ': ''})}}"><b>{{ num }}</b></a></li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,65 @@
+<style>
+	table, table th, table td{
+		border: 1px solid #000;
+	}
+</style>
+<h2>{{ Translation.of('mail')['title'] }}</h2>
+{% for name,val in message %}
+
+	{% if name != "time_from" and name != "time_to" %}
+
+		{% if val is not empty %}
+			<p><b>{{ Translation.of('mail')[name] }}:</b> {{ val }}</p>
+		{% endif %}
+
+	{% endif %}
+	
+{% endfor %}
+
+<h2>{{ Translation.of('mail')['total'] }}: {{ total }}</h2>
+<table>
+	<thead>
+		<tr>
+			<th>{{ Translation.of('mail')['cart']['title'] }}</th>
+			<th>{{ Translation.of('mail')['cart']['info'] }}</th>
+			<th>{{ Translation.of('mail')['cart']['count'] }}</th>
+			<th>{{ Translation.of('mail')['cart']['price'] }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in combo %}
+			<tr>
+				<td>{{ item.name }}</td>
+				<td>
+					{{ item.desc|raw }} <br/>
+					{% for title,items in item.details %}
+						{% for c in items %}
+							<b>{{ c }}, </b>
+						{% endfor %}
+	                {% endfor %}
+				</td>
+				<td>{{ item.count }}</td>
+				<td>{{ item.total }}</td>
+			</tr>
+		{% endfor %}
+		{% for item in half %}
+			<tr>
+				<td>{{ item.left }} + {{ item.right }}</td>
+				<td>Большая {{ item.size }} см, {{ item.type }} тесто, <strong> {{ item.leftIngs is defined ? item.left ~ ':' ~ item.leftIngs ~ ',' : '' }}</strong> <strong>{{ item.rightIngs is defined ? item.right ~ ':' ~ item.rightIngs : '' }}</strong></td>
+				<td>{{ item.count }}</td>
+				<td>{{ item.price }}</td>
+			</tr>
+		{% endfor %}
+		{% for item in products %}
+			<tr>
+				<td>{{ item.name }}</td>
+				<td>
+					{{ item.desc }} <br/>
+					{{ item.ingsAdd is not empty ? 'Добавить' ~ item.ingsAdd : '' }} <br/>
+				</td>
+				<td>{{ item.count }}</td>
+				<td>{{ item.price }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

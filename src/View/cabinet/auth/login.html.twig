@@ -1,0 +1,25 @@
+{% extends 'src/layout.html.twig' %}
+
+
+{% block content %}
+<div class="page"><!-- page content -->
+    {% include 'src/common/breadcrumbs.html.twig' %}
+    <div class="container">
+        <h1>Вход для арендаторов</h1>
+        <form method="POST" class="in radius">
+        	{% if alert  is not empty %}
+	        	<p style="color: red;">
+	        		{{ alert }}
+	        	</p>
+	        {% endif %}
+            <input name="email" {% if old.email is defined %}value="{{ old.email }}"{% endif %} type="email" placeholder="E-mail">
+            <input name="password" type="password" placeholder="Пароль">
+            <input type="submit" class="btn" value="Войти">
+            <!--<div class="forgot">
+                <a href="#">Зарегистрироваться</a>
+                <a href="#">Забыли пароль?</a>
+            </div>-->
+        </form>
+    </div>
+</div><!-- page content -->
+{% endblock %}

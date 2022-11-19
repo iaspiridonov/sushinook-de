@@ -1,0 +1,33 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<div class="page"><!-- page content -->
+    {% include 'src/common/breadcrumbs.html.twig' %}
+    <div class="container-fluid">
+        <h1>Каталог товаров</h1>
+        <div class="cat__block">
+            {% if categories.count() %}
+                {% set perColumn = (categories.count()/4)|round(1,'ceil') %}
+
+                {% for cats in categories|batch(perColumn) %}
+                    <div class="col">
+                        {% for cat in cats %}
+                            <a href="{{ cat.url() }}" class="cat__item radius {{ (cat.long?'h':'') }}">
+                                <div class="cat__img"><img src="{{ cat.image }}" alt="img-9"></div>
+                                <div class="cat__name">
+                                    <h4>{{ cat.name }}</h4>
+                                    <div class="cat__more">
+                                        <span>{{ cat.productsCount() }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>В каталоге нет товаров</p>
+            {% endif %}
+        </div>
+    </div>
+</div><!-- page content -->
+{% endblock %}

@@ -1,0 +1,77 @@
+</form>
+{% if withDefaultScripts %}
+<script type="text/javascript">
+    $(function () {
+
+        $('button.cancel-factory').click(function () {
+            var $btn = $(this);
+            var $panelBody = $btn.closest('div.panel').children('div.panel-body');
+
+            $btn.closest('span.cancel-factory-span').hide().parent().find('span.dropdown').show();
+
+            $panelBody.slideUp("slow", function () {
+                $(this).children("fieldset").prop('disabled', true).hide();
+            });
+        });
+
+        $form = $('#{{ formAttributes.get('id') }}');
+
+        $form.find('select.multiselect-html').multiselect({
+            maxHeight: 400,
+            nonSelectedText: 'Not selected',
+            allSelectedText: 'All selected',
+            numberDisplayed: 1
+        });
+
+        $form.find('textarea.html-editor').ckeditor();
+
+        $form.find('div.datetimepicker').datetimepicker({
+            language: 'ru',
+            todayBtn:true,
+            todayHighlight:true,
+            autoclose:true,
+            format: 'yyyy-mm-dd hh:ii:ss'
+        });
+
+        $form.find('div.datepicker').datetimepicker({
+            language: 'ru',
+            todayBtn: true,
+            todayHighlight:true,
+            autoclose:true,
+            format: 'yyyy-mm-dd',
+            minView:'month'
+        });
+
+        $form.find('input:file').change(function(){
+            var file = $(this);
+
+            if(file.hasClass('file-photo')){
+                file.parents('label').find('div.photo-preview').remove();
+            }
+
+            if(file.val()){
+                file.parents('label').find('span').text(file.val() ? file.val().split('\\').pop() : 'Выбрать');
+
+                if(file.hasClass('file-photo') && window.FileReader){
+
+                    var reader  = new FileReader();
+
+                    reader.onloadend = function () {
+                        $('<div class="photo-preview">').html($('<img src="'+reader.result+'" width="200">')).prependTo(file.parents('label'));
+                    }
+
+                    reader.readAsDataURL(file[0].files[0]);
+                }
+
+                return true;
+            }
+
+            file.parents('label').find('span').text('Выбрать');
+        });
+    });
+
+    function switchAllLocales(className) {
+        $('a.'+className).tab('show');
+    }
+</script>
+{% endif %}

@@ -1,0 +1,34 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<div class="page"><!-- page content -->
+    {% include 'src/common/breadcrumbs.html.twig' %}
+    <h1> {{ pageTitle }} </h1>
+    <div class="container-fluid">
+        <div class="cabinet">
+            <div class="left radius">
+                <ul>
+                    {% for item in cabinet_menu %}
+                        <li {% if item.is_active %} class="active" {% endif %}>
+                            <a href="{{ item.url }}">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% block cabinet_content %}
+            {% endblock %}
+            <div class="modal" id="success-save-profile">
+                <div class="modal__layer"></div>
+                <div class="modal__block">
+                    <a href="#" class="close"></a>
+                    <h4 id="result-text">Ваши изменения успешно сохранены!</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- page content -->
+{% endblock %}
+
+{% block other_scripts %}
+<script src="/js/profile.js"></script>
+{% endblock %}

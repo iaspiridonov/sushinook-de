@@ -1,0 +1,132 @@
+{% extends 'src/layout.html.twig' %}
+
+{% block content %}
+<!-- .content -->
+<main class="content">
+  {% include 'src/common/breadcrumbs.html.twig' %}
+  <!-- section-halves -->
+  <section class="section s--halves halfPizzaBlock" data-role="halves">
+    <div class="container">
+      <div class="s-title halves-title">
+        <h1 class="title-1">Пицца из половинок</h1>
+      </div>
+      <div class="halves-subtitle text--gray">
+        <div class="info">!</div> Выберите обе половинки своей пиццы. Соедини 2 любимых вкуса.
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
+          <!-- halves-list -->
+          <div class="items-list halves-list halves-list-left" data-list="left">
+            <div class="nano" data-role="scroll">
+              <div class="nano-content">
+                <div class="block-in">
+                  {% for item in products %}
+                    {% if item.halfPizza != 1 %}
+                      <!-- item -->
+                      <div class="item halves-item text--center" data-item="{{ item.id }}" data-role="item" data-image="/img/icon-pizza@2x.png">
+                        <input type="hidden" name="price" value="{{ item.halfPizzaPrice }}" />
+                        <input type="radio" name="left" id="left-pizza-{{ item.id }}" data-id="pizza-{{ item.id }}" data-name="{{ item.name }}" />
+                        <label for="left-pizza-{{ item.id }}" class="checkbox-alt">
+                          <div class="in">
+                            <div class="img">
+                              <div class="img--centered orange" data-role="lazyimg">
+                                <img data-src="/img/icon-pizza@2x.png" class="lazy" />
+                              </div>
+                            </div>
+                            <div class="title" data-role="title">{{ item.name }}</div>
+                            <div class="price text--gray"><span data-output="price"></span> тг.</div>
+                          </div>
+                        </label>
+                      </div><!-- /item -->
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div><!-- /halves-list -->
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 col-lg-push-8 col-md-push-6 col-sm-push-6">
+          <!-- halves-list -->
+          <div class="items-list halves-list halves-list-right" data-list="right">
+            <div class="nano" data-role="scroll">
+              <div class="nano-content">
+                <div class="block-in">
+                 {% for item in products %}
+                    {% if item.halfPizza != 1 %}
+                      <!-- item -->
+                      <div class="item halves-item text--center" data-item="{{ item.id }}" data-role="item" data-image="/img/icon-pizza@2x.png">
+                        <input type="hidden" name="price" value="{{ item.halfPizzaPrice }}" />
+                        <input type="radio" name="right" id="right-pizza-{{ item.id }}" data-id="pizza-{{ item.id }}" data-name="{{ item.name }}" />
+                        <label for="right-pizza-{{ item.id }}" class="checkbox-alt">
+                          <div class="in">
+                            <div class="img">
+                              <div class="img--centered orange" data-role="lazyimg">
+                                <img data-src="/img/icon-pizza@2x.png" class="lazy" />
+                              </div>
+                            </div>
+                            <div class="title" data-role="title">{{ item.name }}</div>
+                            <div class="price text--gray"><span data-output="price"></span> тг.</div>
+                          </div>
+                        </label>
+                      </div><!-- /item -->
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div><!-- /halves-list -->
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 col-lg-pull-2 col-md-pull-3 col-sm-pull-3">
+          <div class="s-content halves-content">
+            <div class="halves-viewport">
+              <div class="halves-placeholder">
+                <img id="p_holder" src="/img/pizza-placeholder2.png" class="img--cover" />
+              </div>
+              <div class="halves-view left" data-output="image-left" style="display: none;"></div>
+              <div class="halves-view right" data-output="image-right" style="display: none;"></div>
+            </div>
+            <div class="halves-sides">
+              <div class="halves-side left">
+                <div class="in">
+                  <div class="text text--gray" data-output="placeholder-left">Левая половинка</div>
+                  <div class="text text--gray" data-output="description-left" style="display: none;"></div>
+                </div>
+              </div>
+              <div class="halves-side right">
+                <div class="in">
+                  <div class="text text--gray" data-output="placeholder-right">Правая половинка</div>
+                  <div class="text text--gray" data-output="description-right" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="halves-values">
+              <label class="label text--gray">Размер:</label>
+              <div class="text--center">
+                <span>Большая 35 см</span>
+                <input type="hidden" name="size" data-size="35">
+              </div>
+            </div>
+            <div class="halves-values">
+              <label class="label text--gray">Тесто:</label>
+              <div class="text--center">
+                <input type="radio" name="type" id="types-1-1" checked />
+                <label class="radio-type" for="types-1-1">Традиционное</label>
+                <input type="radio" name="type" id="types-1-2" />
+                <label class="radio-type" for="types-1-2">Тонкое</label>
+              </div>
+            </div>
+            <div class="halves-result" data-role="result" style="display: none;">
+              <div>
+                <b><span data-output="result"></span> тг.</b>
+              </div>
+              <div>
+                <a href="#" class="btn btn--primary halfPizzaAdd">In den Warenkorb</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- /section-halves -->
+</main><!-- /.content -->
+{% endblock %}

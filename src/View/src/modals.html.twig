@@ -1,0 +1,287 @@
+<!-- modal-login -->
+<div class="modal fade modal--login" tabindex="-1" role="dialog" id="modal--login">
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white"> Вход на сайт </div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/modal-img.png" class="lazy img--cover" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs"> Вход на сайт </div>
+          <!-- form-login -->
+          <div class="form--auth form--login" data-form="reg">
+            <form method="POST" class="loginForm">
+              <div class="form-group">
+                <label class="control-label">Телефон</label>
+                <div class="controls">
+                  <input type="tel" class="form-control" name="phone" data-inputmask="'alias':'phone', 'mask':'+49 9999999999[9]'" placeholder="+49 " />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Пароль</label>
+                <div class="controls">
+                  <input type="password" class="form-control" name="password" />
+                </div>
+              </div>
+              <div class="form-controls">
+                <div class="formResult"></div>
+              </div>
+              <div class="form-controls centered-btn">
+                <button type="submit" class="btn btn--primary btn--block btn--submit">
+                  <span>Войти</span>
+                </button>
+              </div>
+              <div class="form-links">
+                <div>
+                  <a href="#" data-toggle="modal" data-target="#modal--reg">Зарегистрироваться</a>
+                </div>
+                <div>
+                  <a href="#" data-toggle="modal" data-target="#modal--recovery">Напомнить пароль</a>
+                </div>
+              </div>
+            </form>
+          </div><!-- /form-login -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-login -->
+<!-- modal-recovery -->
+<div class="modal fade modal--recovery" tabindex="-1" role="dialog" id="modal--recovery">
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white"> Напомнить пароль </div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/modal-img.png" class="lazy img--cover" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs"> Напомнить пароль </div>
+          <!-- form-recovery -->
+          <div class="form--auth form--recovery" data-form="recovery">
+            <form method="POST" class="recoverForm">
+              <div class="form-group">
+                <label class="control-label">E-mail</label>
+                <div class="controls">
+                  <input type="email" class="form-control" name="email" required="required" />
+                </div>
+              </div>
+              <div class="form-controls centered-btn">
+                <div class="result"></div>
+                <button type="submit" class="btn btn--primary btn--block btn--submit">
+                  <span>Отправить</span>
+                </button>
+              </div>
+              </div>
+            </form>
+          </div><!-- /form-recovery -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-recovery -->
+<!-- modal-reg -->
+<div class="modal fade modal--reg" tabindex="-1" role="dialog" id="modal--reg">
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white"> Регистрация </div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/modal-img.png" class="lazy img--cover" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--default btn--block" data-toggle="modal" data-target="#modal--login">Войти в личный кабинет</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs"> Регистрация </div>
+          <!-- form-reg -->
+          <div class="form--auth form--reg" data-form="reg">
+            <form method="POST" class="regForm">
+              <div class="form-group">
+                <label class="control-label">Имя</label>
+                <div class="controls">
+                  <input type="text" class="form-control" name="name" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">E-mail</label>
+                <div class="controls">
+                  <input type="email" class="form-control" name="email" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Телефон</label>
+                <div class="controls">
+                  <input type="tel" class="form-control" name="phone" data-inputmask="'alias':'phone', 'mask':'+49 9999999999[9]'" placeholder="+49 " />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Пароль</label>
+                <div class="controls">
+                  <input type="password" class="form-control" name="password" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Повторите пароль</label>
+                <div class="controls">
+                  <input type="password" class="form-control" name="password_confirm" />
+                </div>
+              </div>
+              <div class="form-controls centered-btn">
+                <button type="submit" class="btn btn--primary btn--submit">
+                  <span>Зарегистрироваться</span>
+                </button>
+              </div>
+              <div class="form-controls">
+                <div class="formResult"></div>
+              </div>
+              <div class="form-controls visible-xs">
+                <button type="button" class="btn btn--default btn--block" data-toggle="modal" data-target="#modal--login">Войти в личный кабинет</button>
+              </div>
+              </div>
+            </form>
+          </div><!-- /form-reg -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-reg -->
+<!-- modal-recovery -->
+<div class="modal fade modal--recovery" tabindex="-1" role="dialog" id="modal--success">
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white"> Сообщение отправлено! </div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/modal-img.png" class="lazy img--cover" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs text-center22"> Сообщение отправлено! </div>
+          <!-- form-recovery -->
+          <div class="form--auth form--recovery" data-form="recovery">
+            <h2 class="h_2">Сообщение успешно отправлено!</h2>
+          </div><!-- /form-recovery -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-recovery -->
+<!-- modal-recovery -->
+<div class="modal fade modal--recovery" tabindex="-1" role="dialog" id="modal--pay-error">
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white">Ошибка в процессе оплаты картой. Попробуйте снова</div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/modal-img.png" class="lazy img--cover" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs text-center22"> Ошибка в процессе оплаты картой. Попробуйте снова </div>
+          <!-- form-recovery -->
+          <div class="form--auth form--recovery" data-form="recovery">
+            <h2 class="h_2">Ошибка в процессе оплаты картой. Попробуйте снова</h2>
+          </div><!-- /form-recovery -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-recovery -->
+<!-- modal-recovery -->
+<div class="modal fade modal--recovery {{ workModalShow ? ' ' : ' in' }}" tabindex="-1" role="dialog" id="modal--not--work" {{ workModalShow ? ' style="display:none;" ' : ' style="display:block;padding-right:17px;" ' }}>
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog-in">
+      <div class="modal-content">
+        <div class="modal-sidebar hidden-xs">
+          <div class="modal-header text--center text--white"> </div>
+          <div class="modal-img">
+            <div data-role="lazyimg">
+              <img data-src="/img/logo-alt.png" class="lazy img--contain" style="margin: auto; width: 50%;"/>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <button type="button" class="btn--unstyled btn--close closeModalBtn" data-dismiss="modal">
+            <i class="icon icon-close"></i>
+          </button>
+          <div class="modal-header visible-xs text-center22"> Im Moment arbeiten wir nicht</div>
+          <!-- form-recovery -->
+          <div class="form--auth form--recovery" data-form="recovery">
+            <h2>Wir sind derzeit geschlossen.</h2> <br>
+            <p>Arbeitszeiten:<br>
+              Montag – Freitag: <br>
+              11Uhr bis 14Uhr <br>
+              17Uhr bis 22Uhr <br>
+              Samstags, Sonntags & Feiertags: 15Uhr bis 22Uhr <br>
+              Dienstag: Ruhetag
+            </p>
+          </div><!-- /form-recovery -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /modal-recovery -->
+{% if infoModal.show %}
+  <!-- modal-recovery -->
+  <div class="modal fade modal--recovery in" tabindex="-1" role="dialog" id="modal--not--work" style="display:block;padding-right:17px;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-dialog-in">
+        <div class="modal-content">
+          <div class="modal-sidebar hidden-xs">
+            <div class="modal-header text--center text--white"> </div>
+            <div class="modal-img">
+              <div data-role="lazyimg">
+                <img data-src="/img/modal-img.png" class="lazy img--cover" />
+              </div>
+            </div>
+          </div>
+          <div class="modal-body">
+            <!-- <button type="button" class="btn--unstyled btn--close closeModalBtn" data-dismiss="modal">
+              <i class="icon icon-close"></i>
+            </button> -->
+            <div class="modal-header visible-xs text-center22">{{ infoModal.header }}</div>
+            <!-- form-recovery -->
+            <div class="form--auth form--recovery" data-form="recovery">
+              {{ infoModal.text|raw }}
+            </div><!-- /form-recovery -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /modal-recovery -->
+{% endif %}

@@ -1,0 +1,55 @@
+<div>
+	<fieldset>
+        <div>
+        <div class="col_flex m_m0 m_mar">
+          <!-- <div class="form-title">
+            <h3 class="title-3">Промо - код</h3>
+          </div> -->
+          <div class="form-group group--surrender">
+            {% if promo is defined and promo is not empty %}
+              <label class="control-label" style="color:green;">Sie haben einen Aktionscode aktiviert</label>
+            {% else %}
+              <label class="control-label">Aktionscode eingeben</label>
+            {% endif %}
+            <div class="controls f_flex">
+              	<div class="promo_box">
+              		<div class="t_tipe" id="promo-alert">
+              			<div class="t_tipe_box">
+              				<svg class="arr_svg" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+								<path transform="translate(-2 0)" fill-rule="evenodd" d="M 9.52569 1.60834L 3.07216 8.64855C 1.89626 9.93135 2.80626 12 4.54647 12L 17.4535 12C 19.1937 12 20.1037 9.93135 18.9278 8.64855L 12.4743 1.60834C 11.6816 0.743602 10.3184 0.743603 9.52569 1.60834Z"></path>
+							</svg>
+              				<div class="res-block promo-res"></div>
+              				<svg class="t_tipe_close" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+								<path fill="#FFFFFF" fill-opacity="0.2" fill-rule="evenodd" d="M 11 0C 4.92487 1.14941e-15 -7.1838e-16 4.92487 0 11C 8.62056e-16 17.0751 4.92487 22 11 22C 17.0751 22 22 17.0751 22 11C 22 4.92487 17.0751 -1.14941e-15 11 0Z"></path>
+								<path transform="translate(6.5 6.5)" fill-rule="evenodd" d="M 5.33691 4.39941L 8.60645 1.12793C 8.86426 0.870117 8.86426 0.452148 8.60645 0.193359C 8.34863 -0.0644531 7.93066 -0.0644531 7.67285 0.193359L 4.39941 3.46582L 1.12988 0.193359C 0.87207 -0.0644531 0.454102 -0.0644531 0.196289 0.193359C -0.0654297 0.452148 -0.0654297 0.870117 0.196289 1.12793L 3.46582 4.39941L 0.196289 7.67188C -0.0654297 7.92969 -0.0654297 8.34863 0.196289 8.60645C 0.454102 8.86426 0.87207 8.86426 1.12988 8.60645L 4.39941 5.33398L 7.67285 8.60645C 7.93066 8.86426 8.34863 8.86426 8.60645 8.60645C 8.86426 8.34863 8.86426 7.92969 8.60645 7.67188L 5.33691 4.39941Z"></path>
+							</svg>
+              			</div>
+            			</div>
+            		<input type="text" class="form-control" name="promo" value="{{ promo is defined and promo is not empty ? promo : '' }}" {{ promo is defined and promo is not empty ? 'readonly="true"' : '' }} />
+            	</div>
+              {% if promo is defined and promo is not empty %}
+              	<button type="button" class="btn btn--primary promoResetBtn">
+                  <span>Zurücksetzen</span>
+                </button>
+          	{% else %}
+          		<button type="button" class="btn btn--primary promoCheckBtn">
+                  <span>Aktiviren</span>
+                </button>
+          	{% endif %}
+              
+            </div>
+          </div>
+        </div>
+		{% if promoGifts is not empty %}
+			<div style="padding-bottom: 10px;">
+				<div style="color: green;">
+					Als ein Geschenk:&nbsp;
+				</div>
+				{% for id,item in promoGifts %}
+					<div>{{ item }}</div>
+				{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+      </fieldset>
+</div>
