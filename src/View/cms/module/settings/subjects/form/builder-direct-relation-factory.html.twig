@@ -22,7 +22,7 @@
                                     {% endfor %}
                                 </ul>
                             </span>
-                            <span class="cancel-factory-span" style="display: none;"><i class="fa fa-plug text-{{ relation.isStrong() ? 'danger' : 'success' }}"></i> {{ relation.label }}: <button type="button" class="btn btn-danger cancel-factory" style="margin-top:-10px; margin-bottom: -8px;"><i class="fa fa-remove"></i> <span></span></button></span>
+                            <span class="cancel-factory-span" style="display: none;"><i class="fa fa-plug text-{{ relation.isStrong() ? ' danger' : ' success' }}"></i> {{ relation.label }}: <button type="button" class="btn btn-danger cancel-factory" style="margin-top:-10px; margin-bottom: -8px;"><i class="fa fa-remove"></i> <span></span></button></span>
                         {% endif %}
                     {% else %}<i class="fa fa-plug text-danger"></i> {{ relation.label }}{% if relation.label != relationSubject.getType('label') %}: {{ relationSubject.getType('label') }}{% endif %}{% endif %}
                 </h3>

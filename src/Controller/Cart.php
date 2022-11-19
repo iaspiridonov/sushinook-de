@@ -43,13 +43,9 @@ class Cart extends AbstractController
 
         if ($bonuses === 0 || $bonuses){
             return $result->data->data->bonuses / 100;
-        }
-
-        if ($result->success == true || $result->success == false) {
+        } else {
             return 0;
         }
-
-        return false;
     }
 
     public function resetSessionData()
@@ -92,7 +88,15 @@ class Cart extends AbstractController
     {
         if($product = Subjects::of('Product')->select(['id'=>$id])->first()){
             $basename = $product->name;
-            return (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+
+            try {
+                $article = (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+            } catch (\Throwable $e) {
+                $basename = str_replace('  ', ' ', $basename);
+                $article = (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+            }
+
+            return $article;
         }
 
         return 0;

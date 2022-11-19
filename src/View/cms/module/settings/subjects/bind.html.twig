@@ -72,7 +72,7 @@
                         <td>
                             {% for relation in subject.getType().getRelations() %}
 
-                                {% set color = relation.isBackRelation() ? 'warning' : 'danger' %}
+                                {% set color = relation.isBackRelation() ? ' warning' : ' danger' %}
                                 {% set relationCount = 0 %}
 
                                 {% if relation.isDirectRelation() %}

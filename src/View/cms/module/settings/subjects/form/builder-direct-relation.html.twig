@@ -8,7 +8,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-plug text-{{ relation.isStrong() ? 'danger' : 'success' }}"></i> {{ relation.label }}{% if relationSubject is empty %}: <button id="{{ relationForm.getId() }}-show-switch" type="button" class="btn btn-sm btn-primary" style="margin-top:-8px; margin-bottom: -6px;"><i class="fa fa-plus"></i>{{ relation.label != Registry.get('types').get(relation.settings.is).label ? Registry.get('types').get(relation.settings.is).label : '' }}</button>{% elseif relation.label != Registry.get('types').get(relation.settings.is).label %}: {{ Registry.get('types').get(relation.settings.is).label }}{% endif %}</h3>
+                <h3 class="panel-title"><i class="fa fa-plug text-{{ relation.isStrong() ? ' danger' : ' success' }}"></i> {{ relation.label }}{% if relationSubject is empty %}: <button id="{{ relationForm.getId() }}-show-switch" type="button" class="btn btn-sm btn-primary" style="margin-top:-8px; margin-bottom: -6px;"><i class="fa fa-plus"></i>{{ relation.label != Registry.get('types').get(relation.settings.is).label ? Registry.get('types').get(relation.settings.is).label : '' }}</button>{% elseif relation.label != Registry.get('types').get(relation.settings.is).label %}: {{ Registry.get('types').get(relation.settings.is).label }}{% endif %}</h3>
             </div>
             <div class="panel-body">
                 {{ relationForm.builder()|raw }}
