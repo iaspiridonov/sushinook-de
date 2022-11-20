@@ -1,3 +1,13 @@
+$('#js-accept-cookie').click(function ($e) {
+    $('#js-use-cookie').css('display', 'none');
+    let expires = Date.now() + (86400 * 30 * 1000);
+    setCookie('acceptCookie', true, {path: '/', expires: new Date(expires)});
+});
+
+if (!getCookie('acceptCookie')) {
+    $('#js-use-cookie').css('display', 'block');
+}
+
 var constructorModalReload = function(){
     $.ajax({
         url: '/ru/constructor-modal',

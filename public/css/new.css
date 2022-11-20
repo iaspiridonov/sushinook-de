@@ -75,3 +75,41 @@ input[type=checkbox], input[type=radio] {
         padding: 0 1rem;
     }
 }
+
+.use-cookie {
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    padding: 10px 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #e8e8e8;
+}
+
+.use-cookie__container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.use-cookie__text {
+    padding-right: 10px;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.use-cookie__container button {
+    display: block;
+    margin: auto;
+    margin-top: 15px;
+}
+
+@media (min-width: 992px) {
+    .use-cookie__container {
+        flex-wrap: nowrap;
+    }
+
+    .use-cookie__container button {
+        margin-top: 0;
+    }
+}
