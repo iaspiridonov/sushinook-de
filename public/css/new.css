@@ -104,6 +104,31 @@ input[type=checkbox], input[type=radio] {
     margin-top: 15px;
 }
 
+.whatsapp {
+    position: fixed;
+    z-index: 3;
+    width: 3.5rem;
+    height: 3.5rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    padding: 0;
+}
+
+.whatsapp__link {
+    width: 100%;
+}
+
+.whatsapp__link img {
+    width: 100%;
+    object-fit: contain;
+}
+
+@media (min-width: 768px) {
+    .whatsapp {
+        display: none !important;
+    }
+}
+
 @media (min-width: 992px) {
     .use-cookie__container {
         flex-wrap: nowrap;

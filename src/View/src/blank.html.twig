@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="{% block keywords %}{{ seo.keywords is defined ? seo.keywords : 'Johnny Pizza' }}{% endblock %}">
-	<meta name="description" content="{% block description %}{{ seo.description is defined ? seo.description : 'Johnny Pizza' }}{% endblock %}">
+	<meta name="keywords" content="{% block keywords %}{{ seo.keywords is defined ? seo.keywords : 'Sushi\'s Nook' }}{% endblock %}">
+	<meta name="description" content="{% block description %}{{ seo.description is defined ? seo.description : 'Sushi\'s Nook' }}{% endblock %}">
 	<title>{% block title %}{{ seo.title is defined ? seo.title : 'Sushi\'s Nook' }}{% endblock %}</title>
 	<meta name="HandheldFriendly" content="true">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -12,8 +12,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" href="/img/favicon/favicon.png" type="image/x-icon" />
-    <link rel="shortcut icon" href="/img/favicon/favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <!-- set page scale -->
@@ -85,11 +84,16 @@
               <div class="use-cookie__container">
                   <span class="use-cookie__text">
                       Sushinook.de verwendet Cookies. Wir werten damit die Seitennutzung aus und verbessern das Nutzungserlebnis. Letztlich auch um dir passende für Dich interessante redaktionelle und werbliche Inhalte anzuzeigen. Cookies werden teilweise auch von Drittanbietern gesetzt. Weitere Infos finden Sie in unserer
-                      <a href="/page/31-datenschutzerkl-rung.html" target="_blank">Datenschutzerklärung</a>.
+                      <a target="_blank" href="/page/31-datenschutzerkl-rung.html" target="_blank">Datenschutzerklärung</a>.
                   </span>
                   <button class="btn btn--primary btn--submit" type="button" id="js-accept-cookie">Verstanden</button>
               </div>
           </div>
+      </div>
+      <div class="whatsapp" id="js-whatsapp">
+          <a target="_blank" href="https://api.whatsapp.com/send?phone=4915259812312" class="whatsapp__link">
+              <img src="/img/ico-whatsapp.svg" alt="WhatsApp">
+          </a>
       </div>
   	{% block body_content %}
   	{% endblock %}

@@ -1,3 +1,15 @@
+let whatsAppElem   = $('#js-whatsapp');
+let mobileCartElem = $('#js-mobile-cart');
+let productsCount  = $('.headerRycleCount').eq(0).text();
+
+if (productsCount > 0) {
+    whatsAppElem.css('display', 'none');
+    mobileCartElem.css('display', 'inline-block');
+} else {
+    whatsAppElem.css('display', 'block');
+    mobileCartElem.css('display', 'none');
+}
+
 $('#js-accept-cookie').click(function ($e) {
     $('#js-use-cookie').css('display', 'none');
     let expires = Date.now() + (86400 * 30 * 1000);
@@ -848,6 +860,14 @@ $(function(){
             success: function(data) {
                 btn.text('Hinzugefügt');
                 updateRycleSum();
+                console.log(data);
+                if (data > 0) {
+                    whatsAppElem.css('display', 'none');
+                    mobileCartElem.css('display', 'inline-block');
+                } else {
+                    whatsAppElem.css('display', 'block');
+                    mobileCartElem.css('display', 'none');
+                }
                 setTimeout(function(){
                     btn.text('In den Warenkorb');
                 }, 1500);
@@ -1212,7 +1232,6 @@ function updateRycleSum() {
             }
             $('[data-output="result"]').text(data.sum/100);
             $('[data-output="promoamount"]').text(data.promoamount/100);
-            console.log(data);
         }
     });
 }
