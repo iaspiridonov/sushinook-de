@@ -536,7 +536,6 @@ class Cart extends AbstractController
 
     public function sendcode()
     {
-        // Отправка смс с кодом клиенту
         if(!empty($_POST['cod_sms']) && !empty($_POST['phone'])) {
             // Отправка кода в WhatsApp
 
@@ -551,7 +550,7 @@ class Cart extends AbstractController
                 "body"  => $cod_sms
             ];
             $data_string = json_encode($dataWhatsApp, JSON_UNESCAPED_UNICODE);
-           $curl = curl_init('https://api.chat-api.com/instance449094/sendMessage?token=cpg2g9sd2526wa81');
+            $curl = curl_init('https://api.chat-api.com/instance449094/sendMessage?token=cpg2g9sd2526wa81');
             // $curl = curl_init('https://api.chat-api.com/instance350230/sendMessage?token=off_RyDenxbaSGqyt7nO4sGFSH4dAK');
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
@@ -573,64 +572,8 @@ class Cart extends AbstractController
             if ($whatsAppMessageWasSent) {
                 $bonusResult = $this->getBonuses('+' . $phoneForWhatsApp);
                 return $this->json(['status' => true, 'count' => $bonusResult]);
-            }
-
-            if (!$whatsAppMessageWasSent) {
-
-                include 'smsc_api.php';
-                // Отправка смс с кодом клиенту
-                try {
-                    list($sms_id, $sms_cnt, $cost, $balance) = send_sms($telephone_sms, "Ваш код: " . $cod_sms . "\n Заказ с сайта sushinook.de", 1);
-                } catch (\Throwable $ex) {
-                    return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werdenHandynummer konnte nicht bestätigt werdenHandynummer konnte nicht bestätigt werden']);
-                }
-            }
-
-            $telephone_sms=str_replace("-","",$telephone_sms);
-            $telephone_sms=str_replace(" ","",$telephone_sms);
-            $telephone_sms=str_replace("(","",$telephone_sms);
-            $telephone_sms=str_replace(")","",$telephone_sms);
-            $telephone_sms=trim($telephone_sms);
-
-
-            $param=array();
-            $param['secret'] = "i9HBDy9kzRYdiQnNdQnzEDhARZKys7eE7R6z95KyHyBT8QtbsHAYaGfRsSaKQedKY88Y4GeA4Ff3hB4D9riaZtSdaSQRZTnGSisGTA7K6bAbErFEFREs9iz949QQT5iAbD7Y34yY6TZz9r3F7tZ6Ef6tfH83BfnDHhkAaGf6r6rnieTfBFa5Q7kZEiN5s3t49Gr9dA5tshHErsKRZNHBGZi97Z4kKidHTtHZSBd9KQE36bESQbeh2rhYa9";
-            $param['client_phone']  = urlencode($telephone_sms);
-
-            $data = '';
-            //подготовка запроса
-            foreach ($param as $key => $value) {
-                $data .= "&".$key."=".$value;
-            }
-
-            //отправка
-            $curlSms = curl_init();
-            curl_setopt_array($curlSms, array(
-                CURLOPT_URL => 'https://api.prosushi.kz/api/v1/integration/site/clients/client?phone='.$telephone_sms,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Accept: application/json',
-                    'Content-Type: application/json',
-                    'x-token: dEJvonIEGDx82AWvfYAN3G97qbND0Fj8Cuz6xGvQ',
-                ),
-            ));
-            $result = json_decode(curl_exec($curlSms));
-            
-            curl_close($curlSms);
-
-            if ($result->success === false) {
+            } else {
                 return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werden']);
-            }
-
-            if ($result->success === true) {
-                $bonusResult = $this->getBonuses('+'.$phoneForWhatsApp);
-            }
-
-            if ($bonusResult === 0 || $bonusResult) {
-                return $this->json(['status' => true, 'count' => $bonusResult]);
             }
         }
 
