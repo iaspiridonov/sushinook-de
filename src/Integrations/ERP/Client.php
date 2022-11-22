@@ -108,7 +108,23 @@ class Client
             ];
         }
 
-        $needDelivery = $_POST['delivery'] !== 'Abholung';
+        $needDelivery = $_POST['delivery'] !== 'Самовывоз';
+
+        $nomenclatures[] = [
+            'id' => $needDelivery ? '136' : '130',
+            'amount' => 1000,
+            'promotional' => false,
+            'title' => $needDelivery ? 'Selbstabhollung Hauptstraße 45' : 'kostenlose Lieferung Pirmasens',
+            "is_service" => false,
+            "color" => "#BDC3C7",
+            "category_id" => 5,
+            "vat_id" => 1,
+            "vat_percent" => 7,
+            "vat_title" => "7%",
+            "free" => false,
+            "vat_sum" => 34,
+            "disabled" => false
+        ];
 
         $preOrder = str_replace('von', 'с', $_POST['preorder']);
         $preOrder = str_replace('bis', 'до', $preOrder);
