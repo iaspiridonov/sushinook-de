@@ -24,7 +24,7 @@
                       </div>
                     </div>
                     <div class="addon-title text--ellipsis">{{ ing.name }}</div>
-                    <div class="addon-value">{{ ing.price/100 }} EUR</div>
+                    <div class="addon-value">{{ (ing.price/100)|number_format(2, '.', ' ') }} EUR</div>
                   </label>
                 </div>
               </div>
@@ -54,7 +54,7 @@
                       </div>
                     </div>
                     <div class="addon-title text--ellipsis">{{ ing.name }}</div>
-                    <div class="addon-value">{{ ing.price/100 }} EUR</div>
+                    <div class="addon-value">{{ (ing.price/100)|number_format(2, '.', ' ') }} EUR</div>
                   </label>
                 </div>
               </div>
