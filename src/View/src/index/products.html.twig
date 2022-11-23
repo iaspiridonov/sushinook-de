@@ -1,5 +1,5 @@
 {% for s in sections %}
-  <section class="section s--catalog" data-role="catalog" id="{{ s.blockID }}" {{ s.products is empty ? 'style="display:none;"' : '' }}>
+  <section class="section s--catalog" data-role="catalog" id="{{ s.blockID }}" {{ s.products is empty ? 'style="display:none;"' : '' }} {% if s.name == 'TEST' %} style="display: none;" {% endif %}>
     <div class="container">
       <div class="s-title catalog-title">
         <h4 class="title-2">{{ s.name }}</h4>
@@ -15,7 +15,7 @@
                        <div class="item-label label--violet">2 in 1</div>
                     </div>
                     <div class="catalog-item-img text--center">
-                      <div class="img--centered img" data-role="lazyimg">
+                      <div class="img--centered img" data-role="lazyimg">f
                         <img data-src="{{ item.image }}" class="lazy full_img" />
                       </div>
                     </div>
@@ -29,7 +29,7 @@
                       </div>
                      {% else %}
                        <div class="catalog-item-halve text--center">
-                        <b>от <span data-output="amount"></span> EUR</b>
+                        <b>Ab <span data-output="amount"></span> EUR</b>
                         <a href="#constructor-modal" data-toggle="modal" class="btn btn--green btn--block b10 mob_show_c_control">Собрать пиццу</a>
                       </div>
                      {% endif %}
@@ -58,8 +58,9 @@
                                   <div class="modal_right">
                                     <div class="catalog-item-in">
                                           <div class="catalog-item-title">{{ item.name }}</div>
-                                          <div class="catalog-item-meta text--gray"><span class="pizzaSize">30</span> см, 
-                                            <span class="pizzaType">{{ item.traditionaldough != '1' ? 'традиционное' : 'тонкое' }} </span> тесто</div>
+{#                                          <div class="catalog-item-meta text--gray"><span class="pizzaSize">30</span> см, #}
+{#                                            <span class="pizzaType">{{ item.traditionaldough != '1' ? 'традиционное' : 'тонкое' }} </span> тесто#}
+{#                                          </div>#}
                                     </div>
                                     <div class="post_ings" data-id="{{ item.id }}">
                                       <!-- {% for ing in item.removeIngridients.sortBy('sort') %}
@@ -69,7 +70,7 @@
                                     </div>
                                     <div class="modal_items">
                                       {% if s.hasAdditional == 1 %}
-                                          {% include 'src/index/sizes.html.twig' %}
+{#                                          {% include 'src/index/sizes.html.twig' %}#}
                                           <div class="catalog-item-add text--center">
                                             {% if item.addIngridients is not empty or item.removeIngridients is not empty %}
                                               {% include 'src/index/ingridients.html.twig' %}
@@ -145,9 +146,9 @@
                       {% if item.noavailable %}
                         <div class="product_price">Nicht verfügbar</div>
                       {% else %}
-                        <div class="product_price">{{ s.hasAdditional == 1 ? 'от' : ''  }} <span>{{ (item.price/100)|number_format(2, '.', ' ') }}</span> EUR</div>
+                        <div class="product_price">{{ s.hasAdditional == 1 ? ' Ab ' : ' '  }} <span>{{ (item.price/100)|number_format(2, '.', ' ') }}</span> EUR</div>
                         {% if s.hasAdditional == 1 %}
-                          <button type="button" class="btn btn--primary btn--block"  data-toggle="modal" data-target="#product-modal-{{ item.id }}"> Выбрать </button>
+                          <button type="button" class="btn btn--primary btn--block" data-toggle="modal" data-target="#product-modal-{{ item.id }}"> Wählen </button>
                         {% else %}
                           <button type="button" class="btn btn--primary btn--block cartAdd" data-id="{{ item.id }}"> In den Warenkorb </button>
                         {% endif %}

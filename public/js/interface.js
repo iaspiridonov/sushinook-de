@@ -12312,7 +12312,7 @@ return jQuery;
     	var el = $(this);
     	var price = el.data('price');
     	if(price){
-    		el.find('[data-output="amount"]').text(price);
+    		el.find('[data-output="amount"]').text(number_format(price/100, 2, ".", " "));
     		el.find('[name="price"]').val(price);
     	}
     });
@@ -25325,7 +25325,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 			        var count = block.find('input[name="count"]').val();
 			        var output = block.find('[data-output="amount"]');
 			        var total = price * count;
-			        output.text(number_format(price, 2, ".", " "));
+			        output.text(number_format(price/100, 2, ".", " "));
 			    });
 			}
 
@@ -25360,7 +25360,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 		        	prodPrice += curIngPrice;
 		        }
 
-		        if(i == 3){
+		        if(i == 7){
 		            $('.ingBlock[data-active="false"]').addClass('ingDisabled');
 		        }else{
 		            $('.ingBlock[data-active="false"]').removeClass('ingDisabled');

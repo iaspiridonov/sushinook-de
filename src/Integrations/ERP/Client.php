@@ -37,7 +37,7 @@ class Client
 
         foreach ($sessionCart as $item) {
             $nomenclatures[] = [
-                'id' => $cartController->getArticleIdByProdId($item['id']),
+                'id' => $cartController->getArticleIdByName($item['name']),
                 'amount' => $item['count'] * 1000,
                 'promotional' => false
             ];
@@ -73,7 +73,7 @@ class Client
 
         foreach ($sessionCart as $item) {
             $nomenclatures[] = [
-                'id' => $cartController->getArticleIdByProdId($item['id']),
+                'id' => $cartController->getArticleIdByName($item['name']),
                 'amount' => $item['count'] * 1000,
                 'promotional' => false,
                 "title" => $item['name'],
@@ -87,6 +87,27 @@ class Client
                 "vat_sum" => 34,
                 "disabled" => false
             ];
+
+            if ($item['ingsAdd']) {
+                $ings = Cart::getIngsByCartItem($item);
+                foreach ($ings as $ing) {
+                    $nomenclatures[] = [
+                        'id' => Cart::getArticleIdByName($ing->name),
+                        'amount' => 1000,
+                        'promotional' => false,
+                        "title" => $ing->name,
+                        "is_service" => false,
+                        "color" => "#BDC3C7",
+                        "category_id" => 5,
+                        "vat_id" => 1,
+                        "vat_percent" => 7,
+                        "vat_title" => "7%",
+                        "free" => false,
+                        "vat_sum" => 34,
+                        "disabled" => false
+                    ];
+                }
+            }
         }
 
         if (!$productsCart) $productsCart = [];

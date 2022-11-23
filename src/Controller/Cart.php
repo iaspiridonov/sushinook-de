@@ -84,22 +84,34 @@ class Cart extends AbstractController
         return [];
     }
 
-    function getArticleIdByProdId($id): int
+    static function getArticleIdByName($name): ?int
     {
-        if($product = Subjects::of('Product')->select(['id'=>$id])->first()){
-            $basename = $product->name;
-
+        try {
+            $article = (int) Subjects::of('Article')->select(['name'=>$name])->first()->value;
+        } catch (\Throwable $e) {
+            $name = str_replace('  ', ' ', $name);
             try {
-                $article = (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+                $article = (int) Subjects::of('Article')->select(['name'=>$name])->first()->value;
             } catch (\Throwable $e) {
-                $basename = str_replace('  ', ' ', $basename);
-                $article = (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+                return null;
             }
-
-            return $article;
         }
 
-        return 0;
+        return $article;
+    }
+
+
+    static function getIngsByCartItem(array $cartItem): array
+    {
+        $ings = [];
+        $ingsAddList = explode(",", $cartItem['ingsAdd']);
+        foreach($ingsAddList as $ingName){
+            $ingName = trim($ingName);
+            $ingridient = Subjects::of('Ingridients')->select(['name' => $ingName])->first();
+            $ings[] = $ingridient;
+        }
+
+        return $ings;
     }
 
     function getProdSize($val){
@@ -519,15 +531,13 @@ class Cart extends AbstractController
 
     public function send() {
         $result = Client::sendOrder()->result;
-        
-        // return $this->json(['test'=>$result]);
 
         if ($result === 'code_error') {
             return $this->json('code_error');
         }
 
         if ($result->success != true) {
-            return $this->json(['status'=>false, 'error' => $result->message]);
+            return $this->json(['status'=>false]);
         }
 
         $this->resetSessionData();
@@ -573,11 +583,11 @@ class Cart extends AbstractController
                 $bonusResult = $this->getBonuses('+' . $phoneForWhatsApp);
                 return $this->json(['status' => true, 'count' => $bonusResult]);
             } else {
-                return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werden']);
+                return $this->json(['status' => false, 'error' => 'Der WhatsApp-Code konnte nicht gesendet werden']);
             }
         }
 
-        return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werden']);
+        return $this->json(['status' => false, 'error' => 'Der WhatsApp-Code konnte nicht gesendet werden']);
     }
 
     public function change() {
@@ -754,12 +764,7 @@ class Cart extends AbstractController
         if($type == 'Тонкое') $typeIng = 'Т';
 
         $productName = trim($product->name);
-
-        $priceName = $productName.' '.($size?$size.'см':'').$typeIng;
-        $priceName = str_replace('  ', ' ', $priceName);
-        $price = Subjects::of('Price')->select(['name'=>$priceName])->first();
-        if(!$price) return $this->json('0');
-        $price = (int)$price->value;
+        $price = (int)$product->price;
 
         $ingsAdd = $request['ingsAdd'];
 
@@ -767,11 +772,8 @@ class Cart extends AbstractController
             $ingsAddList = explode(",",$ingsAdd);
             foreach($ingsAddList as $ingName){
                 $ingName = trim($ingName);
-                $ingName = $ingName.' '.($size?$size:'');
-                $ing_price = Subjects::of('Price')->select(['name'=>$ingName])->first();
-                if(!$ing_price) return $this->json('0');
-
-                $price += (int)$ing_price->value;
+                $ingridient = Subjects::of('Ingridients')->select(['name' => $ingName])->first();
+                $price += (int) $ingridient->price;
             }
         }
 
