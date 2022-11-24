@@ -1,3 +1,78 @@
+$('.js-submit_code').click(function (e) {
+    var form = $('.orderForm');
+    var data = form.serialize();
+    var isModal = !!$(this).attr('data-modal');
+    let that = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: '/ru/cart/sendcode',
+        data: data,
+        dataType: 'json',
+        success: function(data) {
+            if (data.status === false) {
+                alert(data.error);
+                return false;
+            }
+
+            $('#js-send-order').prop('disabled', false);
+
+            if (isModal) {
+                style = 'margin-top: 10px;';
+                $('#js-check-bonuses-button').css('display', 'block');
+                that.css('display', 'none');
+            } else {
+                style = 'margin-left: 1.625rem; margin-right: 0;';
+            }
+
+            if (!$('#js-phone_code').length) {
+                $('<input>').attr({
+                    type: 'text',
+                    id: 'js-phone_code',
+                    name: 'phone_code',
+                    class: 'form-control',
+                    placeholder: 'Code eingeben',
+                    style: style
+                }).insertAfter($('.js-submit_code'));
+            }
+
+            if (data.count > 0) {
+                $('#js-use-bonus').val(data.count);
+                $('.js-use-bonus').show('').val(data.count);
+            }
+
+            $('.js-bonus-count').html(data.count ? data.count : 0);
+            $('#js-bonus-block').show('');
+        }
+    });
+});
+
+$('#js-check-bonuses-button').click(function (e) {
+    var form = $('.orderForm');
+    var data = form.serialize();
+    let that = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: '/ru/cart/bonuses',
+        data: data,
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+
+            if (data.result !== true) {
+                alert(data.error);
+                return false;
+            }
+
+            $('#check-boni').modal('hide');
+
+            $('#js-check-bonuses button').text('Sie haben ' + data.count + ' Boni');
+            $('#js-check-bonuses button').css('pointer-events', 'none');
+        }
+    });
+});
+
 let whatsAppElem   = $('#js-whatsapp');
 let mobileCartElem = $('#js-mobile-cart');
 let productsCount  = $('.headerRycleCount').eq(0).text();

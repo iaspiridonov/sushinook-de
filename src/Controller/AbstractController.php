@@ -44,14 +44,16 @@ abstract class AbstractController extends Controller
                 'menu' => $this->menu(),
                 'popup' => $this->popup(),
                 'rycleinfo' => $this->rycleinfo(),
-                'recommended' => $this->recommended(),
+//                'recommended' => $this->recommended(),
+                'recommended' => [],
                 'user' => $user
             ],
             'footer' => [
 //                'menu' => $this->footermenu(4),
                 'menu2' => $this->footermenu(2),
                 'phones' => $this->phonesList()
-            ]
+            ],
+            'isCart' => (bool) strpos($_SERVER['REQUEST_URI'], '/cart')
         ]);
     }
 
@@ -114,42 +116,47 @@ abstract class AbstractController extends Controller
     }
 
     function recommended(){
-        $prods = Subjects::of('Product')->select(function($select){
-            $select->where(' recommended = "1" AND hide = "0"');
-            $select->order('sort');
-        })->get();
-        return Template::render('src/recommended',['prods'=>$prods]);
+//        $prods = Subjects::of('Product')->select(function($select){
+//            $select->where(' recommended = "1" AND hide = "0"');
+//            $select->order('sort');
+//        })->get() ?? [];
+//        return Template::render('src/recommended',['proAbstractController.phpds'=>$prods]);
     }
 
     function rycleinfo() {
         $sum = 0;
         $total_count = 0;
         $cart = Registry::get('session.cart',[]) ?? [];
-        if($cart){
-            foreach($cart as $id=>$product) {
-                $sum += $product['price'] * $product['count'];
-                $total_count += $product['count'];
+        try {
+            if($cart){
+                foreach($cart as $id=>$product) {
+                    $sum += $product['price'] * $product['count'];
+                    $total_count += $product['count'];
+                }
+            } else {
+                $cart = [];
             }
-        } else {
-            $cart = [];
-        }
-        $combo = Registry::get('session.combo',[]) ?? [];
-        if($combo){
-            foreach($combo as $id=>$item){
-                $sum += $item['total'] * $item['count'];
-                $total_count += $item['count'];
+            $combo = Registry::get('session.combo',[]) ?? [];
+            if($combo){
+                foreach($combo as $id=>$item){
+                    $sum += $item['total'] * $item['count'];
+                    $total_count += $item['count'];
+                }
+            } else {
+                $combo = [];
             }
-        } else {
-            $combo = [];
-        }
-        $half = Registry::get('session.half') ?? [];
-        if($half){
-            foreach($half as $id=>$item){
-                $sum += $item['price'] * $item['count'];
-                $total_count += $item['count'];
+            $half = Registry::get('session.half') ?? [];
+            if($half){
+                foreach($half as $id=>$item){
+                    $sum += $item['price'] * $item['count'];
+                    $total_count += $item['count'];
+                }
+            } else {
+                $half = [];
             }
-        } else {
-            $half = [];
+        } catch (\Exception $e) {
+            Registry::set('session.cart',[]);
+            header('Location: /', true, 307);
         }
 
         $promoamount = Registry::get('session.promoamount');

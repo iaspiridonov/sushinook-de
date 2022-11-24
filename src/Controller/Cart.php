@@ -30,6 +30,20 @@ class Cart extends AbstractController
         $this->POST('/promo','promo');
         $this->POST('/resetpromo','resetpromo');
         $this->POST('/testq','testq');
+        $this->POST('/bonuses','bonuses');
+    }
+
+    public function bonuses() {
+        if(!empty($_POST['cod_sms']) && !empty($_POST['phone'])) {
+            $phone = $_POST['phone'];
+            $phone = preg_replace("/[^0-9]/", '', $phone);
+
+            $countBonuses = $this->getBonuses('+' . $phone);
+
+            return $this->json(['result' => true, 'count' => $countBonuses]);
+        }
+
+        return $this->json(['result' => false, 'error' => 'Der WhatsApp-Code konnte nicht gesendet werden']);
     }
 
     public function getBonuses($phone) {

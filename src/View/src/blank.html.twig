@@ -95,6 +95,46 @@
               <img src="/img/ico-whatsapp.svg" alt="WhatsApp">
           </a>
       </div>
+      {% if isCart == false %}
+          <!-- check bonuses -->
+          <div class="check-bonuses" id="js-check-bonuses">
+              <button class="btn btn--secondary btn--block" type="button" data-toggle="modal" data-target="#check-boni">Boni prüfen</button>
+          </div>
+
+          <div class="modal modal-o test modal-mini fade" id="check-boni" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                  <form class="orderForm" style="width: 100%;">
+                      <input type="hidden" name="cod_sms" value="{{ random(1111, 9999) }}">
+                      <div class="modal-content">
+                          <div class="modal-body">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                              </button>
+                              <div class="form-title">
+                                <h3 class="title-3">Boni prüfen</h3>
+                              </div>
+                              <div style="width: 100%">
+                                  <div class="col-12">
+                                      <div class="form-group">
+                                          <label class="control-label">Handy<sup>*</sup></label>
+                                          <div class="controls">
+                                              <input type="tel" class="form-control" id="js-phone" name="phone" value="" data-inputmask="'alias':'phone', 'mask':'+49 9999999999[9]'" placeholder="+49 " required="" inputmode="text">
+                                          </div>
+                                          <div class="controls">
+                                              <button class="btn btn--primary js-submit_code" type="button" data-modal="true" style="margin-top: 10px;">Senden Sie mir den WhatsApp-Code</button>
+                                              <button class="btn btn--primary" type="button" id="js-check-bonuses-button" style="display: none; margin-top: 10px;">Boni prüfen</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          <!-- /check bonuses -->
+      {% endif %}
+
   	{% block body_content %}
   	{% endblock %}
   </div>

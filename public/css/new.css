@@ -123,6 +123,36 @@ input[type=checkbox], input[type=radio] {
     object-fit: contain;
 }
 
+.check-bonuses {
+    position: fixed;
+    z-index: 9;
+    width: 170px;
+    right: calc(50% - 85px);
+    bottom: 1.25rem;
+    padding: 0;
+}
+
+.check-bonuses button {
+    border-color: #95454d;
+}
+
+.check-bonuses button:hover {
+    background-color: #95454d;
+    color: #fff;
+}
+
+.modal-mini .modal-dialog {
+    max-width: 280px !important;
+    width: 280px !important;
+}
+
+@media (min-width: 576px) {
+    .modal-mini .modal-dialog {
+        max-width: 350px !important;
+        width: 350px !important;
+    }
+}
+
 @media (min-width: 768px) {
     .whatsapp {
         display: none !important;
