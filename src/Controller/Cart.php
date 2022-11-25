@@ -178,7 +178,6 @@ class Cart extends AbstractController
 
         return $this->json([
             'result' => $result->success,
-            'promoAm' => $finalPrice,
             'freeProducts' => $freeProducts
         ]);
     }

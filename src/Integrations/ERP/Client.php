@@ -41,6 +41,17 @@ class Client
                 'amount' => $item['count'] * 1000,
                 'promotional' => false
             ];
+
+            if ($item['ingsAdd']) {
+                $ings = Cart::getIngsByCartItem($item);
+                foreach ($ings as $ing) {
+                    $nomenclatures[] = [
+                        'id' => Cart::getArticleIdByName($ing->name),
+                        'amount' => 1000,
+                        'promotional' => false
+                    ];
+                }
+            }
         }
 
         $nowDateTime = (new \DateTime('now', new \DateTimeZone('Europe/Berlin')))->format('Y-m-d H:i');
@@ -132,10 +143,10 @@ class Client
         $needDelivery = $_POST['delivery'] !== 'Самовывоз';
 
         $nomenclatures[] = [
-            'id' => $needDelivery ? '136' : '130',
+            'id' => $needDelivery ? '130' : '136',
             'amount' => 1000,
             'promotional' => false,
-            'title' => $needDelivery ? 'Selbstabhollung Hauptstraße 45' : 'kostenlose Lieferung Pirmasens',
+            'title' => $needDelivery ? 'kostenlose Lieferung Pirmasens' : 'Selbstabhollung Hauptstraße 45',
             "is_service" => false,
             "color" => "#BDC3C7",
             "category_id" => 5,
