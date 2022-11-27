@@ -172,7 +172,7 @@ function promocheck(promo){
         dataType: 'json',
         success: function(data) {
             if(data.result == false){
-                alert('Aktionscode wurde nicht erkannt');
+                alert('Aktionscode wurde nicht erkannt oder Voraussetzungen sind nicht erfüllt.');
                 return false;
             }
 
