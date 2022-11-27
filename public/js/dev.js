@@ -172,7 +172,7 @@ function promocheck(promo){
         dataType: 'json',
         success: function(data) {
             if(data.result == false){
-                alert('Промо-код не найден');
+                alert('Aktionscode wurde nicht erkannt');
                 return false;
             }
 
@@ -424,7 +424,7 @@ $(function(){
     $('.promoCheckBtn').click(function(){
         var promo = $('[name="promo"]').val();
         if(!promo){
-            alert('Введите промо-код');
+            alert('Aktionscode eingeben');
             return false;
         }
         promocheck(promo);
