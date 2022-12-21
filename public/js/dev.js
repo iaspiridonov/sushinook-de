@@ -1,3 +1,100 @@
+$('.js-submit_code').click(function (e) {
+    var form = $('.orderForm');
+    var data = form.serialize();
+    var isModal = !!$(this).attr('data-modal');
+    let that = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: '/ru/cart/sendcode',
+        data: data,
+        dataType: 'json',
+        success: function(data) {
+            if (data.status === false) {
+                alert(data.error);
+                return false;
+            }
+
+            $('#js-send-order').prop('disabled', false);
+
+            if (isModal) {
+                style = 'margin-top: 10px;';
+                $('#js-check-bonuses-button').css('display', 'block');
+                that.css('display', 'none');
+            } else {
+                style = 'margin-left: 1.625rem; margin-right: 0;';
+            }
+
+            if (!$('#js-phone_code').length) {
+                $('<input>').attr({
+                    type: 'text',
+                    id: 'js-phone_code',
+                    name: 'phone_code',
+                    class: 'form-control',
+                    placeholder: 'Code eingeben',
+                    style: style
+                }).insertAfter($('.js-submit_code'));
+            }
+
+            if (data.count > 0) {
+                $('#js-use-bonus').val(data.count);
+                $('.js-use-bonus').show('').val(data.count);
+            }
+
+            $('.js-bonus-count').html(data.count ? data.count : 0);
+            $('#js-bonus-block').show('');
+        }
+    });
+});
+
+$('#js-check-bonuses-button').click(function (e) {
+    var form = $('.orderForm');
+    var data = form.serialize();
+    let that = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: '/ru/cart/bonuses',
+        data: data,
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+
+            if (data.result !== true) {
+                alert(data.error);
+                return false;
+            }
+
+            $('#check-boni').modal('hide');
+
+            $('#js-check-bonuses button').text('Sie haben ' + data.count + ' Boni');
+            $('#js-check-bonuses button').css('pointer-events', 'none');
+        }
+    });
+});
+
+let whatsAppElem   = $('#js-whatsapp');
+let mobileCartElem = $('#js-mobile-cart');
+let productsCount  = $('.headerRycleCount').eq(0).text();
+
+if (productsCount > 0) {
+    whatsAppElem.css('display', 'none');
+    mobileCartElem.css('display', 'inline-block');
+} else {
+    whatsAppElem.css('display', 'block');
+    mobileCartElem.css('display', 'none');
+}
+
+$('#js-accept-cookie').click(function ($e) {
+    $('#js-use-cookie').css('display', 'none');
+    let expires = Date.now() + (86400 * 30 * 1000);
+    setCookie('acceptCookie', true, {path: '/', expires: new Date(expires)});
+});
+
+if (!getCookie('acceptCookie')) {
+    $('#js-use-cookie').css('display', 'block');
+}
+
 var constructorModalReload = function(){
     $.ajax({
         url: '/ru/constructor-modal',
@@ -75,7 +172,7 @@ function promocheck(promo){
         dataType: 'json',
         success: function(data) {
             if(data.result == false){
-                alert('Промо-код не найден');
+                alert('Aktionscode wurde nicht erkannt oder Voraussetzungen sind nicht erfüllt.');
                 return false;
             }
 
@@ -327,7 +424,7 @@ $(function(){
     $('.promoCheckBtn').click(function(){
         var promo = $('[name="promo"]').val();
         if(!promo){
-            alert('Введите промо-код');
+            alert('Aktionscode eingeben');
             return false;
         }
         promocheck(promo);
@@ -838,6 +935,13 @@ $(function(){
             success: function(data) {
                 btn.text('Hinzugefügt');
                 updateRycleSum();
+                if (data > 0) {
+                    whatsAppElem.css('display', 'none');
+                    mobileCartElem.css('display', 'inline-block');
+                } else {
+                    whatsAppElem.css('display', 'block');
+                    mobileCartElem.css('display', 'none');
+                }
                 setTimeout(function(){
                     btn.text('In den Warenkorb');
                 }, 1500);
@@ -1084,6 +1188,14 @@ $(function(){
                 el.text('Hinzugefügt');
                 el.css('pointer-events','none');
                 setTimeout(function(){
+                    if (data > 0) {
+                        whatsAppElem.css('display', 'none');
+                        mobileCartElem.css('display', 'inline-block');
+                    } else {
+                        whatsAppElem.css('display', 'block');
+                        mobileCartElem.css('display', 'none');
+                    }
+
                     el.addClass('btn--primary');
                     el.removeClass('btn--green');
                     el.text('In den Warenkorb');
@@ -1202,7 +1314,6 @@ function updateRycleSum() {
             }
             $('[data-output="result"]').text(data.sum/100);
             $('[data-output="promoamount"]').text(data.promoamount/100);
-            console.log(data);
         }
     });
 }

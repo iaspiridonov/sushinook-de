@@ -30,6 +30,20 @@ class Cart extends AbstractController
         $this->POST('/promo','promo');
         $this->POST('/resetpromo','resetpromo');
         $this->POST('/testq','testq');
+        $this->POST('/bonuses','bonuses');
+    }
+
+    public function bonuses() {
+        if(!empty($_POST['cod_sms']) && !empty($_POST['phone'])) {
+            $phone = $_POST['phone'];
+            $phone = preg_replace("/[^0-9]/", '', $phone);
+
+            $countBonuses = $this->getBonuses('+' . $phone);
+
+            return $this->json(['result' => true, 'count' => $countBonuses]);
+        }
+
+        return $this->json(['result' => false, 'error' => 'Der WhatsApp-Code konnte nicht gesendet werden']);
     }
 
     public function getBonuses($phone) {
@@ -84,22 +98,34 @@ class Cart extends AbstractController
         return [];
     }
 
-    function getArticleIdByProdId($id): int
+    static function getArticleIdByName($name): ?int
     {
-        if($product = Subjects::of('Product')->select(['id'=>$id])->first()){
-            $basename = $product->name;
-
+        try {
+            $article = (int) Subjects::of('Article')->select(['name'=>$name])->first()->value;
+        } catch (\Throwable $e) {
+            $name = str_replace('  ', ' ', $name);
             try {
-                $article = (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+                $article = (int) Subjects::of('Article')->select(['name'=>$name])->first()->value;
             } catch (\Throwable $e) {
-                $basename = str_replace('  ', ' ', $basename);
-                $article = (int) Subjects::of('Article')->select(['name'=>$basename])->first()->value;
+                return null;
             }
-
-            return $article;
         }
 
-        return 0;
+        return $article;
+    }
+
+
+    static function getIngsByCartItem(array $cartItem): array
+    {
+        $ings = [];
+        $ingsAddList = explode(",", $cartItem['ingsAdd']);
+        foreach($ingsAddList as $ingName){
+            $ingName = trim($ingName);
+            $ingridient = Subjects::of('Ingridients')->select(['name' => $ingName])->first();
+            $ings[] = $ingridient;
+        }
+
+        return $ings;
     }
 
     function getProdSize($val){
@@ -152,7 +178,6 @@ class Cart extends AbstractController
 
         return $this->json([
             'result' => $result->success,
-            'promoAm' => $finalPrice,
             'freeProducts' => $freeProducts
         ]);
     }
@@ -519,15 +544,13 @@ class Cart extends AbstractController
 
     public function send() {
         $result = Client::sendOrder()->result;
-        
-        // return $this->json(['test'=>$result]);
 
         if ($result === 'code_error') {
             return $this->json('code_error');
         }
 
         if ($result->success != true) {
-            return $this->json(['status'=>false, 'error' => $result->message]);
+            return $this->json(['status'=>false]);
         }
 
         $this->resetSessionData();
@@ -536,7 +559,6 @@ class Cart extends AbstractController
 
     public function sendcode()
     {
-        // Отправка смс с кодом клиенту
         if(!empty($_POST['cod_sms']) && !empty($_POST['phone'])) {
             // Отправка кода в WhatsApp
 
@@ -551,8 +573,7 @@ class Cart extends AbstractController
                 "body"  => $cod_sms
             ];
             $data_string = json_encode($dataWhatsApp, JSON_UNESCAPED_UNICODE);
-           $curl = curl_init('https://api.chat-api.com/instance449094/sendMessage?token=cpg2g9sd2526wa81');
-            // $curl = curl_init('https://api.chat-api.com/instance350230/sendMessage?token=off_RyDenxbaSGqyt7nO4sGFSH4dAK');
+            $curl = curl_init('https://api.chat-api.com/instance449094/sendMessage?token=cpg2g9sd2526wa81');
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
             // Принимаем в виде массива. (false - в виде объекта)
@@ -573,68 +594,12 @@ class Cart extends AbstractController
             if ($whatsAppMessageWasSent) {
                 $bonusResult = $this->getBonuses('+' . $phoneForWhatsApp);
                 return $this->json(['status' => true, 'count' => $bonusResult]);
-            }
-
-            if (!$whatsAppMessageWasSent) {
-
-                include 'smsc_api.php';
-                // Отправка смс с кодом клиенту
-                try {
-                    list($sms_id, $sms_cnt, $cost, $balance) = send_sms($telephone_sms, "Ваш код: " . $cod_sms . "\n Заказ с сайта sushinook.de", 1);
-                } catch (\Throwable $ex) {
-                    return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werdenHandynummer konnte nicht bestätigt werdenHandynummer konnte nicht bestätigt werden']);
-                }
-            }
-
-            $telephone_sms=str_replace("-","",$telephone_sms);
-            $telephone_sms=str_replace(" ","",$telephone_sms);
-            $telephone_sms=str_replace("(","",$telephone_sms);
-            $telephone_sms=str_replace(")","",$telephone_sms);
-            $telephone_sms=trim($telephone_sms);
-
-
-            $param=array();
-            $param['secret'] = "i9HBDy9kzRYdiQnNdQnzEDhARZKys7eE7R6z95KyHyBT8QtbsHAYaGfRsSaKQedKY88Y4GeA4Ff3hB4D9riaZtSdaSQRZTnGSisGTA7K6bAbErFEFREs9iz949QQT5iAbD7Y34yY6TZz9r3F7tZ6Ef6tfH83BfnDHhkAaGf6r6rnieTfBFa5Q7kZEiN5s3t49Gr9dA5tshHErsKRZNHBGZi97Z4kKidHTtHZSBd9KQE36bESQbeh2rhYa9";
-            $param['client_phone']  = urlencode($telephone_sms);
-
-            $data = '';
-            //подготовка запроса
-            foreach ($param as $key => $value) {
-                $data .= "&".$key."=".$value;
-            }
-
-            //отправка
-            $curlSms = curl_init();
-            curl_setopt_array($curlSms, array(
-                CURLOPT_URL => 'https://api.prosushi.kz/api/v1/integration/site/clients/client?phone='.$telephone_sms,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Accept: application/json',
-                    'Content-Type: application/json',
-                    'x-token: dEJvonIEGDx82AWvfYAN3G97qbND0Fj8Cuz6xGvQ',
-                ),
-            ));
-            $result = json_decode(curl_exec($curlSms));
-            
-            curl_close($curlSms);
-
-            if ($result->success === false) {
-                return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werden']);
-            }
-
-            if ($result->success === true) {
-                $bonusResult = $this->getBonuses('+'.$phoneForWhatsApp);
-            }
-
-            if ($bonusResult === 0 || $bonusResult) {
-                return $this->json(['status' => true, 'count' => $bonusResult]);
+            } else {
+                return $this->json(['status' => false, 'error' => 'Der WhatsApp-Code konnte nicht gesendet werden']);
             }
         }
 
-        return $this->json(['status' => false, 'error' => 'Handynummer konnte nicht bestätigt werden']);
+        return $this->json(['status' => false, 'error' => 'Der WhatsApp-Code konnte nicht gesendet werden']);
     }
 
     public function change() {
@@ -811,12 +776,7 @@ class Cart extends AbstractController
         if($type == 'Тонкое') $typeIng = 'Т';
 
         $productName = trim($product->name);
-
-        $priceName = $productName.' '.($size?$size.'см':'').$typeIng;
-        $priceName = str_replace('  ', ' ', $priceName);
-        $price = Subjects::of('Price')->select(['name'=>$priceName])->first();
-        if(!$price) return $this->json('0');
-        $price = (int)$price->value;
+        $price = (int)$product->price;
 
         $ingsAdd = $request['ingsAdd'];
 
@@ -824,11 +784,8 @@ class Cart extends AbstractController
             $ingsAddList = explode(",",$ingsAdd);
             foreach($ingsAddList as $ingName){
                 $ingName = trim($ingName);
-                $ingName = $ingName.' '.($size?$size:'');
-                $ing_price = Subjects::of('Price')->select(['name'=>$ingName])->first();
-                if(!$ing_price) return $this->json('0');
-
-                $price += (int)$ing_price->value;
+                $ingridient = Subjects::of('Ingridients')->select(['name' => $ingName])->first();
+                $price += (int) $ingridient->price;
             }
         }
 

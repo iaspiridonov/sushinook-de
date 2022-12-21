@@ -2,42 +2,9 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="{% block keywords %}{{ seo.keywords is defined ? seo.keywords : 'Johnny Pizza' }}{% endblock %}">
-	<meta name="description" content="{% block description %}{{ seo.description is defined ? seo.description : 'Johnny Pizza' }}{% endblock %}">
+	<meta name="keywords" content="{% block keywords %}{{ seo.keywords is defined ? seo.keywords : 'Sushi\'s Nook' }}{% endblock %}">
+	<meta name="description" content="{% block description %}{{ seo.description is defined ? seo.description : 'Sushi\'s Nook' }}{% endblock %}">
 	<title>{% block title %}{{ seo.title is defined ? seo.title : 'Sushi\'s Nook' }}{% endblock %}</title>
-  <!-- Facebook Pixel Code -->
-{#  <script>#}
-{#  !function(f,b,e,v,n,t,s)#}
-{#  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?#}
-{#  n.callMethod.apply(n,arguments):n.queue.push(arguments)};#}
-{#  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';#}
-{#  n.queue=[];t=b.createElement(e);t.async=!0;#}
-{#  t.src=v;s=b.getElementsByTagName(e)[0];#}
-{#  s.parentNode.insertBefore(t,s)}(window, document,'script',#}
-{#  'https://connect.facebook.net/en_US/fbevents.js');#}
-{#  fbq('init', '734204537472084');#}
-{#  fbq('track', 'PageView');#}
-{#  </script>#}
-{#  <noscript><img height="1" width="1" style="display:none"#}
-{#  src="https://www.facebook.com/tr?id=734204537472084&ev=PageView&noscript=1"#}
-{#  /></noscript>#}
-{#  <!-- End Facebook Pixel Code -->#}
-{#  <!-- Yandex.Metrika counter -->#}
-{#  <script type="text/javascript" >#}
-{#     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};#}
-{#     m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})#}
-{#     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");#}
-
-{#     ym(68484895, "init", #}{#}#}
-{#          clickmap:true,#}
-{#          trackLinks:true,#}
-{#          accurateTrackBounce:true,#}
-{#          webvisor:true#}
-{#     });#}
-{#  </script>#}
-{#  <noscript><div><img src="https://mc.yandex.ru/watch/68484895" style="position:absolute; left:-9999px;" alt="" /></div></noscript>#}
-{#  <!-- /Yandex.Metrika counter -->#}
-{#  <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?168",t.onload=function(){VK.Retargeting.Init("VK-RTRG-536157-azuWC"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-536157-azuWC" style="position:fixed; left:-999px;" alt=""/></noscript>#}
 	<meta name="HandheldFriendly" content="true">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta http-equiv="x-dns-prefetch-control" content="off">
@@ -45,8 +12,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" href="/img/favicon/favicon.png" type="image/x-icon" />
-    <link rel="shortcut icon" href="/img/favicon/favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <!-- set page scale -->
@@ -72,26 +38,7 @@
           document["documentElement"]["style"].removeProperty("font-size");
         }
       };
-      
-      // var el = document["documentElement"];
-      // el.addEventListener("touchstart", handleStart, false);
-      // el.addEventListener("touchend", handleEnd, false);
-      // el.addEventListener("touchcancel", handleCancel, false);
-      // el.addEventListener("touchmove", handleMove, false);
 
-      // var resizeBlock = true;
-      // function handleStart(evt) {
-      //     alert('handleStart');
-      // }
-      // function handleEnd(evt) {
-      //     alert('handleEnd');
-      // }
-      // function handleCancel(evt) {
-      //    alert('handleCancel');
-      // }
-      // function handleMove(evt) {
-      //     alert('handleMove');
-      // }
       var width2 = window["innerWidth"] || document["documentElement"]["clientWidth"] || document["body"]["clientWidth"];
       if(width2 > 1000){
         window.onresize = function(event) { getScale();  };
@@ -109,25 +56,85 @@
 	<script>
 		var lang = '{{ lang }}';
 	</script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-30522755-36"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-30522755-36');
-</script>
+    <meta name="facebook-domain-verification" content="earm669m490cc4w3nymk28bg8sjnlp" />
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TB6JSC9');</script>
+    <!-- End Google Tag Manager -->
 
-<meta name="facebook-domain-verification" content="earm669m490cc4w3nymk28bg8sjnlp" />
 </head>
 <body data-lang="{{ lang }}">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TB6JSC9"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
   <div class="body_wrap">
 {#    <div class="running--line">#}
 {#      <span>#}
 {#        Уважаемые посетители нашего сайта. На данный момент сайт находится в режиме тестирования. Приносим извинения за временные неудобства.#}
 {#      </span>#}
 {#    </div>#}
+      <div class="use-cookie" id="js-use-cookie" style="display: none;">
+          <div class="container">
+              <div class="use-cookie__container">
+                  <span class="use-cookie__text">
+                      Sushinook.de verwendet Cookies. Wir werten damit die Seitennutzung aus und verbessern das Nutzungserlebnis. Letztlich auch um dir passende für Dich interessante redaktionelle und werbliche Inhalte anzuzeigen. Cookies werden teilweise auch von Drittanbietern gesetzt. Weitere Infos finden Sie in unserer
+                      <a target="_blank" href="/page/31-datenschutzerkl-rung.html" target="_blank">Datenschutzerklärung</a>.
+                  </span>
+                  <button class="btn btn--primary btn--submit" type="button" id="js-accept-cookie">Verstanden</button>
+              </div>
+          </div>
+      </div>
+      <div class="whatsapp" id="js-whatsapp">
+          <a target="_blank" href="https://api.whatsapp.com/send?phone=4915259812312" class="whatsapp__link">
+              <img src="/img/ico-whatsapp.svg" alt="WhatsApp">
+          </a>
+      </div>
+      {% if isCart == false %}
+          <!-- check bonuses -->
+          <div class="check-bonuses" id="js-check-bonuses">
+              <button class="btn btn--secondary btn--block" type="button" data-toggle="modal" data-target="#check-boni">Boni prüfen</button>
+          </div>
+
+          <div class="modal modal-o test modal-mini fade" id="check-boni" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                  <form class="orderForm" style="width: 100%;">
+                      <input type="hidden" name="cod_sms" value="{{ random(1111, 9999) }}">
+                      <div class="modal-content">
+                          <div class="modal-body">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                              </button>
+                              <div class="form-title">
+                                <h3 class="title-3">Boni prüfen</h3>
+                              </div>
+                              <div style="width: 100%">
+                                  <div class="col-12">
+                                      <div class="form-group">
+                                          <label class="control-label">Handy<sup>*</sup></label>
+                                          <div class="controls">
+                                              <input type="tel" class="form-control" id="js-phone" name="phone" value="" data-inputmask="'alias':'phone', 'mask':'+49 9999999999[9]'" placeholder="+49 " required="" inputmode="text">
+                                          </div>
+                                          <div class="controls">
+                                              <button class="btn btn--primary js-submit_code" type="button" data-modal="true" style="margin-top: 10px;">Senden Sie mir den WhatsApp-Code</button>
+                                              <button class="btn btn--primary" type="button" id="js-check-bonuses-button" style="display: none; margin-top: 10px;">Boni prüfen</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          <!-- /check bonuses -->
+      {% endif %}
+
   	{% block body_content %}
   	{% endblock %}
   </div>
@@ -135,6 +142,7 @@
       var DEVICE;
   </script>
   
+  <script src="/js/cookie.js" defer></script>
   <script src="/js/interface.js" defer></script>
   <script src="/js/forms.js" defer></script>
   <script src="/js/dev.js" defer></script>

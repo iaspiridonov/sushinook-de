@@ -170,10 +170,10 @@ class Index extends AbstractController
         })->get();
         $seo = Subjects::of('Seo')->find(1);
 
-        $constructorProducts = Subjects::of('Category')->find(50)->products()->select(function($select){
-            $select->where('hide = "0" AND halfHide = "0"');
-            $select->order('sort');
-        })->get();
+        // $constructorProducts = Subjects::of('Category')->find(50)->products()->select(function($select){
+        //     $select->where('hide = "0" AND halfHide = "0"');
+        //     $select->order('sort');
+        // })->get();
 
         $sizes = [];
 
@@ -189,7 +189,7 @@ class Index extends AbstractController
 
         return $this->html(Template::render('src/index/index',[
             'pizzaSettings' => $pizzaSettings,
-            'constructorProducts' => $constructorProducts,
+            'constructorProducts' => [],
             'slides'=>$slides,
             'combo'=>$combo,
             'sections'=>$sections,

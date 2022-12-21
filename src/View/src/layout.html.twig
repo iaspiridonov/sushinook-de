@@ -16,7 +16,7 @@
               <button type="button" class="btn--unstyled btn--nav" data-button="nav">
                 <span></span>
               </button>
-              <a href="/{{ lang }}/cart/" class="btn btn--primary btn--cart">
+              <a href="/{{ lang }}/cart/" class="btn btn--primary btn--cart" id="js-mobile-cart" style="{{ header.rycleinfo.totalcount == 0 ? ' display: none; ' : ' display: inline-block; ' }}">
                 <i class="icon fas fa-shopping-cart"></i>
                 <span class="count headerRycleCount">{{ header.rycleinfo.totalcount }}</span>
               </a>

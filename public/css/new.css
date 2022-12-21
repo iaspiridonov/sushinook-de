@@ -68,10 +68,103 @@ input[type=checkbox], input[type=radio] {
 
 @media (min-width: 1200px) {
     .nav-schedule {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .nav-main li {
         padding: 0 1rem;
+    }
+}
+
+.use-cookie {
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    padding: 10px 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #e8e8e8;
+}
+
+.use-cookie__container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.use-cookie__text {
+    padding-right: 10px;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.use-cookie__container button {
+    display: block;
+    margin: auto;
+    margin-top: 15px;
+}
+
+.whatsapp {
+    position: fixed;
+    z-index: 3;
+    width: 3.5rem;
+    height: 3.5rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    padding: 0;
+}
+
+.whatsapp__link {
+    width: 100%;
+}
+
+.whatsapp__link img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.check-bonuses {
+    position: fixed;
+    z-index: 9;
+    width: 170px;
+    right: calc(50% - 85px);
+    bottom: 1.25rem;
+    padding: 0;
+}
+
+.check-bonuses button {
+    border-color: #95454d;
+}
+
+.check-bonuses button:hover {
+    background-color: #95454d;
+    color: #fff;
+}
+
+.modal-mini .modal-dialog {
+    max-width: 280px !important;
+    width: 280px !important;
+}
+
+@media (min-width: 576px) {
+    .modal-mini .modal-dialog {
+        max-width: 350px !important;
+        width: 350px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .whatsapp {
+        display: none !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .use-cookie__container {
+        flex-wrap: nowrap;
+    }
+
+    .use-cookie__container button {
+        margin-top: 0;
     }
 }

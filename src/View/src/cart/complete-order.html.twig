@@ -204,7 +204,7 @@
           </div>
           <div class="form-group group--surrender">
             <div class="controls">
-              <button class="btn btn--primary" id="submit_code" type="button">Senden Sie mir den WhatsApp-Code</button>
+              <button class="btn btn--primary js-submit_code" type="button">Senden Sie mir den WhatsApp-Code</button>
             </div>
           </div>
           <div class="form-group" id="js-bonus-block" style="display: none;">
@@ -246,43 +246,6 @@
  <script src="/js/jquery.js"></script>
  <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
  <script>
-
-    $('#submit_code').click(function (e) {
-      var form = $('.orderForm');
-      var data = form.serialize();
-      $.ajax({
-        type: "POST",
-        url: '/ru/cart/sendcode',
-        data: data,
-        dataType: 'json',
-        success: function(data) {
-          if (data.status === false) {
-            alert(data.error);
-            return false;
-          }
-
-          $('#js-send-order').prop('disabled', false);
-          if (!$('#js-phone_code').length) {
-            $('<input>').attr({
-              type: 'text',
-              id: 'js-phone_code',
-              name: 'phone_code',
-              class: 'form-control',
-              placeholder: 'Code eingeben',
-              style: 'margin-left: 1.625rem; margin-right: 0;'
-            }).insertAfter($('#submit_code'));
-          }
-
-          if (data.count > 0) {
-            $('#js-use-bonus').val(data.count);
-            $('.js-use-bonus').show('').val(data.count);
-          }
-
-          $('.js-bonus-count').html(data.count ? data.count : 0);
-          $('#js-bonus-block').show('');
-        }
-      });
-    });
 
     var inputSave = function(form){
         form.find('[type="text"]').each(function(){
