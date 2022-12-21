@@ -574,6 +574,7 @@ class Cart extends AbstractController
             ];
             $data_string = json_encode($dataWhatsApp, JSON_UNESCAPED_UNICODE);
             $curl = curl_init('https://api.chat-api.com/instance449094/sendMessage?token=cpg2g9sd2526wa81');
+            // $curl = curl_init('https://api.chat-api.com/instance350230/sendMessage?token=off_RyDenxbaSGqyt7nO4sGFSH4dAK');
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
             // Принимаем в виде массива. (false - в виде объекта)
