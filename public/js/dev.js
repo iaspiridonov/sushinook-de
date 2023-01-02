@@ -381,7 +381,7 @@ $(function(){
         var total = $('[data-output="result"]:first').text();
         total = total.replace(' ','');
         total = parseInt(total) * 100;
-        if(total >= 2500){
+        if(total >= 1500){
             $('.delivery-options').html(
                 '<input type="radio" name="delivery" id="delivery-1" data-type="1" value="Доставка" checked />'+
                 '<label class="radio" for="delivery-1">Lieferung</label>'+

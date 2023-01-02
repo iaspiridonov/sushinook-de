@@ -67,14 +67,14 @@ abstract class AbstractController extends Controller
         // unset($_SESSION['notWorkShown']);
         $isShown = @$_SESSION['notWorkShown'];
         if($isShown == true) return true;
-        
+
         $current_time = time();
-        
+
 
         $currentWeekNumber = date('N');
 
         $workTime = Subjects::of('WorkTime')->select('weeks LIKE "%'.$currentWeekNumber.'%"')->first();
-       
+
         if(!$workTime){
             return false;
         }
