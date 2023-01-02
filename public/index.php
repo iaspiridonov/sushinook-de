@@ -1,5 +1,5 @@
 <?php date_default_timezone_set('Europe/Berlin');
-exit;
+
 use Core\Facade\App;
 
 chdir(dirname(__DIR__));
