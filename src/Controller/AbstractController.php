@@ -63,6 +63,7 @@ abstract class AbstractController extends Controller
     }
 
     function workTimeModalShow(){
+        return true;
         // unset($_SESSION['notWorkShown']);
         $isShown = @$_SESSION['notWorkShown'];
         if($isShown == true) return true;
@@ -88,6 +89,7 @@ abstract class AbstractController extends Controller
     }
 
     function workTimeCheck(){
+        return true;
         $currentWeekNumber = date('N');
 
         $workTime = Subjects::of('WorkTime')->select('weeks LIKE "%'.$currentWeekNumber.'%"')->first();
