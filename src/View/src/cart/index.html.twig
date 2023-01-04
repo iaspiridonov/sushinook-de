@@ -25,8 +25,8 @@
       <div role="tabpanel" class="tab-pane fade active in" id="cart-tab-1">
         {% if products is empty and combo is empty and half is empty %}
           <div class="form--order" data-form="cart" style="text-align: center;">
-            <img class="lazy img--cover" src="/img/modal-img.png" style="width: auto; height: auto; margin: 0 auto;">
-            <p><strong>Ihr Warenkorb ist leer.</strong><br>Mindestbestellwert für die Lieferung - 25  EUR</p>
+            <img class="lazy img--cover" src="/img/modal-img.png" style="width: auto; height: auto; margin: 0 auto; object-fit: contain;">
+            <p><strong>Ihr Warenkorb ist leer.</strong><br>Mindestbestellwert für die Lieferung - 15  EUR</p>
             <button type="button" class="btn btn--primary redirectBtn" data-href="/ru/">
               <span>Gehen Sie zum Menü</span>
             </button>
@@ -80,18 +80,18 @@
             <div class="modal_times">
               {% if workTimeActive %}
                 <a href="#" class="time_item active " data-current=" {{ currentTime }} " id="current_item">Sofort</a>
-                 {% for i in 9..23 %}
+                 {% for i in 15..22 %}
 {#                   {% if i!=13 and i!=14 and i!=15 and i!=17 and i!=18 %}#}
                       {% if i >= orderHour  %}
                         {% if orderMinute == 30 %}
 
-                         {% if (i+1) < 24 and i < 24 %}
+                         {% if (i+1) < 23 and i < 23 %}
                              <a href="#" class="time_item" data-hour1="{{ i }}:{{ orderMinute }}" data-hour2="{{ i + 1 }}:00">{{ i }}:{{ orderMinute }} — {{ i + 1 }}:00</a>
                               <a href="#" class="time_item" data-hour1="{{ i + 1 }}:00" data-hour2="{{ i + 1 }}:{{ orderMinute }}">{{ i + 1 }}:00 — {{ i + 1 }}:{{ orderMinute }}</a>
                              {% endif %}
                              {% else %}
                              <a href="#" class="time_item" data-hour1="{{ i }}:{{ orderMinute }}" data-hour2="{{ i }}:30">{{ i }}: {{orderMinute}} — {{ i }}:30</a>
-                             {% if (i+1) < 24 %}
+                             {% if (i+1) < 23 %}
                               <a href="#" class="time_item" data-hour1="{{ i }}:30" data-hour2="{{ i+1 }}:{{orderMinute}}">{{ i }}:30 — {{ i+1 }}:{{orderMinute}}</a>
                              {% endif %}
 
@@ -104,10 +104,10 @@
                  {% endfor %}
 
               {% else %}
-                 {% for i in 9..23 %}
+                 {% for i in 15..22 %}
 {#                   {% if i!=13 and i!=14 and i!=15 and i!=17 and i!=18 %}#}
-                     {% if i+1 != 24 %}
-                     <a href="#" class="time_item {{ i == 9 ? ' active ' : ''}}" data-hour1="{{ i }}:30" data-hour2="{{ i+1 }}:00">{{ i }}: 30 — {{ i+1 }}:00</a>
+                     {% if i+1 != 23 %}
+                     <a href="#" class="time_item {{ i == 15 ? ' active ' : ''}}" data-hour1="{{ i }}:30" data-hour2="{{ i+1 }}:00">{{ i }}: 30 — {{ i+1 }}:00</a>
                       <a href="#" class="time_item" data-hour1="{{ i+1 }}:00" data-hour2="{{ i+1 }}:30">{{ i+1 }}: 00 — {{ i+1 }}:30</a>
                      {% endif %}
 {#                  {% endif %}#}

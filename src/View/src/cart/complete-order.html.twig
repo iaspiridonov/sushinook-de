@@ -154,10 +154,7 @@
             <div {{ workTimeActive ? ' style="display: none;" ' : '' }}>
               <p style="color:red; margin-bottom:5px;">* Wir sind derzeit geschlossen.</p>
               <p>Arbeitszeiten:<br>
-                Montag – Freitag: <br>
-                11Uhr bis 14Uhr <br>
-                17Uhr bis 22Uhr <br>
-                Samstags, Sonntags & Feiertags: 15Uhr bis 22Uhr <br>
+                15Uhr bis 22Uhr <br>
                 Dienstag: Ruhetag
               </p>
             </div>
@@ -172,7 +169,7 @@
                   <a href="#modal--time" data-toggle="modal" class="select_time">Veränderung</a>
                   <input type="hidden" name="time_from" value="{{ workTimeActive ? currentTime : '09:30' }}">
                   <input type="hidden" name="time_to" value="{{ workTimeActive ? '' : '10:00' }}">
-                  <input type="text" class="form-control time_input" name="preorder" value="{{ workTimeActive ? 'Sofort' : 'von 09:30 bis 10:00 Uhr' }}">
+                  <input type="text" class="form-control time_input" name="preorder" value="{{ workTimeActive ? 'Sofort' : 'von 15:00 bis 15:30 Uhr' }}">
                 </div>
               </div>
             </div>
