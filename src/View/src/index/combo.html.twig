@@ -42,9 +42,9 @@
                     <div class="row">
                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         {% if item.priceOld %}
-                          <span class="old--price"><b><strike>{{ item.priceOld/100 }} EUR</strike></b></span>
+                          <span class="old--price"><b><strike>{{ (item.priceOld/100)|number_format(2,'.',' ') }} EUR</strike></b></span>
                         {% endif %}
-                        <b><span>{{ item.price/100 }}</span> EUR</b>
+                        <b><span>{{ (item.price/100)|number_format(2,'.',' ') }}</span> EUR</b>
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <a href="#" type="button" data-id="{{ item.id }}" data-total="{{ item.price }}" class="btn btn--primary btn--block {{ item.modalShow ? ' showCombo' : ' comboAddCart' }}">In den Warenkorb</a>
