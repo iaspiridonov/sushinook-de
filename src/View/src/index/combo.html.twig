@@ -13,8 +13,15 @@
               <!-- item -->
               <div class="item catalog-item item--combo">
                 <div class="stickers">
-                   {{ item.novelty == "1" ? '<div class="item-label label--green">neu</div>' : '' }}
-                    {{ item.hit == "1" ? '<div class="item-label label--yellow">hit</div>' : '' }}
+                  {% if item.novelty == "1" %}
+                    <div class="item-label label--green">neu</div>
+                  {% endif %}
+                  {% if item.hit == "1" %}
+                    <div class="item-label label--yellow">hit</div>
+                  {% endif %}
+                  {% if item.vegan == "1" %}
+                    <div class="item-label" style="background: #8dca71;">vegetarisch</div>
+                  {% endif %}
                 </div>
                
                 {% if item.sale > 0 %}

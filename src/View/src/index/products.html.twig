@@ -122,9 +122,20 @@
                   </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="item catalog-item item--pizza" data-role="item" data-id="{{ item.id }}">
-                    {% if item.sale > 0 %}
-                      <div class="item-label label--red">до {{ item.sale }}%</div>
-                    {% endif %}
+                      <div class="stickers">
+                          {% if item.novelty == "1" %}
+                              <div class="item-label label--green">neu</div>
+                          {% endif %}
+                          {% if item.hit == "1" %}
+                              <div class="item-label label--yellow">hit</div>
+                          {% endif %}
+                          {% if item.vegan == "1" %}
+                              <div class="item-label" style="background: #8dca71;">vegetarisch</div>
+                          {% endif %}
+                          {% if item.sale > 0 %}
+                              <div class="item-label label--red">до {{ item.sale }}%</div>
+                          {% endif %}
+                      </div>
 
                     <div class="stickers">
                          {{ item.hit ? '<div class="item-label label--yellow">hit</div>' : '' }}
