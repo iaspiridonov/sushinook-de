@@ -169,8 +169,14 @@ class Client
 
         try {
             $bonuses = (int)$_POST['count_bonus'] * 100;
+            $bonusesForUse = (int)$_POST['count_bonus_for_use'] * 100;
         } catch (\Throwable $ex) {
             $bonuses = 0;
+            $bonusesForUse = 0;
+        }
+
+        if ($bonusesForUse > $bonuses) {
+            return null;
         }
 
         try {
@@ -179,19 +185,19 @@ class Client
             $branch = '';
         }
 
-        $sum = (int) $info['sum'] - (int) $info['promoamount'] - $bonuses;
+        $sum = (int) $info['sum'] - (int) $info['promoamount'] - $bonusesForUse;
 
         if ($sum < 1) {
             $payments[] = [
                 'id' => 6,
-                'sum' => $sum + $bonuses,
+                'sum' => (int) $info['sum'] - (int) $info['promoamount'],
                 'payment_type' => 'bonuses',
             ];
         } else {
-            if ($bonuses) {
+            if ($bonuses && $bonusesForUse) {
                 $payments[] = [
                     'id' => 6,
-                    'sum' => $bonuses,
+                    'sum' => $bonusesForUse,
                     'payment_type' => 'bonuses',
                 ];
             }
@@ -273,6 +279,9 @@ class Client
             "organization_id" => 18
         ];
 
+        dump($requestData);
+        dump(new Connector('site/orders/add-order', 'POST', $requestData));
+        exit;
         return new Connector('site/orders/add-order', 'POST', $requestData);
     }
 }

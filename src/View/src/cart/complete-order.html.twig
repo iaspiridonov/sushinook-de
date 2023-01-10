@@ -205,9 +205,9 @@
             </div>
           </div>
           <div class="form-group" id="js-bonus-block" style="display: none;">
-            Sie haben <span class="js-bonus-count"></span> Boni <br>
-            <input class="js-bonus-count js-use-bonus" type="checkbox" name="count_bonus" id="js-use-bonus" value="0" style="display: none;" />
-            <label class="checkbox span_block js-use-bonus" for="js-use-bonus" style="display: none;">Verwenden?</label>
+            Sie haben <b class="js-bonus-count"></b> Boni <br>
+            <input max="" type="number" name="count_bonus_for_use" class="js-bonus-count js-use-bonus" placeholder="Wie viele Boni zu verwenden?" style="display: none; min-width: 280px;">
+            <input type="hidden" name="count_bonus" class="js-bonus-count" id="js-use-bonus">
           </div>
           <div class="form-group">
             <input type="checkbox" id="agb" required>
@@ -280,7 +280,7 @@
                 }
                 if (data == 'code_error') {
                   alert("ungültiger Bestätigungscode");
-                  $('#js-phone_code').val('').css('borderColor', 'red');
+                  $('#js-phone_code').val('').css('borderColor', 'red').focus();
                   return false;
                 }
 

@@ -38,10 +38,11 @@ $('.js-submit_code').click(function (e) {
 
             if (data.count > 0) {
                 $('#js-use-bonus').val(data.count);
-                $('.js-use-bonus').show('').val(data.count);
+                $('.js-use-bonus').show('');
             }
 
             $('.js-bonus-count').html(data.count ? data.count : 0);
+            $('.js-use-bonus').attr('max', data.count ? data.count : 0);
             $('#js-bonus-block').show('');
         }
     });
@@ -60,8 +61,8 @@ $('#js-check-bonuses-button').click(function (e) {
         success: function(data) {
             console.log(data);
 
-            if (data.result !== true) {
-                alert(data.error);
+            if ($('#js-phone_code').val() == '' || data.result !== true) {
+                $('#js-phone_code').css('border-color', 'red').focus();
                 return false;
             }
 
