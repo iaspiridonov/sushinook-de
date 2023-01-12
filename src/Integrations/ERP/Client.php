@@ -2,6 +2,7 @@
 
 namespace Src\Integrations\ERP;
 
+use Core\Service\Loger;
 use Core\Service\Registry;
 use Src\Controller\Cart;
 
@@ -9,7 +10,12 @@ class Client
 {
     public static function getBonuses(string $phone)
     {
-        return new Connector('site/clients/client?phone=' . $phone, 'GET');
+        try {
+            return new Connector('site/clients/client?phone=' . $phone, 'GET');
+        } catch (\Throwable $e) {
+            Loger::provider($e);
+            return null;
+        }
     }
 
     public static function checkPromo(string $code)
@@ -64,7 +70,12 @@ class Client
             "organization_id" => 1,
         ];
 
-        return new Connector('site/orders/preview-order-certificate', 'POST', $requestData);
+        try {
+            return new Connector('site/orders/preview-order-certificate', 'POST', $requestData);
+        } catch (\Throwable $e) {
+            Loger::provider($e);
+            return null;
+        }
     }
 
     public static function sendOrder() {
@@ -169,9 +180,13 @@ class Client
 
         try {
             $bonuses = (float)$_POST['count_bonus'] * 100;
-            $bonusesForUse = (float)$_POST['count_bonus_for_use'] * 100;
         } catch (\Throwable $ex) {
             $bonuses = 0;
+        }
+
+        try {
+            $bonusesForUse = (float)$_POST['count_bonus_for_use'] * 100;
+        } catch (\Throwable $ex) {
             $bonusesForUse = 0;
         }
 
@@ -279,6 +294,11 @@ class Client
             "organization_id" => 18
         ];
 
-        return new Connector('site/orders/add-order', 'POST', $requestData);
+        try {
+            return new Connector('site/orders/add-order', 'POST', $requestData);
+        } catch (\Throwable $e) {
+            Loger::provider($e);
+            return null;
+        }
     }
 }
