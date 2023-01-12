@@ -43,7 +43,7 @@ class Client
 
         foreach ($sessionCart as $item) {
             $nomenclatures[] = [
-                'id' => $cartController->getArticleIdByName($item['name']),
+                'id' => $item['article'],
                 'amount' => $item['count'] * 1000,
                 'promotional' => false
             ];
@@ -52,7 +52,7 @@ class Client
                 $ings = Cart::getIngsByCartItem($item);
                 foreach ($ings as $ing) {
                     $nomenclatures[] = [
-                        'id' => Cart::getArticleIdByName($ing->name),
+                        'id' => $ing->id,
                         'amount' => 1000,
                         'promotional' => false
                     ];
@@ -95,7 +95,7 @@ class Client
 
         foreach ($sessionCart as $item) {
             $nomenclatures[] = [
-                'id' => $cartController->getArticleIdByName($item['name']),
+                'id' => $item['article'],
                 'amount' => $item['count'] * 1000,
                 'promotional' => false,
                 "title" => $item['name'],
@@ -114,7 +114,7 @@ class Client
                 $ings = Cart::getIngsByCartItem($item);
                 foreach ($ings as $ing) {
                     $nomenclatures[] = [
-                        'id' => Cart::getArticleIdByName($ing->name),
+                        'id' => $ing->article,
                         'amount' => 1000,
                         'promotional' => false,
                         "title" => $ing->name,

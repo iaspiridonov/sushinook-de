@@ -89,32 +89,6 @@ class Cart extends AbstractController
         return trim($name);
     }
 
-    function getProdByArticle($id){
-        if($article = Subjects::of('Article')->select(['value'=>$id])->first()){
-            $basename = $this->format_name($article->name);
-            $prod = Subjects::of('Product')->select(['name'=>$basename])->first();
-            return $prod;
-        }
-        return [];
-    }
-
-    static function getArticleIdByName($name): ?int
-    {
-        try {
-            $article = (int) Subjects::of('Article')->select(['name'=>$name])->first()->value;
-        } catch (\Throwable $e) {
-            $name = str_replace('  ', ' ', $name);
-            try {
-                $article = (int) Subjects::of('Article')->select(['name'=>$name])->first()->value;
-            } catch (\Throwable $e) {
-                return null;
-            }
-        }
-
-        return $article;
-    }
-
-
     static function getIngsByCartItem(array $cartItem): array
     {
         $ings = [];
@@ -346,209 +320,19 @@ class Cart extends AbstractController
         return $result;
     }
 
-    function frontpadorder($message){
-        $products = Registry::get('session.cart');
-        $combo = Registry::get('session.combo');
-        $half = Registry::get('session.half');
-
-        $article_list = [];
-        $count_list = [];
-        $product_mod = [];
-
-        $desc = '';
-
-        if($products){
-            $iter = 0;
-            foreach($products as $id => $data){
-                if(isset($data['countChange']) && $data['countChange'] == false) continue;
-
-                $id = $data['id'];
-                $name = $data['name'];
-                $size = $data['size'];
-                $type = $data['type'];
-                $count = $data['count'];
-                $parent = (int)$data['parent_id'];
-
-                $articleName = $name.' '.$size.'см';
-                if($type == 'Тонкое') $articleName .= 'Т';
-
-                if($parent != 50) $articleName = $name;
-
-                $prod = Subjects::of('Product')->find($id);
-                $article = $prod->articles()->select(['name'=>$articleName])->first();
-                $article_list[$iter] = $article->value;
-                $count_list[$iter] = $count;
-
-                // if($data['ingsRemove']) $desc .= $articleName.' : '.$data['ingsRemove'];
-
-                if($data['ingsAdd']){
-                    $ings = explode(",",$data['ingsAdd']);
-                    $prodIter = $iter;
-                    foreach($ings as $ing){
-                        $ingName = str_replace('+', '', $ing);
-                        $ingName = trim($ingName);
-                        $ingName .= ' '.$size;
-                        $iter++;
-                        if($ing_subject = Subjects::of('Article')->select(['name'=>$ingName])->first()){
-                            $article_list[$iter] = $ing_subject->value;
-                            $count_list[$iter] = '1';
-                            $product_mod[$iter] = $prodIter;
-                        }
-                    }
-                }
-                $iter++;
-            }
-        }
-
-        if($combo){
-            foreach($combo as $id => $data){
-                $count = $data['count'];
-
-                $combo_subject = Subjects::of('Combo')->find($id);
-                $article = $combo_subject->article;
-
-                $article_list[] = $article;
-                $count_list[] = $count;
-            }
-        }
-
-        if($half){
-            foreach($half as $id => $data){
-                $left = $data['left'];
-                $right = $data['right'];
-
-                $articleNameLeft = $left.' 35смП';
-                $article = Subjects::of('Article')->select(['name'=>$articleNameLeft])->first();
-                $article_list[] = $article->value;
-                $count_list[] = '1';
-
-                $articleNameRight = $right.' 35смП';
-                $article = Subjects::of('Article')->select(['name'=>$articleNameRight])->first();
-                $article_list[] = $article->value;
-                $count_list[] = '1';
-            }
-        }
-
-        $secret = 'fn5BikeSTkArBYt8z2Q7sSss3zGiE9fKnaaBkee6tFiYrFSNtyHKa454kAaSAhsNhtbzAhsTRDD67hGnEe2E7Syhdz4DFfdRBea3rsG6T93Qfz5KDSdAzBHBZB5sH778b72tnyk7tbKDBDb5ffrEG36tnZKZTFYYDHbR6rKktiRTNSKY34nySfQ76kTNTEzhaB36SBf9KZTkEt7shhQ4ssZiFEZk7hz8Hi5nK9niZ8zrrtHBDkrYEb68FS';
-        $info = ['secret'=>$secret];
-
-        if($message['name']){
-            $desc .= ' Name: '.$message['name'];
-            $info['name'] = $message['name'];
-        }
-        $formatted_phone = str_replace([' ','(',')','-'], '', $message['phone']);
-        $formatted_phone = urlencode($formatted_phone);
-        $info['phone'] = $formatted_phone;
-        if($message['email']){
-            $desc .= ' E-mail: '.$message['email'];
-            $info['mail'] = $message['email'];
-        }
-
-        $delivery = $message['delivery'];
-        if($delivery == 'Доставка'){
-            if($message['street']){
-                $desc .= ' Улица: '.$message['street'];
-                $info['street'] = $message['street'];
-            }
-            if($message['house']){
-                $desc .= ' Дом: '.$message['house'];
-                $info['home'] = $message['house'];
-            }
-            if($message['porch']){
-                $desc .= ' Подъезд: '.$message['porch'];
-                $info['pod'] = $message['porch'];
-            }
-            if($message['code']) $desc .= ' Код двери: '.$message['code'];
-            if($message['level']){
-                $desc .= ' Этаж: '.$message['level'];
-                $info['et'] = $message['level'];
-            }
-            if($message['flat']){
-                $desc .= ' Квартира: '.$message['flat'];
-                $info['apart'] = $message['flat'];
-            }
-        }elseif($delivery == 'Abholung') $desc .= ' Пиццерия: '.$message['branch'];
-
-        $surrender = $message['surrender'];
-        if($surrender) $desc .= ' Сдача с: '.$surrender;
-
-        if($message['preorder'] != "Sofort"){
-            $desc .= ' Доставить '.$message['preorder'];
-        }
-
-        $info['descr'] = $desc;
-
-        $payment = $message['payment'];
-        // if($payment) $desc .= ' Оплата: '.$payment;
-
-        $pay_cfg = [
-            'Наличными' => '1',
-            'Картой курьеру' => '2',
-            'Картой' => '696'
-        ];
-
-        if($payment) $info['pay'] = $pay_cfg[$payment];
-
-        $rycleInfo = $this->rycleinfo();
-
-        if($rycleInfo['promoamount']) $info['sale_amount'] = $rycleInfo['promoamount'];
-
-        $promo = $message['promo'];
-        if($promo){
-            $info['certificate'] = $promo;
-        }
-
-        // $info['score'] = 300;
-
-        $date = date('Y-m-d');
-
-        if($message['time_from'] != '' && $message['time_to'] != ''){
-            $timeArr = explode(':', $message['time_from']);
-
-            $leftTime = '';
-            if($timeArr[1] == 30){
-                $leftTime = $timeArr[0].':'.'00';
-            }else{
-                $leftTime = ($timeArr[0] - 1).':'.'30';
-            }
-
-            $datetime = date('Y-m-d H:i:s',strtotime($date.' '.$leftTime));
-            $info['datetime'] = $datetime;
-        }else{
-            $datetime = date('Y-m-d H:i:s',strtotime($date.' '.$message['time_from']));
-            $info['datetime'] = $datetime;
-        }
-
-        $reqdata = '';
-        foreach($info as $k => $v){
-            $reqdata .= '&'.$k.'='.$v;
-        }
-
-        foreach($article_list as $k => $v){
-            $reqdata .= '&product['.$k.']='.$v;
-            $reqdata .= '&product_kol['.$k.']='.$count_list[$k];
-        }
-
-        foreach($product_mod as $k => $v){
-            $reqdata .= '&product_mod['.$k.']='.$v;
-        }
-
-        $req_res = $this->req('https://app.frontpad.ru/api/index.php?new_order',$reqdata);
-
-        $req_res_file_path = $_SERVER['DOCUMENT_ROOT'].'/frontpad/';
-        $req_res_file_name = date('Y-m-d H:i:s').'.txt';
-        file_put_contents($req_res_file_path.$req_res_file_name, $req_res);
-
-        $req_res = json_decode($req_res,true);
-        return $req_res;
-    }
-
     public function send() {
-        $result = Client::sendOrder()->result;
+        $response = Client::sendOrder()->result;
 
-        if ($result === 'code_error') {
+        if (!$response) {
+            return $this->json(['status'=>false]);
+        }
+
+        if ($response === 'code_error' || $response->result === 'code_error') {
             return $this->json('code_error');
         }
+
+        $result = $response->result;
+
 
         if ($result->success != true) {
             return $this->json(['status'=>false]);
@@ -700,15 +484,6 @@ class Cart extends AbstractController
         $promoamount = null;
         if($info['promoamount']) $promoamount = (int)$info['sum'] - (int)$info['promoamount'];
 
-
-        $recommended = Subjects::of('Product')->select(function($select){
-            $select->where(' recommended = "1" AND hide = "0" ');
-            $select->order('sort');
-        })->get();
-        $sauces = Subjects::of('Product')->select(function($select){
-            $select->where(' isSauce = "1" AND hide = "0" ');
-            $select->order('sort');
-        })->get();
         $user = Registry::get('session.user') ?? ['id' => null];
         $account = Subjects::of('Account')->find($user['id']);
 
@@ -742,8 +517,6 @@ class Cart extends AbstractController
             'combo'=>$combo,
             'half'=>$half,
             'breadcrumbs'=>$breadcrumbs,
-            'recommended'=>$recommended,
-            'sauces'=>$sauces,
             'info'=>$info,
             'account'=>$account,
             'promo'=>$promo,
@@ -800,6 +573,7 @@ class Cart extends AbstractController
 
         $cart[$cartID]  = [
             'name'=>$productName,
+            'article'=>$product->article,
             'desc'=>$product->description,
             'price'=>$price,
             'count'=>$count,
