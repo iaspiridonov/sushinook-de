@@ -50,25 +50,6 @@
               </td>
             </tr>
           {% endfor %}
-          {% for item in halfDetails %}
-            <tr>
-              <td>
-                <div class="img">
-                  <div class="img--centered orange" data-role="lazyimg">
-                    <img data-src="/samples/pic-cart-2.png" class="lazy" />
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="title">{{ item.left }} + {{ item.right }}</div>
-                <div class="meta text--gray">Большая {{ item.size }} см, {{ item.type }} тесто</div>
-                <div class="amount visible-sm">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }} EUR</b></div>
-              </td>
-              <td class="hidden-sm">
-                <div class="amount">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }} EUR</b></div>
-              </td>
-            </tr>
-          {% endfor %}
           {% for item in orderDetails %}
             <tr>
               <td>

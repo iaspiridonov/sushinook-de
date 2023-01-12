@@ -24,9 +24,6 @@ class Cart extends AbstractController
         $this->POST('/comboadd','comboadd');
         $this->POST('/comboremove','comboremove');
         $this->POST('/combochange','combochange');
-        $this->POST('/halfpizzaadd','halfpizzaadd');
-        $this->POST('/halfpizzachange','halfpizzachange');
-        $this->POST('/halfpizzaremove','halfpizzaremove');
         $this->POST('/promo','promo');
         $this->POST('/resetpromo','resetpromo');
         $this->POST('/testq','testq');
@@ -157,100 +154,6 @@ class Cart extends AbstractController
         ]);
     }
 
-    public function halfpizzaremove(){
-        $data = Registry::get('http.request.body');
-        $id = $data['id'];
-
-        $cart = Registry::get('session.half');
-        unset($cart[$id]);
-
-        $count = count($cart);
-        if($count == 0) $cart = [];
-
-        Registry::set('session.half', $cart);
-
-        return $this->json(['count'=>$count]);
-    }
-
-    public function halfpizzachange(){
-        $cart = Registry::get('session.half');
-        $request = Registry::get('http.request.body');
-        $id = $request['id'];
-        $count = $request['count'];
-        $cart[$id]['count'] = $count;
-        Registry::set('session.half', $cart);
-        return $this->html('<b>'.$cart[$id]['price']/100 * $count.'</b> EUR');
-    }
-
-    public function halfpizzaadd(){
-        $cart = Registry::get('session.half');
-        $request = Registry::get('http.request.body');
-
-        // $price = $request['price'];
-        // if((int)$price == 0) return $this->html('0');
-
-        $left = $request['left'];
-        $right = $request['right'];
-        if(!$left || !$right) return $this->json('0');
-
-        $size = $request['size'];
-        $type = $request['type'];
-        $typeCfg = ['Традиционное','Тонкое'];
-        if(!in_array($type, $typeCfg)) return $this->json('0');
-
-        $left = trim($left);
-        $leftProd = Subjects::of('Product')->select(['name'=>$left])->first();
-        if(!$leftProd) return $this->json('0');
-        $leftProdName = trim($leftProd->name);
-
-        $leftProdPriceName = $leftProdName.' '.$size.'смП';
-        $leftProdPrice = Subjects::of('Price')->select(['name'=>$leftProdPriceName])->first();
-        if(!$leftProdPrice) return $this->json('0');
-
-        $right = trim($right);
-        $rightProd = Subjects::of('Product')->select(['name'=>$right])->first();
-        if(!$rightProd) return $this->json('0');
-        $rightProdName = trim($rightProd->name);
-
-        $rightProdPriceName = $rightProdName.' '.$size.'смП';
-        $rightProdPrice = Subjects::of('Price')->select(['name'=>$rightProdPriceName])->first();
-        if(!$rightProdPrice) return $this->json('0');
-
-        $price = (int)$leftProdPrice->value + (int)$rightProdPrice->value;
-
-        // $leftIngs = $request['leftIngs'];
-        // $rightIngs = $request['rightIngs'];
-
-        $cartID = $left.$right.$type;
-
-        $cartIDFirst = md5($left.$right.$type);
-        $cartIDSecond = md5($right.$left.$type);
-        if(isset($cart[$cartIDFirst])) $cartID = $left.$right.$type;
-        elseif(isset($cart[$cartIDSecond])) $cartID = $right.$left.$type;
-
-        $cartID = md5($cartID);
-        $count = 1;
-
-        if(isset($cart[$cartID])){
-            $count = (int)$cart[$cartID]['count'] + $count;
-            $cart[$cartID]['count'] = $count;
-        }else{
-            $cart[$cartID] = [
-                'left' => $left,
-                'right' => $right,
-                // 'leftIngs' => $leftIngs,
-                // 'rightIngs' => $rightIngs,
-                'size' => $size,
-                'type' => $type,
-                'price' => str_replace(' ', '', $price),
-                'count' => $count
-            ];
-        }
-
-        Registry::set('session.half',$cart);
-        return $this->html('1');
-    }
-
     public function combochange(){
         $cart = Registry::get('session.combo') ? Registry::get('session.combo') : [];
         $request = Registry::get('http.request.body');
@@ -321,18 +224,11 @@ class Cart extends AbstractController
     }
 
     public function send() {
-        $response = Client::sendOrder()->result;
+        $result = Client::sendOrder()->result;
 
-        if (!$response) {
-            return $this->json(['status'=>false]);
-        }
-
-        if ($response === 'code_error' || $response->result === 'code_error') {
+        if ($result === 'code_error') {
             return $this->json('code_error');
         }
-
-        $result = $response->result;
-
 
         if ($result->success != true) {
             return $this->json(['status'=>false]);

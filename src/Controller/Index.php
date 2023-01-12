@@ -14,11 +14,8 @@ class Index extends AbstractController
         $this->GET('/', 'indexPage');
         $this->GET('/about', 'aboutPage');
         $this->GET('/contacts', 'contactsPage');
-        // $this->GET('/test', 'test');
         $this->POST('/combo-modal/', 'comboModal');
-        // $this->POST('/product-modal/', 'productModal');
         $this->POST('/passrecover','passrecover');
-        $this->GET('/constructor-modal','constructorModal');
         $this->POST('/isshown','isshown');
         $this->POST('/setshown','setshown');
         $this->GET('/plug','plug');
@@ -43,16 +40,6 @@ class Index extends AbstractController
         $isshown = false;
         if(@$_SESSION['notWorkShown']) $isshown = true;
         return $this->json($isshown);
-    }
-
-    public function constructorModal(){
-        $constructorProducts = Subjects::of('Category')->find(50)->products()->select(function($select){
-            $select->where('hide = "0" AND halfHide = "0"');
-            $select->order('sort');
-        })->get();
-
-        return $this->html(Template::render('src/index/constructor-modal-desktop',[
-            'constructorProducts' => $constructorProducts]));
     }
 
     function passGen(){
@@ -140,10 +127,6 @@ class Index extends AbstractController
     }
   
     public function indexPage(){
-        // Registry::set('session',[]);
-
-
-
         $slides = Subjects::of('Slider')->find(1)->elements()->select(function(Select $select){
             $select->order('sort');
         })->get();
@@ -158,33 +141,15 @@ class Index extends AbstractController
         })->get();
         $seo = Subjects::of('Seo')->find(1);
 
-        // $constructorProducts = Subjects::of('Category')->find(50)->products()->select(function($select){
-        //     $select->where('hide = "0" AND halfHide = "0"');
-        //     $select->order('sort');
-        // })->get();
-
-        $sizes = [];
-
-        $pizzaSettings = Subjects::of('PizzaSetting')->select(function($select){
-            $select->where('(traditionaldough = 1 or thindough = 1)');
-            $select->where(['status' => 1]);
-        })->get();
-
-        foreach ($pizzaSettings as $item) {
-            $sizes[] =  $item['name'];
-        }
-
-
         return $this->html(Template::render('src/index/index',[
-            'pizzaSettings' => $pizzaSettings,
             'constructorProducts' => [],
             'slides'=>$slides,
             'combo'=>$combo,
             'sections'=>$sections,
             'cart'=>$cart,
             'text'=>$text,
-            'seo'=>$seo,
-            'sizes'=>$sizes]));
+            'seo'=>$seo
+        ]));
     }
 
 }

@@ -48,8 +48,6 @@ class Cabinet extends AbstractController
         Registry::set('session.cart',$cartData);
         $comboData = json_decode($order['comboDetails'], true, 512, JSON_UNESCAPED_UNICODE);
         Registry::set('session.combo',$comboData);
-        $halfData = json_decode($order['halfDetails'], true, 512, JSON_UNESCAPED_UNICODE);
-        Registry::set('session.half',$halfData);
 
         return $this->json('1');
     }
@@ -61,7 +59,6 @@ class Cabinet extends AbstractController
         $order = Subjects::of('Order')->find($id);
         $orderDetails = json_decode($order['details'], true, 512, JSON_UNESCAPED_UNICODE);
         $comboDetails = json_decode($order['comboDetails'], true, 512, JSON_UNESCAPED_UNICODE);
-        $halfDetails = json_decode($order['halfDetails'], true, 512, JSON_UNESCAPED_UNICODE);
         return $this->html(Template::render('src/cabinet/order',['account'=>$account,'order'=>$order, 'orderDetails' => $orderDetails, 'comboDetails' => $comboDetails, 'halfDetails' => $halfDetails,'orderPage'=>true]));
     }
 

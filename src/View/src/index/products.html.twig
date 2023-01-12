@@ -8,37 +8,7 @@
           <div class="items-list catalog-list list--{{ s.hasAdditional == 1 ? 'pizza' : 'default'  }} {{ s.hasAdditional == 1 ? ' js-with-additional' : '' }}" data-additional-count ="{{ s.ings_count ? s.ings_count : '7' }}">
           <div class="block-in row--alt row">
             {% for item in s.products.sortBy('sort') %}
-              {% if item.halfPizza == 1 %}
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                  <div class="item catalog-item item--pizza item--halve">
-                    <div class="stickers">
-                       <div class="item-label label--violet">2 in 1</div>
-                    </div>
-                    <div class="catalog-item-img text--center">
-                      <div class="img--centered img" data-role="lazyimg">f
-                        <img data-src="{{ item.image }}" class="lazy full_img" />
-                      </div>
-                    </div>
-                    <div class="catalog-item-in">
-                      <div class="catalog-item-title">{{ item.name }}</div>
-                      <div class="catalog-item-meta text--gray">{{ item.description }}</div>
-                    </div>
-                     {% if item.noavailable == 1 %}
-                       <div class="catalog-item-halve text--center">
-                        <b><span>Nicht verfügbar</span></b>
-                      </div>
-                     {% else %}
-                       <div class="catalog-item-halve text--center">
-                        <b>Ab <span data-output="amount"></span> EUR</b>
-                        <a href="#constructor-modal" data-toggle="modal" class="btn btn--green btn--block b10 mob_show_c_control">Собрать пиццу</a>
-                      </div>
-                     {% endif %}
-                    
-                    <input type="hidden" name="price" value="{{ item.price }}" />
-                    <input type="hidden" name="count" value="1" />
-                  </div>
-                </div>
-              {% elseif item.hide == 0 %}
+              {% if item.hide == 0 %}
                  <div class="modal modal-o fade item--pizza" data-role="item" data-id="{{ item.id }}" id="product-modal-{{ item.id }}" data-price="{{ item.price }}" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered long_modal2" role="document">
                           <div class="modal-content">
@@ -58,23 +28,15 @@
                                   <div class="modal_right">
                                     <div class="catalog-item-in">
                                           <div class="catalog-item-title">{{ item.name }}</div>
-{#                                          <div class="catalog-item-meta text--gray"><span class="pizzaSize">30</span> см, #}
-{#                                            <span class="pizzaType">{{ item.traditionaldough != '1' ? 'традиционное' : 'тонкое' }} </span> тесто#}
-{#                                          </div>#}
                                     </div>
                                     <div class="post_ings" data-id="{{ item.id }}">
-                                      <!-- {% for ing in item.removeIngridients.sortBy('sort') %}
-                                        <div class="post_ing ingRemove" data-name="{{ ing.name }}" data-id="{{ ing.id }}"><span>{{ ing.name }}</span> <i class="fa fa-times"></i>{{ loop.index < loop.length ? ',' : '' }}</div>
-                                      {% endfor %} -->
                                       {{ item.description }}
                                     </div>
                                     <div class="modal_items">
                                       {% if s.hasAdditional == 1 %}
-{#                                          {% include 'src/index/sizes.html.twig' %}#}
                                           <div class="catalog-item-add text--center">
                                             {% if item.addIngridients is not empty or item.removeIngridients is not empty %}
                                               {% include 'src/index/ingridients.html.twig' %}
-                                              <!-- <a href="#" data-button="toggle">Дополнить</a> -->
                                             {% endif %}
                                           </div>
                                         {% endif %}
@@ -181,5 +143,4 @@
 <!-- Product Modal -->
   <div class="modal modal-o fade" id="product-modal" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-{% include '/src/index/constructor-modal.html.twig' %}
 {% endfor %}

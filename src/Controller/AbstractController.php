@@ -57,11 +57,6 @@ abstract class AbstractController extends Controller
         ]);
     }
 
-    function plug_check(){
-        $plug = Subjects::of('Plug')->find(1);
-        return $plug->enabled;
-    }
-
     function workTimeModalShow(){
         // unset($_SESSION['notWorkShown']);
         $isShown = @$_SESSION['notWorkShown'];
@@ -115,14 +110,6 @@ abstract class AbstractController extends Controller
         return Template::render('src/pages-map',['menu'=>$menu,'lang'=>Locale::getLocale()]);
     }
 
-    function recommended(){
-//        $prods = Subjects::of('Product')->select(function($select){
-//            $select->where(' recommended = "1" AND hide = "0"');
-//            $select->order('sort');
-//        })->get() ?? [];
-//        return Template::render('src/recommended',['proAbstractController.phpds'=>$prods]);
-    }
-
     function rycleinfo() {
         $sum = 0;
         $total_count = 0;
@@ -171,10 +158,8 @@ abstract class AbstractController extends Controller
         if(!$cart || count($cart) == 0) $cart = '';
         $combo = Registry::get('session.combo');
         if(!$combo || count($combo) == 0) $combo = '';
-        $half = Registry::get('session.half');
-        if(!$half || count($half) == 0) $half = '';
 
-        return Template::render('src/cart-popup',['cart'=>$cart,'combo'=>$combo,'halfpizza'=>$half]);
+        return Template::render('src/cart-popup',['cart'=>$cart,'combo'=>$combo]);
     }
 
     function socials(){
