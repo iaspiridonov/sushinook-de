@@ -118,10 +118,11 @@ class Cart extends AbstractController
     static function getIngsByCartItem(array $cartItem): array
     {
         $ings = [];
-        $ingsAddList = explode(",", $cartItem['ingsAdd']);
-        foreach($ingsAddList as $ingName){
-            $ingName = trim($ingName);
-            $ingridient = Subjects::of('Ingridients')->select(['name' => $ingName])->first();
+        $ingsIdList = explode(",", $cartItem['ingsId']);
+
+        foreach($ingsIdList as $ingId){
+            $ingId = trim($ingId);
+            $ingridient = Subjects::of('Ingridients')->select(['id' => $ingId])->first();
             $ings[] = $ingridient;
         }
 
@@ -778,20 +779,20 @@ class Cart extends AbstractController
         $productName = trim($product->name);
         $price = (int)$product->price;
 
-        $ingsAdd = $request['ingsAdd'];
+        $ingsId = $request['ingsId'];
 
-        if($product->addIngridients->count() && $ingsAdd){
-            $ingsAddList = explode(",",$ingsAdd);
-            foreach($ingsAddList as $ingName){
-                $ingName = trim($ingName);
-                $ingridient = Subjects::of('Ingridients')->select(['name' => $ingName])->first();
+        if($product->addIngridients->count() && $ingsId){
+            $ingsIdList = explode(",",$ingsId);
+            foreach($ingsIdList as $ingId){
+                $ingId = trim($ingId);
+                $ingridient = Subjects::of('Ingridients')->select(['id' => $ingId])->first();
                 $price += (int) $ingridient->price;
             }
         }
 
         $cart = Registry::get('session.cart') ? Registry::get('session.cart') : [];
 
-        $cartID = $productName.'added:'.$ingsAdd.$typeIng.$size;
+        $cartID = $productName.'added:'.$ingsId.$typeIng.$size;
         $cartID = md5($cartID);
         if(isset($cart[$cartID])) $count = (int)$cart[$cartID]['count'] + $count;
 
@@ -809,7 +810,8 @@ class Cart extends AbstractController
             'link'=>$product->url(),
             'type'=>$type,
             'size'=>$size,
-            'ingsAdd'=>$ingsAdd
+            'ingsAdd'=>$request['ingsAdd'],
+            'ingsId'=>$ingsId
         ];
 
         Registry::set('session.cart', $cart);

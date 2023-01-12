@@ -5,7 +5,7 @@
         <h4 class="title-2">{{ s.name }}</h4>
       </div>
       <div class="s-content catalog-content">
-        <div class="items-list catalog-list list--{{ s.hasAdditional == 1 ? 'pizza' : 'default'  }}">
+          <div class="items-list catalog-list list--{{ s.hasAdditional == 1 ? 'pizza' : 'default'  }} {{ s.hasAdditional == 1 ? ' js-with-additional' : '' }}" data-additional-count ="{{ s.ings_count ? s.ings_count : '7' }}">
           <div class="block-in row--alt row">
             {% for item in s.products.sortBy('sort') %}
               {% if item.halfPizza == 1 %}

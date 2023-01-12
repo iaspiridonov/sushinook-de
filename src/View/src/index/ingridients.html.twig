@@ -16,7 +16,7 @@
                 {% endfor %}
                 data-active="false">
                   <input type="hidden" name="ingPrice" value="{{ ing.price }}">
-                  <input type="checkbox" id="addon-{{ item.id }}+{{ ing.id }}" data-name="{{ ing.name }}" />
+                  <input type="checkbox" id="addon-{{ item.id }}+{{ ing.id }}" data-name="{{ ing.name }}" data-id="{{ ing.id }}" />
                   <label for="addon-{{ item.id }}+{{ ing.id }}">
                     <div class="addon-img">
                       <div class="img--centered orange" data-role="lazyimg" >
@@ -46,7 +46,7 @@
 			{% for ing in item.removeIngridients %}
 			  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <div class="catalog-addon text--center ingBlock" data-id="{{ item.id }}" data-active="false">
-                  <input type="checkbox" id="addon-{{ item.id }}-{{ ing.id }}" data-name="{{ ing.name }}" />
+                  <input type="checkbox" id="addon-{{ item.id }}-{{ ing.id }}" data-name="{{ ing.name }}" data-id="{{ ing.id }}" />
                   <label for="addon-{{ item.id }}-{{ ing.id }}">
                     <div class="addon-img">
                       <div class="img--centered orange" data-role="lazyimg">

@@ -25329,6 +25329,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 			    });
 			}
 
+			var ingsMaxCount = $item.closest('.js-with-additional').data('additional-count');
 			$item.find('.ingBlock [type="checkbox"]').on("change", function(){
 				var el = $(this);
 				var name = el.data('name');
@@ -25360,7 +25361,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 		        	prodPrice += curIngPrice;
 		        }
 
-		        if(i == 7){
+				if(i == ingsMaxCount){
 		            $('.ingBlock[data-active="false"]').addClass('ingDisabled');
 		        }else{
 		            $('.ingBlock[data-active="false"]').removeClass('ingDisabled');

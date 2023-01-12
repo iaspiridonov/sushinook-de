@@ -1166,10 +1166,13 @@ $(function(){
             type = '';
         }
         var ingsAdd = [];
+        var ingsId = [];
         $('.ingridientsAdd .additionalIng[data-id="'+id+'"] .ingBlock[data-active="true"]').each(function(){
             var ing = $(this);
             var ingName = ing.find('input[type="checkbox"]').data('name');
+            var ingId = ing.find('input[type="checkbox"]').data('id');
             ingsAdd.push(ingName);
+            ingsId.push(ingId);
         });
         $.ajax({
             type: "POST",
@@ -1180,6 +1183,7 @@ $(function(){
                 size: size,
                 type: type,
                 ingsAdd: ingsAdd.join(', '),
+                ingsId: ingsId.join(', '),
             },
             dataType: 'json',
             success: function(data) {
