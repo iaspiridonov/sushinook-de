@@ -168,8 +168,8 @@ class Client
         $comment .= $_POST['message'] != false ? "Дополнительный комментарий: " . $_POST['message'] . ' ' : '';
 
         try {
-            $bonuses = (int)$_POST['count_bonus'] * 100;
-            $bonusesForUse = (int)$_POST['count_bonus_for_use'] * 100;
+            $bonuses = (float)$_POST['count_bonus'] * 100;
+            $bonusesForUse = (float)$_POST['count_bonus_for_use'] * 100;
         } catch (\Throwable $ex) {
             $bonuses = 0;
             $bonusesForUse = 0;
@@ -279,9 +279,6 @@ class Client
             "organization_id" => 18
         ];
 
-        dump($requestData);
-        dump(new Connector('site/orders/add-order', 'POST', $requestData));
-        exit;
         return new Connector('site/orders/add-order', 'POST', $requestData);
     }
 }
