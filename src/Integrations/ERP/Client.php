@@ -53,7 +53,7 @@ class Client
                 foreach ($ings as $ing) {
                     $nomenclatures[] = [
                         'id' => $ing->id,
-                        'amount' => 1000,
+                        'amount' => $item['count'] * 1000,
                         'promotional' => false
                     ];
                 }
@@ -82,6 +82,8 @@ class Client
         if ($_POST['cod_sms'] !== $_POST['phone_code']) {
             return 'code_error';
         }
+
+        $isCash = $_POST['payment'] === 'Наличными';
 
         $cartController = new Cart();
 
@@ -115,7 +117,7 @@ class Client
                 foreach ($ings as $ing) {
                     $nomenclatures[] = [
                         'id' => $ing->article,
-                        'amount' => 1000,
+                        'amount' => $item['count'] * 1000,
                         'promotional' => false,
                         "title" => $ing->name,
                         "is_service" => false,
@@ -218,9 +220,9 @@ class Client
             }
 
             $payments[] = [
-                "id" => 1,
+                "id" => $isCash ? 1 : 5,
                 "title" => $_POST['delivery'],
-                "payment_type" => "cash",
+                "payment_type" => $isCash ? 'cash' : 'cashless',
                 "sum" => $sum,
                 "disabled" => false
             ];
