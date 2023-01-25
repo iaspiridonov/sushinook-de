@@ -220,7 +220,7 @@ class Client
             }
 
             $payments[] = [
-                "id" => $isCash ? 1 : 5,
+                "id" => $isCash ? 1 : 4,
                 "title" => $_POST['delivery'],
                 "payment_type" => $isCash ? 'cash' : 'cashless',
                 "sum" => $sum,
