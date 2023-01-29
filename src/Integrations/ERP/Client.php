@@ -24,7 +24,6 @@ class Client
             $request = Registry::get('http.request.body');
             $code = $request['code'];
         }
-        $cartController = new Cart();
 
         $productsCart = Registry::get('session.combo');
         if (!$productsCart) $productsCart = [];
@@ -52,7 +51,7 @@ class Client
                 $ings = Cart::getIngsByCartItem($item);
                 foreach ($ings as $ing) {
                     $nomenclatures[] = [
-                        'id' => $ing->id,
+                        'id' => $ing->article,
                         'amount' => $item['count'] * 1000,
                         'promotional' => false
                     ];
@@ -71,6 +70,8 @@ class Client
         ];
 
         try {
+            dump($requestData);
+            dump(new Connector('site/orders/preview-order-certificate', 'POST', $requestData));exit;
             return new Connector('site/orders/preview-order-certificate', 'POST', $requestData);
         } catch (\Throwable $e) {
             Loger::provider($e);
