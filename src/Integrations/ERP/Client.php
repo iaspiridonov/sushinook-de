@@ -70,8 +70,6 @@ class Client
         ];
 
         try {
-            dump($requestData);
-            dump(new Connector('site/orders/preview-order-certificate', 'POST', $requestData));exit;
             return new Connector('site/orders/preview-order-certificate', 'POST', $requestData);
         } catch (\Throwable $e) {
             Loger::provider($e);
