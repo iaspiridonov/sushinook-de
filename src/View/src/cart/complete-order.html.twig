@@ -35,6 +35,22 @@
                 </div>
               </div>
             </div>
+            <div class="col-lg-7 col-md-8">
+              <div class="form-group">
+                <div style="display: flex;">
+                  <label class="control-label"><span style="margin-bottom: .3125rem; display: inline-block;">Telefonische Verifizierung</span><sup>*</sup>
+                    <div class="controls">
+                      <button class="btn btn--primary js-submit_code" style="margin-right: 30px;" type="button">Senden Sie mir den WhatsApp-Code</button>
+                    </div>
+                  </label>
+                  <label class="control-label"><span style="margin-bottom: .3125rem; display: inline-block;">Code eingeben</span><sup>*</sup>
+                    <div class="controls">
+                      <input type="text" id="js-phone_code" name="phone_code" class="form-control" placeholder="Code eingeben" required>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </fieldset>
         <fieldset>
@@ -173,14 +189,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="form-group" style="display:none;">
-                <label class="control-label">E-mail</label>
-                <div class="controls">
-                  <input type="email" class="form-control" name="email" value="{{ account is not empty ? account.email : '' }}" />
-                </div>
-              </div>
-            </div>
           </div>
         </fieldset>
         <fieldset>
@@ -196,14 +204,6 @@
         </fieldset>
         <fieldset>
           <input type="hidden" name="cod_sms" value="{{ random(1111, 9999) }}">
-          <div class="form-title">
-            <h3 class="title-3">Bestätigung einer Bestellung</h3>
-          </div>
-          <div class="form-group group--surrender">
-            <div class="controls">
-              <button class="btn btn--primary js-submit_code" type="button">Senden Sie mir den WhatsApp-Code</button>
-            </div>
-          </div>
           <div class="form-group" id="js-bonus-block" style="display: none;">
             Sie haben <b class="js-bonus-count"></b> Boni <br>
             <input max="" type="number" step="0.01" name="count_bonus_for_use" class="js-bonus-count js-use-bonus" placeholder="Wie viele Boni zu verwenden?" style="display: none; min-width: 280px;">

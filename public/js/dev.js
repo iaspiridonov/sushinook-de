@@ -25,17 +25,6 @@ $('.js-submit_code').click(function (e) {
                 style = 'margin-left: 1.625rem; margin-right: 0;';
             }
 
-            if (!$('#js-phone_code').length) {
-                $('<input>').attr({
-                    type: 'text',
-                    id: 'js-phone_code',
-                    name: 'phone_code',
-                    class: 'form-control',
-                    placeholder: 'Code eingeben',
-                    style: style
-                }).insertAfter($('.js-submit_code'));
-            }
-
             if (data.count > 0) {
                 $('#js-use-bonus').val(data.count);
                 $('.js-use-bonus').show('');
