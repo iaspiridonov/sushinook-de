@@ -38,7 +38,7 @@
             <div class="col-lg-7 col-md-8">
               <div class="form-group">
                 <div style="display: flex;">
-                  <label class="control-label"><span style="margin-bottom: .3125rem; display: inline-block;">Telefonische Verifizierung</span><sup>*</sup>
+                  <label class="control-label"><span style="margin-bottom: .3125rem; display: inline-block;">Telefonverifizierung</span><sup>*</sup>
                     <div class="controls">
                       <button class="btn btn--primary js-submit_code" style="margin-right: 30px;" type="button">Senden Sie mir den WhatsApp-Code</button>
                     </div>
@@ -205,8 +205,8 @@
         <fieldset>
           <input type="hidden" name="cod_sms" value="{{ random(1111, 9999) }}">
           <div class="form-group" id="js-bonus-block" style="display: none;">
-            Sie haben <b class="js-bonus-count"></b> Boni <br>
-            <input max="" type="number" step="0.01" name="count_bonus_for_use" class="js-bonus-count js-use-bonus" placeholder="Wie viele Boni zu verwenden?" style="display: none; min-width: 280px;">
+            Sie haben <b class="js-bonus-count"></b> Bonuspunkte <br>
+            <input max="" type="number" step="0.01" name="count_bonus_for_use" class="js-bonus-count js-use-bonus" placeholder="Wie viele Bonuspunkte zu verwenden?" style="display: none; min-width: 280px;">
             <input type="hidden" name="count_bonus" class="js-bonus-count" id="js-use-bonus">
           </div>
           <div class="form-group">
