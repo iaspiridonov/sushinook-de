@@ -255,7 +255,7 @@
 </div><!-- /modal-recovery -->
 {% if infoModal.show %}
   <!-- modal-recovery -->
-  <div class="modal fade modal--recovery in" tabindex="-1" role="dialog" id="modal--not--work" style="display:block;padding-right:17px;">
+  <div class="modal fade modal--recovery in" tabindex="-1" role="dialog" id="js-modal-info" style="display:block;padding-right:17px;">
     <div class="modal-dialog" role="document">
       <div class="modal-dialog-in">
         <div class="modal-content">
@@ -263,14 +263,14 @@
             <div class="modal-header text--center text--white"> </div>
             <div class="modal-img">
               <div data-role="lazyimg">
-                <img data-src="/img/modal-img.png" class="lazy img--cover" />
+                <img data-src="/img/modal-img.png" class="lazy img--cover" style="object-fit: contain; padding: 30px;" />
               </div>
             </div>
           </div>
           <div class="modal-body">
-            <!-- <button type="button" class="btn--unstyled btn--close closeModalBtn" data-dismiss="modal">
+            <button type="button" class="btn--unstyled btn--close closeModalBtn" data-dismiss="modal">
               <i class="icon icon-close"></i>
-            </button> -->
+            </button>
             <div class="modal-header visible-xs text-center22">{{ infoModal.header }}</div>
             <!-- form-recovery -->
             <div class="form--auth form--recovery" data-form="recovery">

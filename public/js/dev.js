@@ -194,8 +194,13 @@ function setShown(){
         type:"POST",
         datatype:'json',
         success:function(data){
-            console.log(data);
             var $modal = $('#modal--not--work');
+            if ($('#js-modal-info').length > 0) {
+                $modalInfo = $('#js-modal-info');
+                $modalInfo.removeClass('in');
+                $modalInfo.hide();
+            }
+
             $modal.removeClass('in');
             $modal.hide();
         }
