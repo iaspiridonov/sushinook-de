@@ -53,7 +53,8 @@ abstract class AbstractController extends Controller
                 'menu2' => $this->footermenu(2),
                 'phones' => $this->phonesList()
             ],
-            'isCart' => (bool) strpos($_SERVER['REQUEST_URI'], '/cart')
+            'isCart' => (bool) strpos($_SERVER['REQUEST_URI'], '/cart'),
+            'onePhone' => $this->getNormalizedPhone($contacts['phones']),
         ]);
     }
 
@@ -208,5 +209,17 @@ abstract class AbstractController extends Controller
         }
         $langs = ['RU'=>'Казахстан - Русский','EN'=>'Казахстан - Английский', 'DE' => 'Германия - Немецкий'];
         return Template::render('src/common/switch-locale', ['locales' => $locales, 'Str' => new Str, 'langs'=>$langs]);
+    }
+
+    private function getNormalizedPhone($phone): string
+    {
+        if (!$phone) return '';
+
+        $phone = str_replace(' ', '', $phone);
+        $phone = str_replace('-', '', $phone);
+        $phone = str_replace('(', '', $phone);
+        $phone = str_replace(')', '', $phone);
+
+        return $phone;
     }
 }

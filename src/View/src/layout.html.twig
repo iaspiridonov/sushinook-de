@@ -13,6 +13,9 @@
               <a href="/{{ lang }}/" class="link--block header-logo">
                 <img src="/img/logo.png" class="img--cover" />
               </a><!-- /logo -->
+                <a style=" width: 4.375rem; height: 4.375rem; position:absolute; top: 0; right: 4rem; display:flex; align-items:center; justify-content:center; " href="tel: {{ onePhone }}">
+                    <i class="icon fas fa-phone-alt text--orange" style="font-size: 20px;"></i>
+                </a>
               <button type="button" class="btn--unstyled btn--nav" data-button="nav">
                 <span></span>
               </button>
@@ -25,6 +28,9 @@
 {#              </a>#}
               <div class="nav-mobile" data-role="nav">
                 <div class="nav-mobile-in">
+                  <div class="nav-contacts" style="margin-bottom: 15px; margin-top: 15px; color: var(--ps-bg-primary);">
+                    {{ header.phones|raw }}
+                  </div>
                   <!-- nav-main -->
                   <nav class="nav-main">
                     {{ header.menu|raw }}
