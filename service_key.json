@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "prosushi-utm",
+  "private_key_id": "8df93cdeb9fca82a8b270a70c5825610745c8ece",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9OI9mfxdzu9BD\ntJqHM6/R2o/GEGEHF7xZnKFJBG3e22MfapuLnbxjFjiFd74CshuZJZ4N685+fbfd\n4MNJ2w+LgASRj1WG9XJDJxLhwAntTdVyxQphFlxayVHmaLcNEi1N7COja8vW8q7t\nYgZ8Y5PgNhZxrxAFKF2OE8XI4/ppUTfm2fKLQough/dTWB1qOytauB2lg1u9jwgt\ntdOH408qnItbrofHgxHr6s4Yhtkrm6AAJ4aF7FGf1koaUFZ9vye5czGlJa9N9QtZ\n1Y50eSZpf40idohng2kQOL0JMse7G6+wnP1kv25smco79cKRWsbSm+fRFid78ZDP\nRtlFECWLAgMBAAECggEABx23bDgKCRTecjgP5QHGnPJxRxZFRTUD+lgaS1qv9G+f\nvLC6WiJ70Tt8CK5GJmfNrebCQ5fDU50lawy8NheCRXwdBTRfbQySAtXXWfIU7X29\n3JZtxipHHYrwr4+Z7WiU7OydMn99UlTHdgSiZc8rjS+7jFmfFUfoAiMwOavei6it\nDeNVmNXJqHDnDwP6T1MjTQr/sZuXz4S4fUnvVBa0IifW6AFJ1WJSdKTgf7J8qpZ5\n/PCVBssFVFOJPDn+8Jw1N9e3pV3886jn7AfmZECdYUbqHaUgtQu25/2mBri/7iTR\nT90M8y+TB/B2xSAQPEtagUnNA13J0JoXqKXcsie9UQKBgQDhCzMiXKP+ws1ut2MQ\nGaIX53ArxESI7Ng+luLvLbF4lWhufLF/LMBysEBsLniUGzBXj7zYRWILCYQGzwR7\nR2Q4GM89adVP+GZq/g6ghc65TUUzETfvSG8VGTqM2cRNWVf/e3wL1x8fEMezOg3H\nFIMhW7d7O5gJfXbbKbCNEwfVJQKBgQDXP+Dk8Cea1HX2pgdVZwWEt4aaxoWDnyX+\noU4Vpw29AuQX5sr8arAUthdk+H6vupMbxGvcgO7yG0Bxb6klqEh3Iqe/E75ev2D3\nyYymdI0I/iUWW0bwst/YUsEuamrPQMuRzq1bnM5EMQKgXRXALS8FKf+Jefz9i/UJ\n+uC8O4sI7wKBgAhD6AngCynlL7RcSegieOCV4HnLCJVa1Ype8lDEhdse6an9LGu2\nUg8kSAlxH36ZDQp6Pf5XdgVfwRia69g3RAgHaT0hMPNx9RkC4bilkXUe0GbSwBIq\nv+GvfoYDzYDlwiSg/WpV6U+zxxHfFPh12WcVPkTpaGkY0Y+1FUXpKAV9AoGARlDO\nxdsSBQk80+se4C48ZkORzEPn37yAq/LD0Fz3JvSn0IsLanPru4hUkh5/PCbF4b9D\nwQ+5fwuZ/LSOXAfiTFDc3ZW0jb0VDz0fHk1auUJUmT4OKZk1eLRn+SK4a6XuGl6a\n0R+jXjFoezyNW28nOhejK6TXGXi7/pufCL6mx68CgYEAiBUkGYjIbO+qXHG3Fap+\ne398wgDYESi5X58hGsO8/R8m8AXY51n0XTu+r+KBn2N4I/usVTsRt40D85UBKo1N\nuvaqLjObd18fgzpi9kw7qOwoyJUEuKNykmu4O5ZfzJRF7O+aM+imuiZjy0alQi1U\nrW+Z8z9+o5iAh3//wGS1ZDk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "prosushi@prosushi-utm.iam.gserviceaccount.com",
+  "client_id": "101761015058683236362",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/prosushi%40prosushi-utm.iam.gserviceaccount.com"
+}

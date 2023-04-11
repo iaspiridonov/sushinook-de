@@ -5,6 +5,7 @@ namespace Src\Integrations\ERP;
 use Core\Service\Loger;
 use Core\Service\Registry;
 use Src\Controller\Cart;
+use Src\Integrations\GoogleSheets\DataTransferObject\OrderDTO;
 
 class Client
 {
@@ -296,10 +297,101 @@ class Client
         ];
 
         try {
+            self::setToGoogleTable($requestData, $needDelivery);
+        } catch (\Throwable $e) {
+            Loger::provider($e);
+        }
+
+        try {
             return new Connector('site/orders/add-order', 'POST', $requestData);
         } catch (\Throwable $e) {
             Loger::provider($e);
             return null;
         }
+    }
+
+    private static function setToGoogleTable(array $requestData, bool $needDelivery): void
+    {
+        $productsAsString = [];
+        foreach ($requestData['nomenclatures'] as $product) {
+            $productsAsString[] = $product['title'] . ' (кол-во позиций: ' . ($product['amount']/1000) . ')';
+        }
+
+        $paymentsAsInt = 0;
+        $paymentsTypeAsString = [];
+        foreach ($requestData['payments'] as $payment) {
+            $paymentsAsInt += $payment['sum'] / 100;
+            $paymentsTypeAsString[] = $payment['payment_type'] . ': ' . $payment['sum'];
+        }
+
+        try {
+            $id = (string)$requestData['uuid'];
+        } catch (\Throwable $e) {
+            $id = ' ';
+        }
+        try {
+            $name = (string)$requestData['details']['name'];
+        } catch (\Throwable $e) {
+            $name = ' ';
+        }
+        try {
+            $phone = str_replace('+', '', (string)$requestData['details']['phone']);
+        } catch (\Throwable $e) {
+            $phone = ' ';
+        }
+        try {
+            $delivery = $needDelivery ? 'Доставка' : 'самовывоз';
+        } catch (\Throwable $e) {
+            $delivery = ' ';
+        }
+        try {
+            $street = (string)$requestData['details']['street'];
+        } catch (\Throwable $e) {
+            $street = ' ';
+        }
+        try {
+            $house = (string)$requestData['details']['building'];
+        } catch (\Throwable $e) {
+            $house = ' ';
+        }
+        try {
+            $apart = (string)$requestData['details']['room'];
+        } catch (\Throwable $e) {
+            $apart = ' ';
+        }
+        try {
+            $floor = (string)$requestData['details']['floor'];
+        } catch (\Throwable $e) {
+            $floor = ' ';
+        }
+        try {
+            $comment = (string)$requestData['details']['comment'];
+        } catch (\Throwable $e) {
+            $comment = ' ';
+        }
+        try {
+            $dateTime = (string)$requestData['date'];
+        } catch (\Throwable $e) {
+            $dateTime = ' ';
+        }
+
+        $orderDTO = new OrderDTO(
+            $id,
+            $name,
+            $phone,
+            implode(', ', $productsAsString) ?? ' ',
+            (string)($paymentsAsInt/100) ?? ' ',
+            implode(', ', $paymentsTypeAsString) ?? ' ',
+            $delivery,
+            $street,
+            $house,
+            $apart,
+            $floor,
+            $comment,
+            $dateTime,
+        );
+
+        $googleClient = new \Src\Integrations\GoogleSheets\Client();
+        $googleClient->setRow($orderDTO);
     }
 }

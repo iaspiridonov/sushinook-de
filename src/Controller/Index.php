@@ -3,6 +3,7 @@
 use Core\Facade\Template;
 use Core\Gateway\Subjects;
 use Core\Service\Mail;
+use Src\Helpers\UTM;
 use Zend\Db\Sql\Select;
 use Core\Service\Registry;
 use Src\Model\Subscriber;
@@ -127,6 +128,9 @@ class Index extends AbstractController
     }
   
     public function indexPage(){
+        // Установим UTM-метки в куки
+        UTM::setUTM();
+
         $slides = Subjects::of('Slider')->find(1)->elements()->select(function(Select $select){
             $select->order('sort');
         })->get();
