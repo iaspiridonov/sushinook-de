@@ -362,7 +362,7 @@ class Cart extends AbstractController
             return $this->html(Template::render('src/cart/error',['breadcrumbs'=>$breadcrumbs, 'purchases' => $purchases]));
         }
         $products = Registry::get('session.cart');
-        $products = $this->correct($products,'session.cart');
+        $products = $this->correct($products,'session.cart') ?? [];
 
         $combo = Registry::get('session.combo');
         // $combo = $this->correct($combo,'session.combo');
@@ -408,6 +408,19 @@ class Cart extends AbstractController
             $currentMinute = '00';
         }
 
+        // Удаляем размер для половинки наборов
+        $correctSizes = ['25', '30', '35'];
+        foreach ($products as $productKey => $product) {
+            if (!array_key_exists((string) $product['size'], $correctSizes)) {
+                $products[$productKey]['size'] = '';
+                if ($product['size'] === 'half') {
+                    $products[$productKey]['isHalf'] = true;
+                } else {
+                    $products[$productKey]['isHalf'] = false;
+                }
+            }
+        }
+
         return $this->html(Template::render('src/cart/index',[
             'products'=>$products,
             'combo'=>$combo,
@@ -439,14 +452,24 @@ class Cart extends AbstractController
         $product = Subjects::of('Product')->find($id);
         if(!$product) return $this->json('0');
 
+        $isHalf = $request['size'] == 'half';
+
         $size = $request['size'];
         $type = $request['type'];
 
         $typeIng = '';
         if($type == 'Тонкое') $typeIng = 'Т';
 
+        if ($isHalf) {
+            $priceValue = "price_half";
+            $articleValue = "article_half";
+        } else {
+            $priceValue = 'price';
+            $articleValue = 'article';
+        }
+
         $productName = trim($product->name);
-        $price = (int)$product->price;
+        $price = (int)$product->$priceValue;
 
         $ingsId = $request['ingsId'];
 
@@ -467,9 +490,21 @@ class Cart extends AbstractController
 
         $blockID = str_replace('-block', '', $product->parent->blockID);
 
+        if ($isHalf) {
+            $countElems = (int) preg_replace("/[^0-9]/", '', $productName);
+
+            if ($countElems > 0) {
+                $productName = str_replace(
+                    $countElems,
+                    $countElems/2,
+                    $productName
+                );
+            }
+        }
+
         $cart[$cartID]  = [
             'name'=>$productName,
-            'article'=>$product->article,
+            'article'=>$product->$articleValue,
             'desc'=>$product->description,
             'price'=>$price,
             'count'=>$count,

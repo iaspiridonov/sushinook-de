@@ -5,11 +5,14 @@
         <h4 class="title-2">{{ s.name }}</h4>
       </div>
       <div class="s-content catalog-content">
-          <div class="items-list catalog-list list--{{ s.hasAdditional == 1 ? 'pizza' : 'default'  }} {{ s.hasAdditional == 1 ? ' js-with-additional' : '' }}" data-additional-count ="{{ s.ings_count ? s.ings_count : '7' }}">
+          <div class="items-list catalog-list js-with-additional" data-additional-count ="{{ s.ings_count ? s.ings_count : '7' }}">
           <div class="block-in row--alt row">
             {% for item in s.products.sortBy('sort') %}
+              {% set isMulti = (s.hasAdditional == 1 or (item.price_half and item.article_half)) %}
+              {% set isHalf = (item.price_half and item.article_half) %}
+              {% set minPrice = isHalf ? item.price_half : item.price %}
               {% if item.hide == 0 %}
-                 <div class="modal modal-o fade item--pizza" data-role="item" data-id="{{ item.id }}" id="product-modal-{{ item.id }}" data-price="{{ item.price }}" tabindex="-1" role="dialog" aria-hidden="true">
+                 <div class="modal modal-o fade item--pizza" data-role="item" data-id="{{ item.id }}" id="product-modal-{{ item.id }}" data-price="{{ minPrice }}" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered long_modal2" role="document">
                           <div class="modal-content">
                             <div class="modal-body">
@@ -33,7 +36,13 @@
                                       {{ item.description }}
                                     </div>
                                     <div class="modal_items">
-                                      {% if s.hasAdditional == 1 %}
+                                      {% if isMulti %}
+                                          {% if isHalf %}
+                                              <div class="catalog-item-sizes">
+                                                  <input type="radio" data-article="{{ item.article_half }}" data-size="half" data-price="{{ (item.price_half/100)|number_format(2, '.', ' ') }}" name="size-{{ item.id }}" id="size-{{ item.id }}-1" checked /> <label for="size-{{ item.id }}-1">4 Stk</label>
+                                                  <input type="radio" data-article="{{ item.article }}" data-size="full" data-price="{{ (item.price/100)|number_format(2, '.', ' ') }}" name="size-{{ item.id }}" id="size-{{ item.id }}-2" /> <label for="size-{{ item.id }}-2">8 Stk</label>
+                                              </div>
+                                          {% endif %}
                                           <div class="catalog-item-add text--center">
                                             {% if item.addIngridients is not empty or item.removeIngridients is not empty %}
                                               {% include 'src/index/ingridients.html.twig' %}
@@ -56,7 +65,7 @@
                                             <button type="button" class="btn btn--primary btn--block cartAdd" data-id="{{ item.id }}"> In den Warenkorb </button>
                                           </div>
                                         </div>
-                                        <input type="hidden" name="price" value="{{ item.price }}" />
+                                        <input type="hidden" name="price" value="{{ minPrice }}" />
                                         <input type="hidden" name="count" value="1" />
                                     </div> 
                                   </div>
@@ -119,8 +128,8 @@
                       {% if item.noavailable %}
                         <div class="product_price">Nicht verfügbar</div>
                       {% else %}
-                        <div class="product_price">{{ s.hasAdditional == 1 ? ' Ab ' : ' '  }} <span>{{ (item.price/100)|number_format(2, '.', ' ') }}</span> EUR</div>
-                        {% if s.hasAdditional == 1 %}
+                        <div class="product_price">{{ isMulti ? ' Ab ' : ' '  }} <span>{{ (minPrice/100)|number_format(2, '.', ' ') }}</span> EUR</div>
+                        {% if isMulti %}
                           <button type="button" class="btn btn--primary btn--block" data-toggle="modal" data-target="#product-modal-{{ item.id }}"> Wählen </button>
                         {% else %}
                           <button type="button" class="btn btn--primary btn--block cartAdd" data-id="{{ item.id }}"> In den Warenkorb </button>

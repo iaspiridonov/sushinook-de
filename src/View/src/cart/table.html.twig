@@ -62,6 +62,9 @@
 				</td>
 				<td>
 				  <div class="title">{{ item.name }}</div>
+					{% if item.isHalf %}
+						<div class="meta text--green">4 Stk</div>
+					{% endif %}
 				  <div class="desc">
 					<ul>
 					  <li class='text--green'><b>{{ item.ingsAdd }}</b></li>

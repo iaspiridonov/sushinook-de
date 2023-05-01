@@ -25,7 +25,7 @@
               {{ item.description }}
             </div>
             <div class="modal_items">
-              {% if s.hasAdditional == 1 %}
+              {% if s.hasAdditional == 1 or (item.price_half and item.article_half) %}
                   <div class="catalog-item-sizes">
                     <input type="radio" data-size="25" data-price="{{ item.pizzaPriceSmall }}" name="size-{{ item.id }}" id="size-{{ item.id }}-1" /> <label for="size-{{ item.id }}-1">25 см</label>
                     <input type="radio" data-size="30" data-price="{{ item.price }}" name="size-{{ item.id }}" id="size-{{ item.id }}-2" checked /> <label for="size-{{ item.id }}-2">30 см</label>
