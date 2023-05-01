@@ -36,8 +36,11 @@ class UTM
         $UTM = [];
         foreach (self::asArray() as $UTMItem) {
             if (array_key_exists($UTMItem, $_COOKIE)) {
-                $UTM[] = $_COOKIE[$UTMItem] ?? ' ';
+                $UTM[] = $_COOKIE[$UTMItem] ?? 'SEO';
+            } else {
+                $UTM[] = 'SEO';
             }
+
         }
 
         return $UTM;

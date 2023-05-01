@@ -321,7 +321,7 @@ class Client
         $paymentsTypeAsString = [];
         foreach ($requestData['payments'] as $payment) {
             $paymentsAsInt += $payment['sum'] / 100;
-            $paymentsTypeAsString[] = $payment['payment_type'] . ': ' . $payment['sum'];
+            $paymentsTypeAsString[] = $payment['payment_type'] . ': ' . ($payment['sum'] / 100);
         }
 
         try {
@@ -380,7 +380,7 @@ class Client
             $name,
             $phone,
             implode(', ', $productsAsString) ?? ' ',
-            (string)($paymentsAsInt/100) ?? ' ',
+            (string)($paymentsAsInt) ?? ' ',
             implode(', ', $paymentsTypeAsString) ?? ' ',
             $delivery,
             $street,
