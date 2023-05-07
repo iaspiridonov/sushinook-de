@@ -41,6 +41,12 @@
         <div class="amount completeProdAmount" data-id="{{ cartID }}">{{ item.count }} x <b>{{ (item.price/100)|number_format(2,'.',' ') }}</b> EUR</div>
       </div>
     {% endfor %}
+    {% if promo is defined and promo is not empty and giftIsProduct %}
+      <div class="item">
+          <div class="title"><b>{{ promo }}</b></div>
+          <div class="meta text--gray">Gabe</div>
+      </div>
+    {% endif %}
   </div>
   <div class="block-result"> 
       {% if promoamount is defined and promoamount is not null %}

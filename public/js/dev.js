@@ -1,3 +1,46 @@
+let points = $('.progress-bar__point');
+let maxPrice = 0;
+
+// Get max price
+points.each(
+    function (i, elem) {
+        let price = parseInt($(elem).attr('data-price'));
+
+        if (maxPrice < price) {
+            maxPrice = price;
+        }
+    }
+);
+
+fillProgressBar();
+
+points.each(
+    function (i, elem) {
+        let price = parseInt($(elem).attr('data-price'));
+        let position = price / maxPrice * 100;
+        $(elem).css('left', 'calc(' + position + '% - 45px)');
+    }
+);
+
+$('.progress-bar').css('display', 'flex');
+
+function fillProgressBar(price = 0) {
+    let cartPrice = price < 1
+        ? parseInt($('.cart-popup-amount span[data-output="result"]').text()) * 100
+        : price
+    ;
+
+    let progress = cartPrice / maxPrice * 100;
+
+    if (progress > 0) {
+        $('.progress-bar__points').attr(
+            'style',
+            'background: linear-gradient(to right, #c92139 ' + progress + '%, #452a6b 0%);'
+        );
+    }
+}
+
+
 $('.js-submit_code').click(function (e) {
     var form = $('.orderForm');
     var data = form.serialize();
@@ -163,7 +206,7 @@ function promocheck(promo){
         success: function(data) {
             if(data.result == false){
                 alert('Aktionscode wurde nicht erkannt oder Voraussetzungen sind nicht erfüllt.');
-                return false;
+                setTimeout(() => location.reload(true), 100);
             }
 
             setTimeout(() => location.reload(true), 100);
@@ -1132,6 +1175,7 @@ $(function(){
             },
             dataType: 'html',
             success: function(data) {
+                fillProgressBar();
                 if(reload){
                     location.reload();
                 }else{
@@ -1313,6 +1357,55 @@ function updateRycleSum() {
             }
             $('[data-output="result"]').text(data.sum/100);
             $('[data-output="promoamount"]').text(data.promoamount/100);
+            fillProgressBar(parseInt(data.sum.replace(/ /g,'')));
         }
     });
 }
+
+
+let gifts = $('.js-gifts .catalog-item');
+let btns = $('.js-gifts .catalog-item .btn--primary');
+let entryPromo = $('.js-entry-promo');
+
+btns.click(function (e) {
+    e.preventDefault();
+    let catalogItem = $(this).parents('.catalog-item');
+    if ($(this).hasClass('js-active')) {
+        btns.removeClass('js-active');
+        gifts.removeClass('disabled');
+        entryPromo.attr('style', 'opacity: 1; pointer-events: initial;');
+        btns.each(function (i, item) {
+            $(item).text('Wählen');
+        });
+    } else {
+        entryPromo.attr('style', 'opacity: 0.5; pointer-events: none;');
+        btns.removeClass('js-active');
+        gifts.addClass('disabled');
+        $(this).addClass('js-active');
+        btns.each(function (i, item) {
+            $(item).text('Wählen');
+        });
+        $(this).text('Gewählt');
+        catalogItem.removeClass('disabled');
+        let code = $(this).attr('data-code');
+
+        promocheck(code);
+    }
+
+    // $(this).removeClass('js-disabled');
+    // catalogItem.removeClass('disabled');
+});
+
+$('input[name="promo"]').keyup(function (e) {
+    let countLetters = e.target.value.length;
+
+    if (countLetters > 0) {
+        gifts.addClass('disabled');
+        gifts.css('pointer-events', 'none');
+        btns.removeClass('js-active');
+    } else {
+        gifts.css('pointer-events', 'initial');
+        gifts.removeClass('disabled');
+        btns.removeClass('js-active');
+    }
+});

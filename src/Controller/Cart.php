@@ -68,6 +68,7 @@ class Cart extends AbstractController
         Registry::set('session.promoamount','');
         Registry::set('session.promoGifts','');
         Registry::set('session.certificateId','');
+        Registry::set('session.activePromoCode','');
     }
 
     public function resetpromo(){
@@ -75,6 +76,7 @@ class Cart extends AbstractController
         Registry::set('session.promoamount','');
         Registry::set('session.promoGifts', '');
         Registry::set('session.certificateId', '');
+        Registry::set('session.activePromoCode', '');
         return $this->html('1');
     }
 
@@ -118,6 +120,11 @@ class Cart extends AbstractController
     }
 
     public function promo($code = ''){
+        if(!$code) {
+            $request = Registry::get('http.request.body');
+            $code = $request['code'];
+        }
+
         $result = Client::checkPromo($code)->result;
 
         if ($result->success !== true) {
@@ -142,6 +149,7 @@ class Cart extends AbstractController
             Registry::set('session.promo', $result->data->certificate->title);
             Registry::set('session.promoamount', $promoAmount);
             Registry::set('session.certificateId', $result->data->certificate->id);
+            Registry::set('session.activePromoCode', $code);
         }
 
         if ($freeProducts) {
@@ -363,6 +371,9 @@ class Cart extends AbstractController
         }
         $products = Registry::get('session.cart');
         $products = $this->correct($products,'session.cart') ?? [];
+        $products = is_array($products)
+            ? $products
+            : [];
 
         $combo = Registry::get('session.combo');
         // $combo = $this->correct($combo,'session.combo');
@@ -421,6 +432,20 @@ class Cart extends AbstractController
             }
         }
 
+        $gifts = Subjects::of('Gifts')->select(function($select){
+            $select->where(['hidden' => false]);
+            $select->order(['price' => 'ACS']);
+        })->get();
+
+        $activePromoCode = Registry::get('session.activePromoCode') ?: null;
+
+        $giftIsProduct = false;
+        foreach ($gifts as $gift) {
+            if ($gift['code'] === $activePromoCode) {
+                $giftIsProduct = true;
+            }
+        }
+
         return $this->html(Template::render('src/cart/index',[
             'products'=>$products,
             'combo'=>$combo,
@@ -438,7 +463,10 @@ class Cart extends AbstractController
             'orderHour' => $currentHour,
             'orderMinute' => $currentMinute,
             'currentTime' => $currentTime,
-            'promoGifts' => $promoGifts
+            'promoGifts' => $promoGifts,
+            'gifts' => $gifts,
+            'activePromoCode' => $activePromoCode,
+            'giftIsProduct' => $giftIsProduct
         ]));
     }
 

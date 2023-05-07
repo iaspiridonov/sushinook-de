@@ -46,5 +46,8 @@
           </div>
           {% include 'src/index/combo.html.twig' %}
           {% include 'src/index/products.html.twig' %}
+          {% if gifts is not empty %}
+            {% include 'src/index/progress-bar.html.twig' %}
+          {% endif %}
         </main><!-- /.content -->
 {% endblock %}

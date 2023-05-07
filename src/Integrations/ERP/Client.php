@@ -21,11 +21,6 @@ class Client
 
     public static function checkPromo(string $code)
     {
-        if(!$code) {
-            $request = Registry::get('http.request.body');
-            $code = $request['code'];
-        }
-
         $productsCart = Registry::get('session.combo');
         if (!$productsCart) $productsCart = [];
         $sessionCart = Registry::get('session.cart');

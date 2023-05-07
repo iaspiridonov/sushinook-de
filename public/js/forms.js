@@ -12,10 +12,23 @@ function cartChange(id,count,type){
         },
         dataType: 'html',
         success: function(data) {
-            
+			fillProgressBar();
         }
     });
 }
+
+function fillProgressBar(price = 0) {
+	let cartPrice = price < 1
+		? parseInt($('.cart-popup-amount span[data-output="result"]').text())
+		: price
+	;
+
+	let progress = cartPrice / maxPrice * 100;
+	$('.progress-bar__points').attr(
+		'style',
+		'background: linear-gradient(to right, #c92139 ' + progress + '%, #452a6b 0%);');
+}
+
 
 //# sourceMappingURL=forms.js.map
 
@@ -311,6 +324,7 @@ function cartChange(id,count,type){
 		        data: {},
 		        dataType: 'json',
 		        success: function(data) {
+					fillProgressBar(parseInt(data.sum.replace(/ /g,''))/100);
 		            $('.headerRycleCount').text(data.count);
 		            $('#headerRyclePopup').html(data.popup);
 		            $('.completeTotal').html(data.sum/100+' EUR');

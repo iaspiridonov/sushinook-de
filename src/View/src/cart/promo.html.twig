@@ -1,5 +1,46 @@
 <div>
-	<fieldset>
+	{% if gifts is not empty %}
+	<b class="cart-gifts__title">Wählen Sie Ihr Geschenk:</b>
+	<div class="block-in row--alt row js-gifts" style="margin-bottom: 50px;">
+		{% for giftId, giftItem in gifts %}
+		<div class="col-lg-3 col-md-4 col-sm-6">
+			{% if info.sum < giftItem.price %}
+			<div class="item catalog-item item--pizza item--halve js-catalog-item--disabled">
+				{% else %}
+				<div class="item catalog-item item--pizza item--halve">
+					{% endif %}
+					<div class="catalog-item-img text--center">
+						<div class="img--centered img" data-role="lazyimg">
+							<img data-src="{{ giftItem.image }}" class="lazy full_img" />
+						</div>
+					</div>
+					<div class="catalog-item-in" style="height: initial;">
+						<div class="catalog-item-title">{{ giftItem.name }}</div>
+						{% if info.sum < giftItem.price %}
+							<div class="catalog-item-meta text--gray">&nbsp;</div>
+						{% else %}
+							<div class="catalog-item-meta text--gray">ab &nbsp;{{ giftItem.price }} ₸</div>
+						{% endif %}
+					</div>
+					{% if info.sum < giftItem.price %}
+						<div class="catalog-item-halve text--center">
+							<a href="#" class="btn btn--disabled btn--block">ab &nbsp;{{ giftItem.price }} ₸</a>
+						</div>
+					{% else %}
+						<div class="catalog-item-halve text--center">
+							{% if activePromoCode == giftItem.code %}
+								<a href="#" class="btn btn--green btn--block js-active" data-code="{{ giftItem.code }}">Gewählt</a>
+							{% else %}
+								<a href="#" class="btn btn--primary btn--block" data-code="{{ giftItem.code }}">Wählen</a>
+							{% endif %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+	</div>
+	{% endif %}
+	<fieldset class="js-entry-promo">
         <div>
         <div class="col_flex m_m0 m_mar">
           <!-- <div class="form-title">

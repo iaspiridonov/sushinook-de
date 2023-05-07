@@ -145,6 +145,11 @@ class Index extends AbstractController
         })->get();
         $seo = Subjects::of('Seo')->find(1);
 
+        $gifts = Subjects::of('Gifts')->select(function($select){
+            $select->where(['hidden' => false]);
+            $select->order(['price' => 'ACS']);
+        })->get();
+
         return $this->html(Template::render('src/index/index',[
             'constructorProducts' => [],
             'slides'=>$slides,
@@ -152,7 +157,8 @@ class Index extends AbstractController
             'sections'=>$sections,
             'cart'=>$cart,
             'text'=>$text,
-            'seo'=>$seo
+            'seo'=>$seo,
+            'gifts' => $gifts
         ]));
     }
 
