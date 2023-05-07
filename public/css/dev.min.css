@@ -737,7 +737,14 @@
 }
 .stickers{
     position: absolute;
-    top: 2.5rem;
+    top: 1.5rem;
     z-index: 5;
     left: 0;
+}
+
+.catalog-item-quantity {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 0.125rem;
+    top: 1.5rem;
 }

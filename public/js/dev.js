@@ -35,7 +35,7 @@ function fillProgressBar(price = 0) {
     if (progress > 0) {
         $('.progress-bar__points').attr(
             'style',
-            'background: linear-gradient(to right, #c92139 ' + progress + '%, #452a6b 0%);'
+            'background: linear-gradient(to right, #c92139 ' + progress + '%, #344454 0%);'
         );
     }
 }
